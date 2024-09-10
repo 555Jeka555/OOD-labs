@@ -1,46 +1,203 @@
 ```mermaid
 classDiagram
-    CDuck o-- IQuakStrategy
-    CDuck o-- IFlyStrategy
-    CDuck o-- IDanceStrategy
+    Duck o-- IFlyBehavior
+    Duck o-- IQuackBehavior
+    Duck o-- IDanceBehavior
 
-    CQuakStrategy --|> IQuakStrategy
-    CFlyStrategy --|> IFlyStrategy
-    CDanceStrategy --|> IDanceStrategy
+    Duck <|-- MallardDuck
+    Duck <|-- ModelDuck
+    Duck <|-- RedheadDuck
+    Duck <|-- RubberDuck
 
-    class CDuck {
-        + Quak()
+    MallardDuck o-- FlyWithWings
+    MallardDuck o-- QuackBehavior
+    MallardDuck o-- DanceWaltzBehavior
+
+    RedheadDuck o-- FlyWithWings
+    RedheadDuck o-- QuackBehavior
+    RedheadDuck o-- DanceMinuetBehavior
+
+    ModelDuck o-- FlyNoWay
+    ModelDuck o-- QuackBehavior
+    ModelDuck o-- NoDanceBehavior
+
+    ModelDuck o-- FlyNoWay
+    ModelDuck o-- SqueakBehavior
+    ModelDuck o-- NoDanceBehavior
+
+    IFlyBehavior <|.. FlyNoWay
+    IFlyBehavior <|.. FlyWithWings
+
+    IQuackBehavior <|.. MuteQuackBehavior
+    IQuackBehavior <|.. QuackBehavior
+    IQuackBehavior <|.. SqueakBehavior
+
+    IDanceBehavior <|.. DanceMinuetBehavior
+    IDanceBehavior <|.. DanceWaltzBehavior
+    IDanceBehavior <|.. NoDanceBehavior
+
+    class Duck {
+        + Quack()
+        + Swim()
         + Fly()
         + Dance()
-        + SetQuakStrategy(IQuakStrategy quakStrategy)
-        + SetFlyStrategy(IFlyStrategy flyStrategy)
-        + SetDanceStrategy(IDanceStrategy danceStrategy)
-        - m_quakStrategy
-        - m_flyStrategy
-        - m_danceStrategy
+        + SetFlyBehavior(IFlyBehavior)
+        + SetDanceBehavior(IDanceBehavior)
+        + Display()
     }
 
-    class IQuakStrategy {
-        + Quak()
+    class MallardDuck {
+
     }
 
-    class CQuakStrategy {
-        + Quak()
+    class ModelDuck {
+
     }
 
-    class IFlyStrategy {
+    class RedheadDuck {
+
+    }
+
+    class RubberDuck {
+
+    }
+
+    class IFlyBehavior {
         + Fly()
     }
 
-    class CFlyStrategy {
+    class IQuackBehavior {
+        + Quack()
+    }
+
+    class IDanceBehavior {
+        + Dance()
+    }
+    
+    class DanceMinuetBehavior {
+        + Dance()
+    }
+
+    class DanceWaltzBehavior {
+        + Dance()
+    }
+
+    class NoDanceBehavior {
+        + Dance()
+    }
+
+    class MuteQuackBehavior {
+        + Quack()
+    }
+
+    class QuackBehavior {
+        + Quack()
+    }
+
+    class SqueakBehavior {
+        + Quack()
+    }
+
+    class FlyNoWay {
         + Fly()
     }
 
-    class IDanceStrategy {
+    class FlyWithWings {
+        + Fly()
+    }
+
+```
+
+```mermaid
+classDiagram
+    Duck o-- IFlyBehavior
+    Duck o-- IQuackBehavior
+    Duck o-- IDanceBehavior
+
+    Duck <|-- MallardDuck
+    Duck <|-- ModelDuck
+    Duck <|-- RedheadDuck
+    Duck <|-- RubberDuck
+
+    IFlyBehavior <|.. FlyNoWay
+    IFlyBehavior <|.. FlyWithWings
+
+    IQuackBehavior <|.. MuteQuackBehavior
+    IQuackBehavior <|.. QuackBehavior
+    IQuackBehavior <|.. SqueakBehavior
+
+    IDanceBehavior <|.. DanceMinuetBehavior
+    IDanceBehavior <|.. DanceWaltzBehavior
+    IDanceBehavior <|.. NoDanceBehavior
+
+    class Duck {
+        + Quack()
+        + Swim()
+        + Fly()
+        + Dance()
+        + SetFlyBehavior(IFlyBehavior)
+        + SetDanceBehavior(IDanceBehavior)
+        + Display()
+    }
+
+    class MallardDuck {
+
+    }
+
+    class ModelDuck {
+
+    }
+
+    class RedheadDuck {
+
+    }
+
+    class RubberDuck {
+
+    }
+
+    class IFlyBehavior {
+        + Fly()
+    }
+
+    class IQuackBehavior {
+        + Quack()
+    }
+
+    class IDanceBehavior {
+        + Dance()
+    }
+    
+    class DanceMinuetBehavior {
         + Dance()
     }
 
-    class CDanceStrategy {
+    class DanceWaltzBehavior {
         + Dance()
     }
+
+    class NoDanceBehavior {
+        + Dance()
+    }
+
+    class MuteQuackBehavior {
+        + Quack()
+    }
+
+    class QuackBehavior {
+        + Quack()
+    }
+
+    class SqueakBehavior {
+        + Quack()
+    }
+
+    class FlyNoWay {
+        + Fly()
+    }
+
+    class FlyWithWings {
+        + Fly()
+    }
+
 ```
