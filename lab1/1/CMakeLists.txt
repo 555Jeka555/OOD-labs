@@ -32,6 +32,10 @@ set(SOURCE_FILES
         src/1_1/Duck/Dance/DanceWaltzBehavior.h
         src/1_1/Duck/Dance/DanceMinuetBehavior.h
         src/1_1/Duck/Dance/NoDanceBehavior.h
+        src/3_1/Duck/MallardDuck.h
+        src/3_1/Duck/ModelDuck.h
+        src/3_1/Duck/RedHeadDuck.h
+        "src/3_1/Duck/RubberDuck.h"
 )
 
 set(TEST_SOURCE_FILES
@@ -44,6 +48,7 @@ add_executable(1_1_test ${TEST_SOURCE_FILES})
 target_link_libraries(1_1_test gtest_main)
 enable_testing()
 add_test(NAME 1_1_test COMMAND 1_1_test)
+
 
 set(SOURCE_FILES_2
         src/2_1/main.cpp
@@ -76,3 +81,25 @@ add_executable(2_1_test ${TEST_SOURCE_FILES_2})
 target_link_libraries(2_1_test gtest_main)
 enable_testing()
 add_test(NAME 2_1_test COMMAND 2_1_test)
+
+
+set(SOURCE_FILES_3
+        src/3_1/main.cpp
+        src/3_1/Duck.h
+        src/3_1/DuckFunctions.h
+        src/3_1/Duck/MallardDuck.h
+        src/3_1/Duck/ModelDuck.h
+        src/3_1/Duck/RedHeadDuck.h
+        src/3_1/Duck/RubberDuck.h
+)
+
+set(TEST_SOURCE_FILES_3
+        test/3_1/test.cpp
+)
+
+add_executable(3_1 ${SOURCE_FILES_3})
+
+add_executable(3_1_test ${TEST_SOURCE_FILES_3})
+target_link_libraries(3_1_test gtest_main)
+enable_testing()
+add_test(NAME 3_1_test COMMAND 3_1_test)
