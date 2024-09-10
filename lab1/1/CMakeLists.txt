@@ -14,7 +14,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 set(SOURCE_FILES
-        src/main.cpp
+        src/1_1/main.cpp
         src/1_1/Duck/Duck.h
         src/1_1/Duck/MallardDuck.h
         src/1_1/Duck/ModelDuck.h
@@ -38,9 +38,41 @@ set(TEST_SOURCE_FILES
         test/1_1/test.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(1_1 ${SOURCE_FILES})
 
-add_executable(${PROJECT_NAME}_test ${TEST_SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME}_test gtest_main)
+add_executable(1_1_test ${TEST_SOURCE_FILES})
+target_link_libraries(1_1_test gtest_main)
 enable_testing()
-add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
+add_test(NAME 1_1_test COMMAND 1_1_test)
+
+set(SOURCE_FILES_2
+        src/2_1/main.cpp
+        src/2_1/Duck/Duck.h
+        src/2_1/Duck/MallardDuck.h
+        src/2_1/Duck/ModelDuck.h
+        src/2_1/Duck/RedheadDuck.h
+        src/2_1/Duck/RubberDuck.h
+        src/2_1/DuckFunctions.h
+        src/2_1/Duck/Fly/IFlyBehavior.h
+        src/2_1/Duck/Fly/FlyNoWay.h
+        src/2_1/Duck/Fly/FlyWithWings.h
+        src/2_1/Duck/Quack/IQuackBehavior.h
+        src/2_1/Duck/Quack/MuteQuackBehavior.h
+        src/2_1/Duck/Quack/QuackBehavior.h
+        src/2_1/Duck/Quack/SqueakBehavior.h
+        src/2_1/Duck/Dance/IDanceBehavior.h
+        src/2_1/Duck/Dance/DanceWaltzBehavior.h
+        src/2_1/Duck/Dance/DanceMinuetBehavior.h
+        src/2_1/Duck/Dance/NoDanceBehavior.h
+)
+
+set(TEST_SOURCE_FILES_2
+        test/2_1/test.cpp
+)
+
+add_executable(2_1 ${SOURCE_FILES_2})
+
+add_executable(2_1_test ${TEST_SOURCE_FILES_2})
+target_link_libraries(2_1_test gtest_main)
+enable_testing()
+add_test(NAME 2_1_test COMMAND 2_1_test)
