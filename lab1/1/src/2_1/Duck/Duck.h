@@ -39,7 +39,8 @@ public:
         m_flyBehavior->Fly();
     }
 
-    virtual void Dance()
+    // TODO тестировать Dance() - убрать виртуализацию
+    void Dance()
     {
         m_danceBehavior->Dance();
     }

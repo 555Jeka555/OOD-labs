@@ -8,7 +8,7 @@ class ModelDuck : public Duck
 {
 public:
     ModelDuck()
-            : Duck(CreateFlyNoWay(), CreateQuackNormal(), CreateNoDance())
+            : Duck(CreateFlyNoWay(), CreateMuteQuack(), CreateNoDance())
     {
     }
 

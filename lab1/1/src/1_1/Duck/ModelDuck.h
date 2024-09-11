@@ -22,8 +22,6 @@ public:
     {
         std::cout << "I'm model duck" << std::endl;
     }
-
-    void Dance() override {}
 };
 
 #endif

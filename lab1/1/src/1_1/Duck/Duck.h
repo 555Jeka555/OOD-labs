@@ -39,7 +39,9 @@ public:
         m_flyBehavior->Fly();
     }
 
-    virtual void Dance()
+    // TODO почему Dance виртуальный - убрал, ошибка,
+    //  нет смысла перезаписывать метод в котором используется стратегия
+    void Dance()
     {
         m_danceBehavior->Dance();
     }
