@@ -1,29 +1,29 @@
 ```mermaid
 classDiagram
-    Duck o-- IFlyBehavior
-    Duck o-- IQuackBehavior
-    Duck o-- IDanceBehavior
+    Duck *-- IFlyBehavior
+    Duck *-- IQuackBehavior
+    Duck *-- IDanceBehavior
 
     Duck <|-- MallardDuck
     Duck <|-- ModelDuck
     Duck <|-- RedheadDuck
     Duck <|-- RubberDuck
 
-    MallardDuck o-- FlyWithWings
-    MallardDuck o-- QuackBehavior
-    MallardDuck o-- DanceWaltzBehavior
+    MallardDuck *-- FlyWithWings
+    MallardDuck *-- QuackBehavior
+    MallardDuck *-- DanceWaltzBehavior
 
-    RedheadDuck o-- FlyWithWings
-    RedheadDuck o-- QuackBehavior
-    RedheadDuck o-- DanceMinuetBehavior
+    RedheadDuck *-- FlyWithWings
+    RedheadDuck *-- QuackBehavior
+    RedheadDuck *-- DanceMinuetBehavior
 
-    ModelDuck o-- FlyNoWay
-    ModelDuck o-- QuackBehavior
-    ModelDuck o-- NoDanceBehavior
+    ModelDuck *-- FlyNoWay
+    ModelDuck *-- QuackBehavior
+    ModelDuck *-- NoDanceBehavior
 
-    ModelDuck o-- FlyNoWay
-    ModelDuck o-- SqueakBehavior
-    ModelDuck o-- NoDanceBehavior
+    ModelDuck *-- FlyNoWay
+    ModelDuck *-- SqueakBehavior
+    ModelDuck *-- NoDanceBehavior
 
     IFlyBehavior <|.. FlyNoWay
     IFlyBehavior <|.. FlyWithWings
@@ -110,9 +110,9 @@ classDiagram
 
 ```mermaid
 classDiagram
-    Duck o-- IFlyBehavior
-    Duck o-- IQuackBehavior
-    Duck o-- IDanceBehavior
+    Duck *-- IFlyBehavior
+    Duck *-- IQuackBehavior
+    Duck *-- IDanceBehavior
 
     Duck <|-- MallardDuck
     Duck <|-- ModelDuck
