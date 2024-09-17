@@ -23,11 +23,11 @@ TEST (test_service_shape, add_rectangle_success)
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
-    auto& rectangle = shapes.at(id);
+    auto& shape = shapes.at(id);
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    rectangle->Display();
+    shape->Display();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
@@ -57,11 +57,11 @@ TEST (test_service_shape, move_rectangle_success)
     shapeService.MoveShape(id, dx, dy);
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
-    auto& rectangle = shapes.at(id);
+    auto& shape = shapes.at(id);
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    rectangle->Display();
+    shape->Display();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
@@ -86,11 +86,11 @@ TEST (test_service_shape, add_circle_success)
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
-    auto& rectangle = shapes.at(id);
+    auto& shape = shapes.at(id);
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    rectangle->Display();
+    shape->Display();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
@@ -118,11 +118,84 @@ TEST (test_service_shape, move_circle_success)
     shapeService.MoveShape(id, dx, dy);
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
-    auto& rectangle = shapes.at(id);
+    auto& shape = shapes.at(id);
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    rectangle->Display();
+    shape->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
+TEST (test_service_shape, add_triangle_success)
+{
+    std::string expectedStr = "triangle tri #0f0f0f 10 20 10 50 40 35\n";
+
+    std::string id = "tri";
+    uint32_t color = 0x0F0F0F;
+    double x1 = 10;
+    double y1 = 20;
+    double x2 = 10;
+    double y2 = 50;
+    double x3 = 40;
+    double y3 = 35;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
+    std::vector<double> parameters = {
+            x1,
+            y1,
+            x2,
+            y2,
+            x3,
+            y3
+    };
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& shape = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shape->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
+TEST (test_service_shape, move_triangle_success)
+{
+    std::string expectedStr = "triangle tri #0f0f0f 9 22 9 52 39 37\n";
+
+    std::string id = "tri";
+    uint32_t color = 0x0F0F0F;
+    double x1 = 10;
+    double y1 = 20;
+    double x2 = 10;
+    double y2 = 50;
+    double x3 = 40;
+    double y3 = 35;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
+    std::vector<double> parameters = {
+            x1,
+            y1,
+            x2,
+            y2,
+            x3,
+            y3
+    };
+    double dx = -1;
+    double dy = 2;
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+    shapeService.MoveShape(id, dx, dy);
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& shape = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shape->Display();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }

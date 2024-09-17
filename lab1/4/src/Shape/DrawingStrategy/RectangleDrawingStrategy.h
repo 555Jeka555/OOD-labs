@@ -15,7 +15,7 @@ namespace shapes {
                 double width,
                 double height
         ) :
-                m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_width(width), m_height(height) {}
+            m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_width(width), m_height(height) {}
 
         void Draw(ICanvas &canvas, uint32_t color) const override
         {

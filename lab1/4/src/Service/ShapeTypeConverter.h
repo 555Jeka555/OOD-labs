@@ -11,6 +11,10 @@ public:
         {
             case ShapeType::RECTANGLE:
                 return "rectangle";
+            case ShapeType::CIRCLE:
+                return "circle";
+            case ShapeType::TRIANGLE:
+                return "triangle";
             default:
                 return "none";
         }

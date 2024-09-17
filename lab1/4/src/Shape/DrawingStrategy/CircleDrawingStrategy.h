@@ -15,7 +15,7 @@ namespace shapes
                 double centerY,
                 double radius
         ) :
-                m_centerX(centerX), m_centerY(centerY), m_radius(radius) {}
+            m_centerX(centerX), m_centerY(centerY), m_radius(radius) {}
 
         void Draw(ICanvas &canvas, uint32_t color) const override {
 

@@ -5,6 +5,7 @@ enum class ShapeType
 {
     RECTANGLE,
     CIRCLE,
+    TRIANGLE,
     NONE,
 };
 

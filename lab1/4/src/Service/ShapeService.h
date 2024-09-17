@@ -11,6 +11,7 @@
 #include "../Shape/DrawingStrategy/IDrawingStrategy.h"
 #include "../Shape/DrawingStrategy/RectangleDrawingStrategy.h"
 #include "../Shape/DrawingStrategy/CircleDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/TriangleDrawingStrategy.h"
 
 class ShapeService
 {

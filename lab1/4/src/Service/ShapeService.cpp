@@ -5,6 +5,7 @@ ShapeService::AddShape(const std::string& id, uint32_t color, const std::string&
 {
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
     std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
 
     if (type == rectangleString)
     {
@@ -23,9 +24,22 @@ ShapeService::AddShape(const std::string& id, uint32_t color, const std::string&
         double centerY = parameters[1];
         double radius = parameters[2];
 
-        auto rectangleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+        auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
 
-        m_shapes.emplace(id, std::make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy)));
+        m_shapes.emplace(id, std::make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy)));
+    }
+    else if (type == triangleString)
+    {
+        double x1 = parameters[0];
+        double y1 = parameters[1];
+        double x2 = parameters[2];
+        double y2 = parameters[3];
+        double x3 = parameters[4];
+        double y3 = parameters[5];
+
+        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+
+        m_shapes.emplace(id, std::make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy)));
     }
 }
 
