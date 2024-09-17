@@ -22,6 +22,10 @@ void ShapeController::ReadCommands()
         {
             MoveShape(iss);
         }
+        else if (commandName == "DeleteShape")
+        {
+            DeleteShape(iss);
+        }
 
     }
 }
@@ -66,4 +70,13 @@ void ShapeController::MoveShape(std::istringstream &iss)
     iss >> id >> dx >> dy;
 
     m_shapeService.MoveShape(id, std::stod(dx), std::stod(dy));
+}
+
+void ShapeController::DeleteShape(std::istringstream &iss)
+{
+    std::string id;
+
+    iss >> id;
+
+    m_shapeService.DeleteShape(id);
 }

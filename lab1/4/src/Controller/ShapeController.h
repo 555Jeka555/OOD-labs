@@ -27,6 +27,8 @@ private:
     void AddShape(std::istringstream& iss);
 
     void MoveShape(std::istringstream& iss);
+
+    void DeleteShape(std::istringstream& iss);
 };
 
 

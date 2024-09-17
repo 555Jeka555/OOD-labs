@@ -23,3 +23,8 @@ void ShapeService::MoveShape(const std::string &id, double dx, double dy)
     auto& shape = m_shapes.at(id);
     shape->Move(dx, dy);
 }
+
+void ShapeService::DeleteShape(const std::string &id)
+{
+    m_shapes.erase(id);
+}

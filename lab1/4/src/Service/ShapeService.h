@@ -20,7 +20,7 @@ public:
 
     void MovePicture();
 
-    void DeleteShape();
+    void DeleteShape(const std::string &id);
 
     void List();
 
