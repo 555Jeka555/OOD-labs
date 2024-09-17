@@ -49,6 +49,7 @@ void ShapeController::AddShape(std::istringstream &iss)
     iss >> type;
     
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
 
     if (type == rectangleString)
     {
@@ -63,6 +64,20 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(m_leftTopY));
         parameters.push_back(std::stod(width));
         parameters.push_back(std::stod(height));
+
+        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+    }
+    else if (type == circleString)
+    {
+        std::string centerX;
+        std::string centerY;
+        std::string radius;
+
+        iss >> centerX >> centerY >> radius;
+
+        parameters.push_back(std::stod(centerX));
+        parameters.push_back(std::stod(centerY));
+        parameters.push_back(std::stod(radius));
 
         m_shapeService.AddShape(id, color, rectangleString, parameters, "");
     }

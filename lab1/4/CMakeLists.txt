@@ -25,6 +25,7 @@ set(SOURCE_FILES
         src/Service/ShapeTypeConverter.h
         src/Service/ShapeService.cpp
         src/Controller/ShapeController.cpp
+        src/Shape/DrawingStrategy/CircleDrawingStrategy.h
 )
 
 set(TEST_SOURCE_FILES

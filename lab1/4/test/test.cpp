@@ -66,6 +66,67 @@ TEST (test_service_shape, move_rectangle_success)
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
+TEST (test_service_shape, add_circle_success)
+{
+    std::string expectedStr = "circle cir #0f0f0f 5 20.5 10\n";
+
+    std::string id = "cir";
+    uint32_t color = 0x0F0F0F;
+    double centerX = 5;
+    double centerY = 20.5;
+    double radius = 10;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    std::vector<double> parameters = {
+            centerX,
+            centerY,
+            radius
+    };
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& rectangle = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    rectangle->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
+TEST (test_service_shape, move_circle_success)
+{
+    std::string expectedStr = "circle cir #0f0f0f 7 19.5 10\n";
+
+    std::string id = "cir";
+    uint32_t color = 0x0F0F0F;
+    double centerX = 5;
+    double centerY = 20.5;
+    double radius = 10;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    std::vector<double> parameters = {
+            centerX,
+            centerY,
+            radius
+    };
+    double dx = 2;
+    double dy = -1;
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+    shapeService.MoveShape(id, dx, dy);
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& rectangle = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    rectangle->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
 TEST (test_service_shape, delete_shape_success)
 {
     std::string id = "rec";

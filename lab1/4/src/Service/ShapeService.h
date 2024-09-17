@@ -10,6 +10,7 @@
 #include "../Shape/Shape.h"
 #include "../Shape/DrawingStrategy/IDrawingStrategy.h"
 #include "../Shape/DrawingStrategy/RectangleDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/CircleDrawingStrategy.h"
 
 class ShapeService
 {
