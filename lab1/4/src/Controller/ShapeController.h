@@ -35,6 +35,8 @@ private:
     void ChangeColor(std::istringstream& iss);
 
     void MovePicture(std::istringstream& iss);
+
+    void ChangeShape(std::istringstream& iss);
 };
 
 

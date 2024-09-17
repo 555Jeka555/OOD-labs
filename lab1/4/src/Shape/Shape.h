@@ -41,8 +41,8 @@ namespace shapes
             m_color = color;
         }
 
-        void SetDrawingStrategy(const std::unique_ptr<IDrawingStrategy> drawingStrategy) {
-            m_drawingStrategy.reset(drawingStrategy.get());
+        void SetDrawingStrategy(std::unique_ptr<IDrawingStrategy> drawingStrategy) {
+            m_drawingStrategy = std::move(drawingStrategy);
         }
 
         void Display()

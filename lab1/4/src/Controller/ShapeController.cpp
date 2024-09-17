@@ -38,6 +38,10 @@ void ShapeController::ReadCommands()
         {
             MovePicture(iss);
         }
+        else if (commandName == "ChangeShape")
+        {
+            ChangeShape(iss);
+        }
     }
 }
 
@@ -86,7 +90,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(centerY));
         parameters.push_back(std::stod(radius));
 
-        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+        m_shapeService.AddShape(id, color, circleString, parameters, "");
     }
     else if (type == triangleString)
     {
@@ -106,7 +110,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(x3));
         parameters.push_back(std::stod(y3));
 
-        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+        m_shapeService.AddShape(id, color, triangleString, parameters, "");
     }
     else if (type == lineString)
     {
@@ -122,7 +126,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(x2));
         parameters.push_back(std::stod(y2));
 
-        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+        m_shapeService.AddShape(id, color, lineString, parameters, "");
     }
     else if (type == textString)
     {
@@ -143,7 +147,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(leftTopY));
         parameters.push_back(std::stod(size));
 
-        m_shapeService.AddShape(id, color, rectangleString, parameters, text);
+        m_shapeService.AddShape(id, color, textString, parameters, text);
     }
 }
 
@@ -190,4 +194,110 @@ void ShapeController::MovePicture(std::istringstream &iss)
 
     iss >> dx >> dy;
     m_shapeService.MovePicture(std::stod(dx), std::stod(dy));
+}
+
+void ShapeController::ChangeShape(std::istringstream &iss)
+{
+    std::vector<double> parameters;
+    std::string id;
+    uint32_t color;
+    std::string type;
+
+    iss >> id;
+    iss >> std::hex >> color;
+    iss >> type;
+
+    std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
+    std::string lineString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::LINE);
+    std::string textString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TEXT);
+
+    if (type == rectangleString)
+    {
+        std::string leftTopX;
+        std::string leftTopY;
+        std::string width;
+        std::string height;
+
+        iss >> leftTopX >> leftTopY >> width >> height;
+
+        parameters.push_back(std::stod(leftTopX));
+        parameters.push_back(std::stod(leftTopY));
+        parameters.push_back(std::stod(width));
+        parameters.push_back(std::stod(height));
+
+        m_shapeService.ChangeShape(id, rectangleString, parameters, "");
+    }
+    else if (type == circleString)
+    {
+        std::string centerX;
+        std::string centerY;
+        std::string radius;
+
+        iss >> centerX >> centerY >> radius;
+
+        parameters.push_back(std::stod(centerX));
+        parameters.push_back(std::stod(centerY));
+        parameters.push_back(std::stod(radius));
+
+        m_shapeService.ChangeShape(id, circleString, parameters, "");
+    }
+    else if (type == triangleString)
+    {
+        std::string x1;
+        std::string y1;
+        std::string x2;
+        std::string y2;
+        std::string x3;
+        std::string y3;
+
+        iss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+
+        parameters.push_back(std::stod(x1));
+        parameters.push_back(std::stod(y1));
+        parameters.push_back(std::stod(x2));
+        parameters.push_back(std::stod(y2));
+        parameters.push_back(std::stod(x3));
+        parameters.push_back(std::stod(y3));
+
+        m_shapeService.ChangeShape(id, triangleString, parameters, "");
+    }
+    else if (type == lineString)
+    {
+        std::string x1;
+        std::string y1;
+        std::string x2;
+        std::string y2;
+
+        iss >> x1 >> y1 >> x2 >> y2;
+
+        parameters.push_back(std::stod(x1));
+        parameters.push_back(std::stod(y1));
+        parameters.push_back(std::stod(x2));
+        parameters.push_back(std::stod(y2));
+
+        m_shapeService.ChangeShape(id, lineString, parameters, "");
+    }
+    else if (type == textString)
+    {
+        std::string leftTopX;
+        std::string leftTopY;
+        std::string size;
+        std::string text;
+
+        iss >> leftTopX >> leftTopY >> size;
+
+        std::getline(iss, text);
+        if (!text.empty() && text[0] == ' ')
+        {
+            text.erase(0, 1);
+        }
+
+        parameters.push_back(std::stod(leftTopX));
+        parameters.push_back(std::stod(leftTopY));
+        parameters.push_back(std::stod(size));
+
+        m_shapeService.ChangeShape(id, textString, parameters, text);
+    }
 }

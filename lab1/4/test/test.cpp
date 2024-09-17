@@ -587,6 +587,50 @@ TEST (test_service_shape, move_all_shape_success)
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
+TEST (test_service_shape, change_rectangle_to_circle_success)
+{
+    std::string expectedStr = "circle rec #0f0f0f 5 20.5 10\n";
+
+    ShapeService shapeService;
+
+    std::string id = "rec";
+    uint32_t color = 0x0F0F0F;
+    double leftTopX = 10.2;
+    double leftTopY = 20;
+    double width = 2.5;
+    double height = 5;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            width,
+            height
+    };
+
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    double centerX = 5;
+    double centerY = 20.5;
+    double radius = 10;
+    type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    parameters = {
+            centerX,
+            centerY,
+            radius
+    };
+
+    shapeService.ChangeShape(id, type, parameters, "");
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& shape = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shape->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;
     testing::InitGoogleTest(&argc, argv);

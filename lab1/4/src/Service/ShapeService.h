@@ -31,7 +31,7 @@ public:
 
     void ChangeColor(const std::string& id, uint32_t color);
 
-    void ChangeShape();
+    void ChangeShape(const std::string& id, const std::string& type, const std::vector<double>& parameters, const std::string& text);
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> GetShapes()
     {
