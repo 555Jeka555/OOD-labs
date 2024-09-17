@@ -98,3 +98,11 @@ void ShapeService::ChangeColor(const std::string &id, uint32_t color)
     auto& shape = m_shapes.at(id);
     shape->SetColor(color);
 }
+
+void ShapeService::MovePicture(double dx, double dy)
+{
+    for (const auto& pair : m_shapes)
+    {
+        pair.second->Move(dx, dy);
+    }
+}

@@ -34,6 +34,10 @@ void ShapeController::ReadCommands()
         {
             ChangeColor(iss);
         }
+        else if (commandName == "MovePicture")
+        {
+            MovePicture(iss);
+        }
     }
 }
 
@@ -177,4 +181,13 @@ void ShapeController::ChangeColor(std::istringstream &iss)
     iss >> std::hex >> color;
 
     m_shapeService.ChangeColor(id, color);
+}
+
+void ShapeController::MovePicture(std::istringstream &iss)
+{
+    std::string dx;
+    std::string dy;
+
+    iss >> dx >> dy;
+    m_shapeService.MovePicture(std::stod(dx), std::stod(dy));
 }

@@ -33,6 +33,8 @@ private:
     void ListShape();
 
     void ChangeColor(std::istringstream& iss);
+
+    void MovePicture(std::istringstream& iss);
 };
 
 

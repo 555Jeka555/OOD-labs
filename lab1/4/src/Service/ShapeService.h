@@ -23,7 +23,7 @@ public:
 
     void MoveShape(const std::string& id, double dx, double dy);
 
-    void MovePicture();
+    void MovePicture(double dx, double dy);
 
     void DeleteShape(const std::string &id);
 

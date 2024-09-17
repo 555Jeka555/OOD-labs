@@ -19,6 +19,7 @@ classDiagram
 
     class ShapeService {
         - map<string, Shape> m_shapes
+        - vector<string> m_shapeIds
         + AddShape(string id, uint32_t color, string typeShape, vector<double> parametrs, string text)
         + MoveShape(string id, double dx, double dy)
         + MovePicture(double dx, double dy)

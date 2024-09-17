@@ -486,6 +486,107 @@ TEST (test_service_shape, list_shape_success)
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
+TEST (test_service_shape, move_all_shape_success)
+{
+    std::string expectedStr = "1 rectangle rec #0f0f0f 11.2 18 2.5 5\n"
+                              "2 circle cir #0f0f0f 6 18.5 10\n"
+                              "3 triangle tri #0f0f0f 11 18 11 48 41 33\n"
+                              "4 line li #0f0f0f 11 18 11 48\n"
+                              "5 text txt #0f0f0f 101.3 198.2 35 Hello world\n";
+
+    ShapeService shapeService;
+
+    std::string id = "rec";
+    uint32_t color = 0x0F0F0F;
+    double leftTopX = 10.2;
+    double leftTopY = 20;
+    double width = 2.5;
+    double height = 5;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            width,
+            height
+    };
+
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    id = "cir";
+    color = 0x0F0F0F;
+    double centerX = 5;
+    double centerY = 20.5;
+    double radius = 10;
+    type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
+    parameters = {
+            centerX,
+            centerY,
+            radius
+    };
+
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    id = "tri";
+    color = 0x0F0F0F;
+    double x1 = 10;
+    double y1 = 20;
+    double x2 = 10;
+    double y2 = 50;
+    double x3 = 40;
+    double y3 = 35;
+    type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
+    parameters = {
+            x1,
+            y1,
+            x2,
+            y2,
+            x3,
+            y3
+    };
+
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    id = "li";
+    color = 0x0F0F0F;
+    x1 = 10;
+    y1 = 20;
+    x2 = 10;
+    y2 = 50;
+    type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::LINE);
+    parameters = {
+            x1,
+            y1,
+            x2,
+            y2
+    };
+
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    id = "txt";
+    color = 0x0F0F0F;
+    leftTopX = 100.3;
+    leftTopY = 200.2;
+    double size = 35;
+    std::string text = "Hello world";
+    type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TEXT);
+    parameters = {
+            leftTopX,
+            leftTopY,
+            size
+    };
+
+    shapeService.AddShape(id, color, type, parameters, text);
+
+    double dx = 1;
+    double dy = -2;
+    shapeService.MovePicture(dx, dy);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shapeService.List();
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;
     testing::InitGoogleTest(&argc, argv);
