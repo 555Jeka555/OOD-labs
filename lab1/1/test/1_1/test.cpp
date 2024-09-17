@@ -15,7 +15,7 @@ void assertDance(Duck &duck, const std::string& danceOutput)
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
     duck.Dance();
-    ASSERT_EQ(buffer.str(), danceOutput);
+    ASSERT_EQ(buffer.str(), danceOutput); // TODO через CALL
 }
 
 TEST (dance, dance_with_mallard_duck)

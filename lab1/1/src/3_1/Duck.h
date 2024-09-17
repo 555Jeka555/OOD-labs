@@ -19,6 +19,7 @@ public:
             m_danceFunction(std::move(danceFunction)),
             m_quackFunction(std::move(quackFunction))
     {
+        // Todo добавить ассерты
     }
 
     void Fly()

@@ -43,7 +43,7 @@ public:
     //  нет смысла перезаписывать метод в котором используется стратегия
     void Dance()
     {
-        m_danceBehavior->Dance();
+//        m_danceBehavior->Dance();
     }
 
     void SetFlyBehavior(std::unique_ptr<IFlyBehavior>&& flyBehavior)

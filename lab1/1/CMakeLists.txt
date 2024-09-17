@@ -35,7 +35,7 @@ set(SOURCE_FILES
         src/3_1/Duck/MallardDuck.h
         src/3_1/Duck/ModelDuck.h
         src/3_1/Duck/RedHeadDuck.h
-        "src/3_1/Duck/RubberDuck.h"
+        src/3_1/Duck/RubberDuck.h
 )
 
 set(TEST_SOURCE_FILES
