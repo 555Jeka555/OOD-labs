@@ -28,7 +28,11 @@ void ShapeController::ReadCommands()
         }
         else if (commandName == "List")
         {
-            ListShape(iss);
+            ListShape();
+        }
+        else if (commandName == "ChangeColor ")
+        {
+            ChangeColor(iss);
         }
     }
 }
@@ -84,7 +88,18 @@ void ShapeController::DeleteShape(std::istringstream &iss)
     m_shapeService.DeleteShape(id);
 }
 
-void ShapeController::ListShape(std::istringstream &iss)
+void ShapeController::ListShape()
 {
     m_shapeService.List();
+}
+
+void ShapeController::ChangeColor(std::istringstream &iss)
+{
+    std::string id;
+    uint32_t color;
+
+    iss >> id;
+    iss >> std::hex >> color;
+
+    m_shapeService.ChangeColor(id, color);
 }

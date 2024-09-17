@@ -24,7 +24,7 @@ public:
 
     void List();
 
-    void ChangeColor();
+    void ChangeColor(const std::string& id, uint32_t color);
 
     void ChangeShape();
 

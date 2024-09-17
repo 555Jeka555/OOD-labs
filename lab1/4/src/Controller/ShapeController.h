@@ -30,7 +30,9 @@ private:
 
     void DeleteShape(std::istringstream& iss);
 
-    void ListShape(std::istringstream& iss);
+    void ListShape();
+
+    void ChangeColor(std::istringstream& iss);
 };
 
 

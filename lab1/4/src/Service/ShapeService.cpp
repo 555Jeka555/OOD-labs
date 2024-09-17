@@ -40,3 +40,9 @@ void ShapeService::List()
         count++;
     }
 }
+
+void ShapeService::ChangeColor(const std::string &id, uint32_t color)
+{
+    auto& shape = m_shapes.at(id);
+    shape->SetColor(color);
+}

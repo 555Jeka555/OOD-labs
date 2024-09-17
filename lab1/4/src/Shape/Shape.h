@@ -37,8 +37,8 @@ namespace shapes
             return m_id;
         }
 
-        void SetColor(uint32_t mColor) {
-            m_color = mColor;
+        void SetColor(uint32_t color) {
+            m_color = color;
         }
 
         void SetDrawingStrategy(const std::unique_ptr<IDrawingStrategy> drawingStrategy) {

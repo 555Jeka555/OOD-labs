@@ -91,6 +91,39 @@ TEST (test_service_shape, delete_shape_success)
     EXPECT_TRUE(shapes.empty());
 }
 
+TEST (test_service_shape, change_color_shape_success)
+{
+    std::string expectedStr = "rectangle rec #ffffff 10 20 2.5 5\n";
+
+    std::string id = "rec";
+    uint32_t color = 0x0F0F0F;
+    uint32_t newColor = 0xFFFFFF;
+    double leftTopX = 10;
+    double leftTopY = 20;
+    double width = 2.5;
+    double height = 5;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            width,
+            height
+    };
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+    shapeService.ChangeColor(id, newColor);
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& rectangle = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    rectangle->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;
     testing::InitGoogleTest(&argc, argv);
