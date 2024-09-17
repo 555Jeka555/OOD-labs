@@ -65,5 +65,5 @@ void ShapeController::MoveShape(std::istringstream &iss)
 
     iss >> id >> dx >> dy;
 
-    m_shapeService.MoveShape(id, dx, dy);
+    m_shapeService.MoveShape(id, std::stod(dx), std::stod(dy));
 }
