@@ -30,7 +30,7 @@ void ShapeController::ReadCommands()
         {
             ListShape();
         }
-        else if (commandName == "ChangeColor ")
+        else if (commandName == "ChangeColor")
         {
             ChangeColor(iss);
         }
@@ -51,6 +51,7 @@ void ShapeController::AddShape(std::istringstream &iss)
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
     std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
     std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
+    std::string lineString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::Line);
 
     if (type == rectangleString)
     {
@@ -99,6 +100,22 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(y2));
         parameters.push_back(std::stod(x3));
         parameters.push_back(std::stod(y3));
+
+        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+    }
+    else if (type == lineString)
+    {
+        std::string x1;
+        std::string y1;
+        std::string x2;
+        std::string y2;
+
+        iss >> x1 >> y1 >> x2 >> y2;
+
+        parameters.push_back(std::stod(x1));
+        parameters.push_back(std::stod(y1));
+        parameters.push_back(std::stod(x2));
+        parameters.push_back(std::stod(y2));
 
         m_shapeService.AddShape(id, color, rectangleString, parameters, "");
     }

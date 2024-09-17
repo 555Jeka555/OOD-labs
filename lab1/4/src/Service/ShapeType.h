@@ -6,6 +6,7 @@ enum class ShapeType
     RECTANGLE,
     CIRCLE,
     TRIANGLE,
+    LINE,
     NONE,
 };
 

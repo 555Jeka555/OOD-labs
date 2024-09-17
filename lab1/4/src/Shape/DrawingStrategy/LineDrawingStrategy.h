@@ -1,24 +1,21 @@
-#ifndef INC_4_TRIANGLEDRAWINGSTRATEGY_H
-#define INC_4_TRIANGLEDRAWINGSTRATEGY_H
+#ifndef INC_4_LINEDRAWINGSTRATEGY_H
+#define INC_4_LINEDRAWINGSTRATEGY_H
 
 #include <iostream>
 #include <string>
 #include "IDrawingStrategy.h"
 
-namespace shapes
-{
-    class TriangleDrawingStrategy : public IDrawingStrategy
+namespace shapes {
+    class LineDrawingStrategy : public IDrawingStrategy
     {
     public:
-        TriangleDrawingStrategy(
+        LineDrawingStrategy(
                 double x1,
                 double y1,
                 double x2,
-                double y2,
-                double x3,
-                double y3
+                double y2
         ) :
-            m_x1(x1), m_y1(y1), m_x2(x2), m_y2(y2), m_x3(x3), m_y3(y3) {}
+            m_x1(x1), m_y1(y1), m_x2(x2), m_y2(y2){}
 
         void Draw(ICanvas &canvas, uint32_t color) const override
         {
@@ -31,8 +28,6 @@ namespace shapes
             m_y1 += dy;
             m_x2 += dx;
             m_y2 += dy;
-            m_x3 += dx;
-            m_y3 += dy;
         }
 
         [[nodiscard]] std::string GetType() const override
@@ -48,20 +43,16 @@ namespace shapes
                       << m_x1 << " "
                       << m_y1 << " "
                       << m_x2 << " "
-                      << m_y2 << " "
-                      << m_x3 << " "
-                      << m_y3 << std::endl;
+                      << m_y2 << std::endl;
         }
 
     private:
-        std::string m_type = "triangle";
+        std::string m_type = "line";
         double m_x1;
         double m_y1;
         double m_x2;
         double m_y2;
-        double m_x3;
-        double m_y3;
     };
 }
 
-#endif //INC_4_TRIANGLEDRAWINGSTRATEGY_H
+#endif //INC_4_LINEDRAWINGSTRATEGY_H

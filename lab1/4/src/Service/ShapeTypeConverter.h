@@ -15,6 +15,8 @@ public:
                 return "circle";
             case ShapeType::TRIANGLE:
                 return "triangle";
+            case ShapeType::LINE:
+                return "line";
             default:
                 return "none";
         }
