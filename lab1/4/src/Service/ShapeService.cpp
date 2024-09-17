@@ -64,6 +64,8 @@ ShapeService::AddShape(const std::string& id, uint32_t color, const std::string&
 
         m_shapes.emplace(id, std::make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy)));
     }
+
+    m_shapeIds.push_back(id);
 }
 
 void ShapeService::MoveShape(const std::string &id, double dx, double dy)
@@ -75,15 +77,17 @@ void ShapeService::MoveShape(const std::string &id, double dx, double dy)
 void ShapeService::DeleteShape(const std::string &id)
 {
     m_shapes.erase(id);
+    std::erase(m_shapeIds, id);
 }
 
 void ShapeService::List()
 {
     int count = 1;
-    for (const auto& pair : m_shapes) {
-        std::cout << count << " ";
+    for (const auto& id : m_shapeIds) {
+        auto& shape = m_shapes.at(id);
 
-        pair.second->Display();
+        std::cout << count << " ";
+        shape->Display();
 
         count++;
     }

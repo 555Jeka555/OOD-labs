@@ -1,6 +1,7 @@
 #ifndef INC_4_SHAPESERVICE_H
 #define INC_4_SHAPESERVICE_H
 
+#include <iostream>
 #include <string>
 #include <cstdint>
 #include <vector>
@@ -37,8 +38,14 @@ public:
         return std::move(m_shapes);
     }
 
+    [[nodiscard]] std::vector<std::string> GetShapeIds() const
+    {
+        return m_shapeIds;
+    }
+
 private:
     std::map<std::string, std::unique_ptr<shapes::Shape>> m_shapes = {};
+    std::vector<std::string> m_shapeIds = {};
 };
 
 
