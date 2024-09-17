@@ -26,7 +26,10 @@ void ShapeController::ReadCommands()
         {
             DeleteShape(iss);
         }
-
+        else if (commandName == "List")
+        {
+            ListShape(iss);
+        }
     }
 }
 
@@ -79,4 +82,9 @@ void ShapeController::DeleteShape(std::istringstream &iss)
     iss >> id;
 
     m_shapeService.DeleteShape(id);
+}
+
+void ShapeController::ListShape(std::istringstream &iss)
+{
+    m_shapeService.List();
 }

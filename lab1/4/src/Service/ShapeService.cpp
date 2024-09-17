@@ -28,3 +28,15 @@ void ShapeService::DeleteShape(const std::string &id)
 {
     m_shapes.erase(id);
 }
+
+void ShapeService::List()
+{
+    int count = 1;
+    for (const auto& pair : m_shapes) {
+        std::cout << count << " ";
+
+        pair.second->Display();
+
+        count++;
+    }
+}

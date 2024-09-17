@@ -29,6 +29,8 @@ private:
     void MoveShape(std::istringstream& iss);
 
     void DeleteShape(std::istringstream& iss);
+
+    void ListShape(std::istringstream& iss);
 };
 
 
