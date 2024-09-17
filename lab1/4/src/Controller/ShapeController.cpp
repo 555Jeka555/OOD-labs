@@ -53,9 +53,19 @@ void ShapeController::AddShape(std::istringstream &iss)
     std::string type;
 
     iss >> id;
-    iss >> std::hex >> color;
+
+    std::string colorStr;
+    iss >> colorStr;
+
+    if (colorStr[0] == '#') {
+        colorStr.erase(0, 1);
+        std::stringstream ss;
+        ss << std::hex << colorStr;
+        ss >> color;
+    }
+
     iss >> type;
-    
+
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
     std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
     std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
@@ -204,7 +214,17 @@ void ShapeController::ChangeShape(std::istringstream &iss)
     std::string type;
 
     iss >> id;
-    iss >> std::hex >> color;
+
+    std::string colorStr;
+    iss >> colorStr;
+
+    if (colorStr[0] == '#') {
+        colorStr.erase(0, 1);
+        std::stringstream ss;
+        ss << std::hex << colorStr;
+        ss >> color;
+    }
+
     iss >> type;
 
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
