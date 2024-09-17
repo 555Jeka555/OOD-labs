@@ -16,7 +16,7 @@ class ShapeService
 public:
     void AddShape(const std::string& id, uint32_t color, const std::string& type, const std::vector<double>& parameters, const std::string& text);
 
-    void MoveShape();
+    void MoveShape(const std::string& id, double dx, double dy);
 
     void MovePicture();
 

@@ -17,3 +17,9 @@ ShapeService::AddShape(const std::string& id, uint32_t color, const std::string&
         m_shapes.emplace(id, std::make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy)));
     }
 }
+
+void ShapeService::MoveShape(const std::string &id, double dx, double dy)
+{
+    auto& shape = m_shapes.at(id);
+    shape->Move(dx, dy);
+}

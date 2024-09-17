@@ -22,7 +22,7 @@ namespace shapes {
 
         void Move(double dx, double dy) override {
             m_leftTopX += dx;
-            m_leftTopX += dy;
+            m_leftTopY += dy;
         }
 
         [[nodiscard]] std::string GetType() const override {

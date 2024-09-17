@@ -18,6 +18,11 @@ void ShapeController::ReadCommands()
         {
             AddShape(iss);
         }
+        else if (commandName == "MoveShape")
+        {
+            MoveShape(iss);
+        }
+
     }
 }
 
@@ -50,4 +55,15 @@ void ShapeController::AddShape(std::istringstream &iss)
 
         m_shapeService.AddShape(id, color, rectangleString, parameters, "");
     }
+}
+
+void ShapeController::MoveShape(std::istringstream &iss)
+{
+    std::string id;
+    std::string dx;
+    std::string dy;
+
+    iss >> id >> dx >> dy;
+
+    m_shapeService.MoveShape(id, dx, dy);
 }

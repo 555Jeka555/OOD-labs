@@ -25,6 +25,8 @@ private:
     ShapeService& m_shapeService;
 
     void AddShape(std::istringstream& iss);
+
+    void MoveShape(std::istringstream& iss);
 };
 
 
