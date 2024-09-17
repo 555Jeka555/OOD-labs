@@ -28,6 +28,7 @@ set(SOURCE_FILES
         src/Shape/DrawingStrategy/CircleDrawingStrategy.h
         src/Shape/DrawingStrategy/TriangleDrawingStrategy.h
         src/Shape/DrawingStrategy/LineDrawingStrategy.h
+        src/Shape/DrawingStrategy/TextDrawingStrategy.h
 )
 
 set(TEST_SOURCE_FILES

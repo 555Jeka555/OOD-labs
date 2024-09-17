@@ -51,19 +51,20 @@ void ShapeController::AddShape(std::istringstream &iss)
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
     std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
     std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
-    std::string lineString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::Line);
+    std::string lineString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::LINE);
+    std::string textString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TEXT);
 
     if (type == rectangleString)
     {
-        std::string m_leftTopX;
-        std::string m_leftTopY;
+        std::string leftTopX;
+        std::string leftTopY;
         std::string width;
         std::string height;
 
-        iss >> m_leftTopX >> m_leftTopY >> width >> height;
+        iss >> leftTopX >> leftTopY >> width >> height;
 
-        parameters.push_back(std::stod(m_leftTopX));
-        parameters.push_back(std::stod(m_leftTopY));
+        parameters.push_back(std::stod(leftTopX));
+        parameters.push_back(std::stod(leftTopY));
         parameters.push_back(std::stod(width));
         parameters.push_back(std::stod(height));
 
@@ -118,6 +119,27 @@ void ShapeController::AddShape(std::istringstream &iss)
         parameters.push_back(std::stod(y2));
 
         m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+    }
+    else if (type == textString)
+    {
+        std::string leftTopX;
+        std::string leftTopY;
+        std::string size;
+        std::string text;
+
+        iss >> leftTopX >> leftTopY >> size;
+
+        std::getline(iss, text);
+        if (!text.empty() && text[0] == ' ')
+        {
+            text.erase(0, 1);
+        }
+
+        parameters.push_back(std::stod(leftTopX));
+        parameters.push_back(std::stod(leftTopY));
+        parameters.push_back(std::stod(size));
+
+        m_shapeService.AddShape(id, color, rectangleString, parameters, text);
     }
 }
 

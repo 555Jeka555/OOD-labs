@@ -13,6 +13,7 @@
 #include "../Shape/DrawingStrategy/CircleDrawingStrategy.h"
 #include "../Shape/DrawingStrategy/TriangleDrawingStrategy.h"
 #include "../Shape/DrawingStrategy/LineDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/TextDrawingStrategy.h"
 
 class ShapeService
 {

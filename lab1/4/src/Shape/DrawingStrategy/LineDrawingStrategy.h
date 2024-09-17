@@ -5,7 +5,8 @@
 #include <string>
 #include "IDrawingStrategy.h"
 
-namespace shapes {
+namespace shapes
+{
     class LineDrawingStrategy : public IDrawingStrategy
     {
     public:

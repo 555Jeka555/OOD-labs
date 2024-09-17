@@ -265,6 +265,69 @@ TEST (test_service_shape, move_line_success)
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
+TEST (test_service_shape, add_text_success)
+{
+    std::string expectedStr = "text txt #0f0f0f 100.3 200.2 35 Hello world\n";
+
+    std::string id = "txt";
+    uint32_t color = 0x0F0F0F;
+    double leftTopX = 100.3;
+    double leftTopY = 200.2;
+    double size = 35;
+    std::string text = "Hello world";
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TEXT);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            size
+    };
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, text);
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& shape = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shape->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
+TEST (test_service_shape, move_text_success)
+{
+    std::string expectedStr = "text txt #0f0f0f 99.3 202.2 35 Hello world\n";
+
+    std::string id = "txt";
+    uint32_t color = 0x0F0F0F;
+    double leftTopX = 100.3;
+    double leftTopY = 200.2;
+    double size = 35;
+    std::string text = "Hello world";
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TEXT);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            size
+    };
+    double dx = -1;
+    double dy = 2;
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, text);
+    shapeService.MoveShape(id, dx, dy);
+
+    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
+    auto& shape = shapes.at(id);
+
+    std::stringstream buffer;
+    std::cout.rdbuf(buffer.rdbuf());
+    shape->Display();
+
+    ASSERT_EQ(buffer.str(), expectedStr);
+}
+
 TEST (test_service_shape, delete_shape_success)
 {
     std::string id = "rec";

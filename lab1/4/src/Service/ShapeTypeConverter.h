@@ -17,6 +17,8 @@ public:
                 return "triangle";
             case ShapeType::LINE:
                 return "line";
+            case ShapeType::TEXT:
+                return "text";
             default:
                 return "none";
         }
