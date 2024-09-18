@@ -1,6 +1,8 @@
 #ifndef INC_4_SHAPETYPECONVERTER_H
 #define INC_4_SHAPETYPECONVERTER_H
 
+#include <string>
+#include "ShapeType.h"
 
 class ShapeTypeConverter
 {

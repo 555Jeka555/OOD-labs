@@ -16,14 +16,14 @@ FetchContent_MakeAvailable(googletest)
 set(SOURCE_FILES
         src/main.cpp
         src/Controller/ShapeController.h
-        src/Service/ShapeService.h
+        src/Picture/Picture.h
         src/Canvas/ICanvas.h
         src/Shape/Shape.h
         src/Shape/DrawingStrategy/IDrawingStrategy.h
         src/Shape/DrawingStrategy/RectangleDrawingStrategy.h
-        src/Service/ShapeType.h
-        src/Service/ShapeTypeConverter.h
-        src/Service/ShapeService.cpp
+        src/Picture/ShapeType.h
+        src/Picture/ShapeTypeConverter.h
+        src/Picture/Picture.cpp
         src/Controller/ShapeController.cpp
         src/Shape/DrawingStrategy/CircleDrawingStrategy.h
         src/Shape/DrawingStrategy/TriangleDrawingStrategy.h
@@ -33,7 +33,7 @@ set(SOURCE_FILES
 
 set(TEST_SOURCE_FILES
         test/test.cpp
-        src/Service/ShapeService.cpp
+        src/Picture/Picture.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

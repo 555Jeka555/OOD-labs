@@ -1,5 +1,5 @@
 #include "Controller/ShapeController.h"
-#include "Service/ShapeService.h"
+#include "Picture/Picture.h"
 #include <iostream>
 #include <fstream>
 
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
     {
         Args args = ParseArgs(argc, argv);
 
-        ShapeService shapeService;
+        shapes::Picture shapeService;
 
         if (args.inputFileName != COMMAND_INPUT_ARGS)
         {

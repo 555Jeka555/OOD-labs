@@ -6,15 +6,15 @@
 #include <vector>
 #include <cstdlib>
 #include <vector>
-#include "../Service/ShapeService.h"
-#include "../Service/ShapeType.h"
-#include "../Service/ShapeTypeConverter.h"
+#include "../Picture/Picture.h"
+#include "../Picture/ShapeType.h"
+#include "../Picture/ShapeTypeConverter.h"
 #include "../Shape/DrawingStrategy/RectangleDrawingStrategy.h"
 
 class ShapeController
 {
 public:
-    ShapeController(std::istream& in, std::ostream& out, ShapeService& shapeService)
+    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& shapeService)
             : m_in(in), m_out(out), m_shapeService(shapeService) {}
 
     void ReadCommands();
@@ -22,7 +22,7 @@ public:
 private:
     std::istream& m_in;
     std::ostream& m_out;
-    ShapeService& m_shapeService;
+    shapes::Picture& m_shapeService;
 
     void AddShape(std::istringstream& iss);
 

@@ -1,6 +1,16 @@
-#include "ShapeService.h"
+#include "Picture.h"
 
-void ShapeService::AddShape(const std::string& id, uint32_t color, const std::string& type, const std::vector<double>& parameters, const std::string& text)
+// TODO Переменовать класс Picture в Picture
+// TODO В Picture Добавлять готовые фигуры через композицию, а не создавать их внутри сервиса
+// TODO Canvas на mermaid
+// TODO Проблема с change text
+// TODO Убрать Вввод вывод из Shape
+// TODO Переменовать IDrawingStrategy
+// TODO static type в mermaid underlined
+// TODO namespaces
+// TODO добавить Point
+
+void shapes::Picture::AddShape(const std::string& id, uint32_t color, const std::string& type, const std::vector<double>& parameters, const std::string& text)
 {
     if (m_shapes.contains(id))
     {
@@ -72,7 +82,7 @@ void ShapeService::AddShape(const std::string& id, uint32_t color, const std::st
     m_shapeIds.push_back(id);
 }
 
-void ShapeService::MoveShape(const std::string &id, double dx, double dy)
+void shapes::Picture::MoveShape(const std::string &id, double dx, double dy)
 {
     if (!m_shapes.contains(id))
     {
@@ -83,7 +93,7 @@ void ShapeService::MoveShape(const std::string &id, double dx, double dy)
     shape->Move(dx, dy);
 }
 
-void ShapeService::DeleteShape(const std::string &id)
+void shapes::Picture::DeleteShape(const std::string &id)
 {
     if (!m_shapes.contains(id))
     {
@@ -94,7 +104,7 @@ void ShapeService::DeleteShape(const std::string &id)
     std::erase(m_shapeIds, id);
 }
 
-void ShapeService::List()
+void shapes::Picture::List()
 {
     int count = 1;
     for (const auto& id : m_shapeIds) {
@@ -107,7 +117,7 @@ void ShapeService::List()
     }
 }
 
-void ShapeService::ChangeColor(const std::string &id, uint32_t color)
+void shapes::Picture::ChangeColor(const std::string &id, uint32_t color)
 {
     if (!m_shapes.contains(id))
     {
@@ -118,7 +128,7 @@ void ShapeService::ChangeColor(const std::string &id, uint32_t color)
     shape->SetColor(color);
 }
 
-void ShapeService::MovePicture(double dx, double dy)
+void shapes::Picture::MovePicture(double dx, double dy)
 {
     for (const auto& pair : m_shapes)
     {
@@ -126,8 +136,8 @@ void ShapeService::MovePicture(double dx, double dy)
     }
 }
 
-void ShapeService::ChangeShape(const std::string &id, const std::string &type, const std::vector<double> &parameters,
-                               const std::string &text)
+void shapes::Picture::ChangeShape(const std::string &id, const std::string &type, const std::vector<double> &parameters,
+                          const std::string &text)
 {
     if (!m_shapes.contains(id))
     {

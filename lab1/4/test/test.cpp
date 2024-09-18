@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/Service/ShapeService.h"
+#include "../src/Picture/Picture.h"
 
 TEST (test_service_shape, add_rectangle_success)
 {
@@ -19,7 +19,7 @@ TEST (test_service_shape, add_rectangle_success)
             height
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
@@ -52,7 +52,7 @@ TEST (test_service_shape, move_rectangle_success)
     double dx = 2;
     double dy = -1;
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.MoveShape(id, dx, dy);
 
@@ -82,7 +82,7 @@ TEST (test_service_shape, add_circle_success)
             radius
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
@@ -113,7 +113,7 @@ TEST (test_service_shape, move_circle_success)
     double dx = 2;
     double dy = -1;
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.MoveShape(id, dx, dy);
 
@@ -149,7 +149,7 @@ TEST (test_service_shape, add_triangle_success)
             y3
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
@@ -186,7 +186,7 @@ TEST (test_service_shape, move_triangle_success)
     double dx = -1;
     double dy = 2;
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.MoveShape(id, dx, dy);
 
@@ -218,7 +218,7 @@ TEST (test_service_shape, add_line_success)
             y2
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
@@ -251,7 +251,7 @@ TEST (test_service_shape, move_line_success)
     double dx = -1;
     double dy = 2;
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.MoveShape(id, dx, dy);
 
@@ -282,7 +282,7 @@ TEST (test_service_shape, add_text_success)
             size
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, text);
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = shapeService.GetShapes();
@@ -314,7 +314,7 @@ TEST (test_service_shape, move_text_success)
     double dx = -1;
     double dy = 2;
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, text);
     shapeService.MoveShape(id, dx, dy);
 
@@ -344,7 +344,7 @@ TEST (test_service_shape, delete_shape_success)
             height
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.DeleteShape(id);
 
@@ -374,7 +374,7 @@ TEST (test_service_shape, change_color_shape_success)
             height
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
     shapeService.ChangeColor(id, newColor);
 
@@ -396,7 +396,7 @@ TEST (test_service_shape, list_shape_success)
                               "4 line li #0f0f0f 10 20 10 50\n"
                               "5 text txt #0f0f0f 100.3 200.2 35 Hello world\n";
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -494,7 +494,7 @@ TEST (test_service_shape, move_all_shape_success)
                               "4 line li #0f0f0f 11 18 11 48\n"
                               "5 text txt #0f0f0f 101.3 198.2 35 Hello world\n";
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
 
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -591,7 +591,7 @@ TEST (test_service_shape, change_rectangle_to_circle_success)
 {
     std::string expectedStr = "circle rec #0f0f0f 5 20.5 10\n";
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
 
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -647,7 +647,7 @@ TEST (test_service_shape, add_shape_already_exist_id_failed)
             height
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     shapeService.AddShape(id, color, type, parameters, "");
 
     EXPECT_THROW(shapeService.AddShape(id, color, type, parameters, ""), std::invalid_argument);
@@ -655,19 +655,19 @@ TEST (test_service_shape, add_shape_already_exist_id_failed)
 
 TEST (test_service_shape, move_shape_not_exist_id_failed)
 {
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     EXPECT_THROW(shapeService.MoveShape("rec", 5, 10), std::invalid_argument);
 }
 
 TEST (test_service_shape, delete_shape_not_exist_id_failed)
 {
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     EXPECT_THROW(shapeService.DeleteShape("rec"), std::invalid_argument);
 }
 
 TEST (test_service_shape, change_color_shape_not_exist_id_failed)
 {
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     EXPECT_THROW(shapeService.ChangeColor("rec", 0x0F0F0F), std::invalid_argument);
 }
 
@@ -686,7 +686,7 @@ TEST (test_service_shape, change_shape_not_exist_id_failed)
             height
     };
 
-    ShapeService shapeService;
+    shapes::Picture shapeService;
     EXPECT_THROW(shapeService.ChangeShape(id, type, parameters, ""), std::invalid_argument);
 }
 
