@@ -15,10 +15,10 @@ namespace shapes
                 double centerY,
                 double radius
         ) :
-            m_centerX(centerX), m_centerY(centerY), m_radius(radius) {}
+                m_centerX(centerX), m_centerY(centerY), m_radius(radius) {}
 
         void Draw(ICanvas &canvas, uint32_t color) const override {
-
+            // Реализация рисования круга (если требуется)
         }
 
         void Move(double dx, double dy) override
@@ -32,18 +32,15 @@ namespace shapes
             return m_type;
         }
 
-        void Display(const std::string &id, uint32_t color) const override
+        [[nodiscard]] std::string ToString() const override
         {
-            std::cout << m_type << " "
-                      << id << " "
-                      << "#" << std::hex << std::setw(6) << std::setfill('0') << color << " "
-                      << m_centerX << " "
-                      << m_centerY << " "
-                      << m_radius << std::endl;
+            std::ostringstream oss;
+            oss << m_centerX << " " << m_centerY << " " << m_radius;
+            return oss.str();
         }
 
     private:
-        std::string m_type = "circle";
+        static constexpr const std::string m_type = "circle";
         double m_centerX;
         double m_centerY;
         double m_radius;

@@ -35,19 +35,15 @@ namespace shapes
             return m_type;
         }
 
-        void Display(const std::string &id, uint32_t color) const override
+        [[nodiscard]] std::string ToString() const override
         {
-            std::cout << m_type << " "
-                      << id << " "
-                      << "#" << std::hex << std::setw(6) << std::setfill('0') << color << " "
-                      << m_leftTopX << " "
-                      << m_leftTopY << " "
-                      << m_size << " "
-                      << m_text << std::endl;
+            std::ostringstream oss;
+            oss << m_leftTopX << " " << m_leftTopY << " " << m_size << " " << m_text;
+            return oss.str();
         }
 
     private:
-        std::string m_type = "text";
+        static constexpr const std::string m_type = "text";
         double m_leftTopX;
         double m_leftTopY;
         double m_size;

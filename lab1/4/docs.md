@@ -32,7 +32,7 @@ classDiagram
     class Shape {
         - string m_id
         - uint32_t m_color
-        - IDrawStrategy m_drawingStrategy
+        - IDrawStrategy m_geometryTypeStrategy
         + GetId()
         + Draw(ICanvas canvas)
         + Move(double dx, double dy)

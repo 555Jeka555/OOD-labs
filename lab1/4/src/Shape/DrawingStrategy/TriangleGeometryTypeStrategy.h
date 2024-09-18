@@ -40,21 +40,20 @@ namespace shapes
             return m_type;
         }
 
-        void Display(const std::string &id, uint32_t color) const override
+        [[nodiscard]] std::string ToString() const override
         {
-            std::cout << m_type << " "
-                      << id << " "
-                      << "#" << std::hex << std::setw(6) << std::setfill('0') << color << " "
-                      << m_x1 << " "
-                      << m_y1 << " "
-                      << m_x2 << " "
-                      << m_y2 << " "
-                      << m_x3 << " "
-                      << m_y3 << std::endl;
+            std::ostringstream oss;
+            oss << m_x1 << " "
+                << m_y1 << " "
+                << m_x2 << " "
+                << m_y2 << " "
+                << m_x3 << " "
+                << m_y3;
+            return oss.str();
         }
 
     private:
-        std::string m_type = "triangle";
+        static constexpr const std::string m_type = "triangle";
         double m_x1;
         double m_y1;
         double m_x2;

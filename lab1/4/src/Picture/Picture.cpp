@@ -48,9 +48,12 @@ void shapes::Picture::List()
     for (const auto& id : m_shapeIds) {
         auto& shape = m_shapes.at(id);
 
-        std::cout << count << " ";
-        shape->Display();
-
+        std::cout << count << " "
+                << shape->GetType() << " "
+                << id << " "
+                << "#" << std::hex << std::setw(6) << std::setfill('0') << shape->GetColor()
+                << std::defaultfloat
+                << " " << shape->StrategyToString() << std::endl;
         count++;
     }
 }

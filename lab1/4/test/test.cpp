@@ -3,7 +3,7 @@
 
 TEST (test_service_shape, add_rectangle_success)
 {
-    std::string expectedStr = "rectangle rec #0f0f0f 10.2 20 2.5 5\n";
+    std::string expectedStr = "1 rectangle rec #0f0f0f 10.2 20 2.5 5\n";
 
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -18,19 +18,16 @@ TEST (test_service_shape, add_rectangle_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();;
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, move_rectangle_success)
 {
-    std::string expectedStr = "rectangle rec #0f0f0f 12 19 2.5 5\n";
+    std::string expectedStr = "1 rectangle rec #0f0f0f 12 19 2.5 5\n";
 
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -47,20 +44,17 @@ TEST (test_service_shape, move_rectangle_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
-
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
+    
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, add_circle_success)
 {
-    std::string expectedStr = "circle cir #0f0f0f 5 20.5 10\n";
+    std::string expectedStr = "1 circle cir #0f0f0f 5 20.5 10\n";
 
     std::string id = "cir";
     uint32_t color = 0x0F0F0F;
@@ -73,19 +67,16 @@ TEST (test_service_shape, add_circle_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, move_circle_success)
 {
-    std::string expectedStr = "circle cir #0f0f0f 7 19.5 10\n";
+    std::string expectedStr = "1 circle cir #0f0f0f 7 19.5 10\n";
 
     std::string id = "cir";
     uint32_t color = 0x0F0F0F;
@@ -102,19 +93,16 @@ TEST (test_service_shape, move_circle_success)
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, add_triangle_success)
 {
-    std::string expectedStr = "triangle tri #0f0f0f 10 20 10 50 40 35\n";
+    std::string expectedStr = "1 triangle tri #0f0f0f 10 20 10 50 40 35\n";
 
     std::string id = "tri";
     uint32_t color = 0x0F0F0F;
@@ -130,19 +118,16 @@ TEST (test_service_shape, add_triangle_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, move_triangle_success)
 {
-    std::string expectedStr = "triangle tri #0f0f0f 9 22 9 52 39 37\n";
+    std::string expectedStr = "1 triangle tri #0f0f0f 9 22 9 52 39 37\n";
 
     std::string id = "tri";
     uint32_t color = 0x0F0F0F;
@@ -162,19 +147,16 @@ TEST (test_service_shape, move_triangle_success)
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, add_line_success)
 {
-    std::string expectedStr = "line li #0f0f0f 10 20 10 50\n";
+    std::string expectedStr = "1 line li #0f0f0f 10 20 10 50\n";
 
     std::string id = "li";
     uint32_t color = 0x0F0F0F;
@@ -188,19 +170,16 @@ TEST (test_service_shape, add_line_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, move_line_success)
 {
-    std::string expectedStr = "line li #0f0f0f 9 22 9 52\n";
+    std::string expectedStr = "1 line li #0f0f0f 9 22 9 52\n";
 
     std::string id = "li";
     uint32_t color = 0x0F0F0F;
@@ -218,19 +197,16 @@ TEST (test_service_shape, move_line_success)
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, add_text_success)
 {
-    std::string expectedStr = "text txt #0f0f0f 100.3 200.2 35 Hello world\n";
+    std::string expectedStr = "1 text txt #0f0f0f 100.3 200.2 35 Hello world\n";
 
     std::string id = "txt";
     uint32_t color = 0x0F0F0F;
@@ -244,19 +220,16 @@ TEST (test_service_shape, add_text_success)
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, move_text_success)
 {
-    std::string expectedStr = "text txt #0f0f0f 99.3 202.2 35 Hello world\n";
+    std::string expectedStr = "1 text txt #0f0f0f 99.3 202.2 35 Hello world\n";
 
     std::string id = "txt";
     uint32_t color = 0x0F0F0F;
@@ -274,12 +247,9 @@ TEST (test_service_shape, move_text_success)
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
@@ -308,7 +278,7 @@ TEST (test_service_shape, delete_shape_success)
 
 TEST (test_service_shape, change_color_shape_success)
 {
-    std::string expectedStr = "rectangle rec #ffffff 10 20 2.5 5\n";
+    std::string expectedStr = "1 rectangle rec #ffffff 10 20 2.5 5\n";
 
     std::string id = "rec";
     uint32_t color = 0x0F0F0F;
@@ -324,12 +294,9 @@ TEST (test_service_shape, change_color_shape_success)
     picture.AddShape(id, std::move(newShape));
     picture.ChangeColor(id, newColor);
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }
@@ -402,7 +369,7 @@ TEST (test_service_shape, list_shape_success)
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    picture.List();
+    picture.List();;
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
@@ -478,13 +445,13 @@ TEST (test_service_shape, move_all_shape_success)
 
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    picture.List();
+    picture.List();;
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
 TEST (test_service_shape, change_rectangle_to_circle_success)
 {
-    std::string expectedStr = "circle rec #0f0f0f 5 20.5 10\n";
+    std::string expectedStr = "1 circle rec #0f0f0f 5 20.5 10\n";
 
     shapes::Picture picture;
 
@@ -506,12 +473,9 @@ TEST (test_service_shape, change_rectangle_to_circle_success)
     auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     picture.ChangeShape(id, std::move(circleDrawingStrategy));
 
-    std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
-    auto& shape = shapes.at(id);
-
     std::stringstream buffer;
     std::cout.rdbuf(buffer.rdbuf());
-    shape->Display();
+    picture.List();
 
     ASSERT_EQ(buffer.str(), expectedStr);
 }

@@ -18,7 +18,7 @@ namespace shapes
 
         [[nodiscard]] virtual std::string GetType() const = 0;
 
-        virtual void Display(const std::string& id, uint32_t color) const = 0;
+        [[nodiscard]] virtual std::string ToString() const = 0;
 
         virtual ~IGeometryTypeStrategy() = default;
     };

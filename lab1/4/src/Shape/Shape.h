@@ -14,47 +14,54 @@ namespace shapes
     class Shape
     {
     public:
-        Shape(std::string id, uint32_t color, std::unique_ptr<IGeometryTypeStrategy> drawingStrategy) :
-                m_id(std::move(id)), m_color(color), m_drawingStrategy(std::move(drawingStrategy))
+        Shape(std::string id, uint32_t color, std::unique_ptr<IGeometryTypeStrategy> geometryTypeStrategy) :
+                m_id(std::move(id)), m_color(color), m_geometryTypeStrategy(std::move(geometryTypeStrategy))
         {}
 
         void Draw(ICanvas& canvas)
         {
-            m_drawingStrategy->Draw(canvas, m_color);
+            m_geometryTypeStrategy->Draw(canvas, m_color);
         }
 
         void Move(double dx, double dy)
         {
-            m_drawingStrategy->Move(dx, dy);
+            m_geometryTypeStrategy->Move(dx, dy);
         }
 
         [[nodiscard]] std::string GetType() const
         {
-            return m_drawingStrategy->GetType();
+            return m_geometryTypeStrategy->GetType();
         }
 
-        [[nodiscard]] std::string GetId() const {
+        [[nodiscard]] std::string GetId() const
+        {
             return m_id;
         }
 
-        void SetColor(uint32_t color) {
+        void SetColor(uint32_t color)
+        {
             m_color = color;
         }
 
-        void SetDrawingStrategy(std::unique_ptr<IGeometryTypeStrategy> drawingStrategy) {
-            m_drawingStrategy = std::move(drawingStrategy);
+        [[nodiscard]] uint32_t GetColor() const
+        {
+            return m_color;
         }
 
-        void Display()
+        [[nodiscard]] std::string StrategyToString() const
         {
-            m_drawingStrategy->Display(m_id, m_color);
+            return m_geometryTypeStrategy->ToString();
+        }
+
+        void SetDrawingStrategy(std::unique_ptr<IGeometryTypeStrategy> geometryTypeStrategy) {
+            m_geometryTypeStrategy = std::move(geometryTypeStrategy);
         }
 
         ~Shape() = default;
     private:
         std::string m_id;
         uint32_t m_color;
-        std::unique_ptr<IGeometryTypeStrategy> m_drawingStrategy;
+        std::unique_ptr<IGeometryTypeStrategy> m_geometryTypeStrategy;
     };
 }
 
