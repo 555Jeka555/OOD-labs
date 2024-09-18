@@ -15,6 +15,7 @@
 #include "../Shape/DrawingStrategy/TriangleGeometryTypeStrategy.h"
 #include "../Shape/DrawingStrategy/LineGeometryTypeStrategy.h"
 #include "../Shape/DrawingStrategy/TextGeometryTypeStrategy.h"
+#include "../Canvas/ICanvas.h"
 
 namespace shapes
 {
@@ -34,6 +35,10 @@ namespace shapes
         void ChangeColor(const std::string& id, uint32_t color);
 
         void ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy);
+
+        void DrawShape(const std::string& id, ICanvas &canvas);
+
+        void DrawPicture(ICanvas &canvas);
 
         std::map<std::string, std::unique_ptr<shapes::Shape>> GetShapes()
         {

@@ -20,7 +20,9 @@ namespace shapes
 
         void Draw(ICanvas &canvas, uint32_t color) const override
         {
-
+            canvas.SetColor(color);
+            canvas.MoveTo(m_x1, m_y1);
+            canvas.LineTo(m_x2, m_y2);
         }
 
         void Move(double dx, double dy) override

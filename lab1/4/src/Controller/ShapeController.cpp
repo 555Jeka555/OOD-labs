@@ -3,6 +3,8 @@
 void ShapeController::ReadCommands()
 {
     std::string line;
+
+
     while (std::getline(m_in, line))
     {
         if (line.empty())
@@ -41,6 +43,14 @@ void ShapeController::ReadCommands()
         else if (commandName == "ChangeShape")
         {
             ChangeShape(iss);
+        }
+        else if (commandName == "DrawShape")
+        {
+            DrawShape(iss);
+        }
+        else if (commandName == "DrawPicture")
+        {
+            DrawPicture();
         }
     }
 }
@@ -344,4 +354,17 @@ void ShapeController::ChangeShape(std::istringstream &iss)
 
         m_picture.ChangeShape(id, std::move(textDrawingStrategy));
     }
+}
+
+void ShapeController::DrawShape(std::istringstream &iss)
+{
+    std::string id;
+    iss >> id;
+
+    m_picture.DrawShape(id, m_canvas);
+}
+
+void ShapeController::DrawPicture()
+{
+    m_picture.DrawPicture(m_canvas);
 }

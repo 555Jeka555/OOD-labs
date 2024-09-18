@@ -10,12 +10,13 @@
 #include "../Picture/ShapeType.h"
 #include "../Picture/ShapeTypeConverter.h"
 #include "../Shape/DrawingStrategy/RectangleGeometryTypeStrategy.h"
+#include "../Canvas/PNGCanvas/PNGCanvas.h"
 
 class ShapeController
 {
 public:
-    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& picture)
-            : m_in(in), m_out(out), m_picture(picture) {}
+    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& picture, PNGCanvas& canvas)
+            : m_in(in), m_out(out), m_picture(picture), m_canvas(canvas) {}
 
     void ReadCommands();
 
@@ -23,6 +24,7 @@ private:
     std::istream& m_in;
     std::ostream& m_out;
     shapes::Picture& m_picture;
+    PNGCanvas& m_canvas;
 
     void AddShape(std::istringstream& iss);
 
@@ -37,6 +39,10 @@ private:
     void MovePicture(std::istringstream& iss);
 
     void ChangeShape(std::istringstream& iss);
+
+    void DrawShape(std::istringstream& iss);
+
+    void DrawPicture();
 };
 
 

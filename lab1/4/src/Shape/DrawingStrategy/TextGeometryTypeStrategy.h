@@ -21,7 +21,8 @@ namespace shapes
 
         void Draw(ICanvas &canvas, uint32_t color) const override
         {
-
+            canvas.SetColor(color);
+            canvas.DrawText(m_leftTopX, m_leftTopY, m_size, m_text);
         }
 
         void Move(double dx, double dy) override

@@ -17,7 +17,6 @@ set(SOURCE_FILES
         src/main.cpp
         src/Controller/ShapeController.h
         src/Picture/Picture.h
-        src/Canvas/ICanvas.h
         src/Shape/Shape.h
         src/Shape/DrawingStrategy/IGeometryTypeStrategy.h
         src/Shape/DrawingStrategy/RectangleGeometryTypeStrategy.h
@@ -29,6 +28,10 @@ set(SOURCE_FILES
         src/Shape/DrawingStrategy/TriangleGeometryTypeStrategy.h
         src/Shape/DrawingStrategy/LineGeometryTypeStrategy.h
         src/Shape/DrawingStrategy/TextGeometryTypeStrategy.h
+        src/Canvas/PNGCanvas/PNGCanvas.h
+        src/Canvas/PNGCanvas/PNGCanvas.cpp
+        src/Canvas/PNGCanvas/stb_image_write.h
+        src/Canvas/PNGCanvas/stb_truetype.h
 )
 
 set(TEST_SOURCE_FILES

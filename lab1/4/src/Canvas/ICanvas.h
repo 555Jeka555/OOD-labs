@@ -1,10 +1,13 @@
-#ifndef INC_4_CANVAC_H
-#define INC_4_CANVAC_H
+#ifndef INC_1_1_ICANVAS_H
+#define INC_1_1_ICANVAS_H
+
+#include <string>
 
 class ICanvas
 {
 public:
-    virtual void SetColor(const std::string& color) = 0;
+
+    virtual void SetColor(uint32_t color) = 0;
 
     virtual void MoveTo(double x, double y) = 0;
 
@@ -15,5 +18,4 @@ public:
 
     virtual ~ICanvas() = default;
 };
-
-#endif //INC_4_CANVAC_H
+#endif //INC_1_1_ICANVAS_H

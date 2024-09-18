@@ -5,6 +5,9 @@
 
 const std::string COMMAND_INPUT_ARGS = "cin";
 
+const int CANVAS_WIDTH = 800;
+const int CANVAS_HEIGHT = 800;
+
 struct Args
 {
     std::string inputFileName;
@@ -42,7 +45,8 @@ int main(int argc, char* argv[])
     {
         Args args = ParseArgs(argc, argv);
 
-        shapes::Picture shapeService;
+        shapes::Picture picture;
+        PNGCanvas canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
         if (args.inputFileName != COMMAND_INPUT_ARGS)
         {
@@ -54,12 +58,12 @@ int main(int argc, char* argv[])
                 std::cout << "Error reading input file: file is empty" << std::endl;
                 return 0;
             }
-            ShapeController shapeController = {fileInput, std::cout, shapeService};
+            ShapeController shapeController = {fileInput, std::cout, picture, canvas};
             shapeController.ReadCommands();
         }
         else
         {
-            ShapeController shapeController = {std::cin, std::cout, shapeService};
+            ShapeController shapeController = {std::cin, std::cout, picture, canvas};
             shapeController.ReadCommands();
         }
     }

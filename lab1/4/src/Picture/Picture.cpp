@@ -86,3 +86,20 @@ void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IGeomet
 
     m_shapes.at(id)->SetDrawingStrategy(std::move(newDrawingStrategy));
 }
+
+void shapes::Picture::DrawShape(const std::string &id, ICanvas &canvas)
+{
+    if (!m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id not exists");
+    }
+
+    m_shapes.at(id)->Draw(canvas);
+}
+
+void shapes::Picture::DrawPicture(ICanvas &canvas)
+{
+    for (const auto& id : m_shapeIds) {
+        m_shapes.at(id)->Draw(canvas);
+    }
+}

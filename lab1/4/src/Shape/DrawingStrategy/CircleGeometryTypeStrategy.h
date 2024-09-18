@@ -17,8 +17,10 @@ namespace shapes
         ) :
                 m_centerX(centerX), m_centerY(centerY), m_radius(radius) {}
 
-        void Draw(ICanvas &canvas, uint32_t color) const override {
-            // Реализация рисования круга (если требуется)
+        void Draw(ICanvas &canvas, uint32_t color) const override
+        {
+            canvas.SetColor(color);
+            canvas.DrawEllipse(m_centerX, m_centerY, m_radius, m_radius);
         }
 
         void Move(double dx, double dy) override
