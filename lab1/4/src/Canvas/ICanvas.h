@@ -2,6 +2,7 @@
 #define INC_1_1_ICANVAS_H
 
 #include <string>
+#include <cstdint>
 
 namespace gfx
 {

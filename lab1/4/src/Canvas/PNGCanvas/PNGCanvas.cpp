@@ -7,17 +7,6 @@
 
 const std::string& FONTFILEPATH = R"(C:\Volgatech\3course\OOD-labs\lab1\4\src\Canvas\PNGCanvas\font\Minecraft-Regular.ttf)";
 
-std::string ColorToString(const gfx::Color &color)
-{
-    std::ostringstream oss;
-    oss << "#"
-        << std::hex << std::setfill('0')
-        << std::setw(2) << static_cast<int>(color.r)
-        << std::setw(2) << static_cast<int>(color.g)
-        << std::setw(2) << static_cast<int>(color.b);
-    return oss.str();
-}
-
 gfx::Color gfx::StringToColor(uint32_t color) {
     gfx::Color result{};
 

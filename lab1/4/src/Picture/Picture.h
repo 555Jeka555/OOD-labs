@@ -34,7 +34,7 @@ namespace shapes
 
         void ChangeColor(const std::string& id, uint32_t color);
 
-        void ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy);
+        void ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newGeometryTypeStrategy);
 
         void DrawShape(const std::string& id, gfx::ICanvas &canvas);
 

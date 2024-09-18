@@ -48,7 +48,7 @@ namespace shapes
             return m_color;
         }
 
-        [[nodiscard]] std::string StrategyToString() const
+        [[nodiscard]] std::string GetStrategyToString() const
         {
             return m_geometryTypeStrategy->ToString();
         }

@@ -53,7 +53,7 @@ void shapes::Picture::List()
                 << id << " "
                 << "#" << std::hex << std::setw(6) << std::setfill('0') << shape->GetColor()
                 << std::defaultfloat
-                << " " << shape->StrategyToString() << std::endl;
+                << " " << shape->GetStrategyToString() << std::endl;
         count++;
     }
 }
@@ -77,14 +77,14 @@ void shapes::Picture::MovePicture(double dx, double dy)
     }
 }
 
-void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy)
+void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newGeometryTypeStrategy)
 {
     if (!m_shapes.contains(id))
     {
         throw std::invalid_argument("Shape with given Id not exists");
     }
 
-    m_shapes.at(id)->SetDrawingStrategy(std::move(newDrawingStrategy));
+    m_shapes.at(id)->SetDrawingStrategy(std::move(newGeometryTypeStrategy));
 }
 
 void shapes::Picture::DrawShape(const std::string &id, gfx::ICanvas &canvas)

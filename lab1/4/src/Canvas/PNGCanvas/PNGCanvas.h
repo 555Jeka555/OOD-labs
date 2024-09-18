@@ -26,7 +26,6 @@ namespace gfx
         uint8_t r, g, b, a;
     };
 
-    std::string ColorToString(const Color& color);
     Color StringToColor(uint32_t color);
 
     class PNGCanvas : public ICanvas

@@ -15,7 +15,7 @@
 class ShapeController
 {
 public:
-    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& picture, gfx::PNGCanvas& canvas)
+    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& picture, gfx::ICanvas& canvas)
             : m_in(in), m_out(out), m_picture(picture), m_canvas(canvas) {}
 
     void ReadCommands();
@@ -24,7 +24,7 @@ private:
     std::istream& m_in;
     std::ostream& m_out;
     shapes::Picture& m_picture;
-    gfx::PNGCanvas& m_canvas;
+    gfx::ICanvas& m_canvas;
 
     void AddShape(std::istringstream& iss);
 
