@@ -14,15 +14,15 @@
 class ShapeController
 {
 public:
-    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& shapeService)
-            : m_in(in), m_out(out), m_shapeService(shapeService) {}
+    ShapeController(std::istream& in, std::ostream& out, shapes::Picture& picture)
+            : m_in(in), m_out(out), m_picture(picture) {}
 
     void ReadCommands();
 
 private:
     std::istream& m_in;
     std::ostream& m_out;
-    shapes::Picture& m_shapeService;
+    shapes::Picture& m_picture;
 
     void AddShape(std::istringstream& iss);
 

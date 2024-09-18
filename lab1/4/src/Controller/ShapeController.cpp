@@ -47,7 +47,6 @@ void ShapeController::ReadCommands()
 
 void ShapeController::AddShape(std::istringstream &iss)
 {
-    std::vector<double> parameters;
     std::string id;
     uint32_t color;
     std::string type;
@@ -74,78 +73,90 @@ void ShapeController::AddShape(std::istringstream &iss)
 
     if (type == rectangleString)
     {
-        std::string leftTopX;
-        std::string leftTopY;
-        std::string width;
-        std::string height;
+        std::string leftTopXStr;
+        std::string leftTopYStr;
+        std::string widthStr;
+        std::string heightStr;
 
-        iss >> leftTopX >> leftTopY >> width >> height;
+        iss >> leftTopXStr >> leftTopYStr >> widthStr >> heightStr;
 
-        parameters.push_back(std::stod(leftTopX));
-        parameters.push_back(std::stod(leftTopY));
-        parameters.push_back(std::stod(width));
-        parameters.push_back(std::stod(height));
+        double leftTopX = std::stod(leftTopXStr);
+        double leftTopY = std::stod(leftTopYStr);
+        double width = std::stod(widthStr);
+        double height = std::stod(heightStr);
 
-        m_shapeService.AddShape(id, color, rectangleString, parameters, "");
+        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+        std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
+
+        m_picture.AddShape(id, std::move(shape));
     }
     else if (type == circleString)
     {
-        std::string centerX;
-        std::string centerY;
-        std::string radius;
+        std::string centerXStr;
+        std::string centerYStr;
+        std::string radiusStr;
 
-        iss >> centerX >> centerY >> radius;
+        iss >> centerXStr >> centerYStr >> radiusStr;
 
-        parameters.push_back(std::stod(centerX));
-        parameters.push_back(std::stod(centerY));
-        parameters.push_back(std::stod(radius));
+        double centerX = std::stod(centerXStr);
+        double centerY = std::stod(centerYStr);
+        double radius = std::stod(radiusStr);
 
-        m_shapeService.AddShape(id, color, circleString, parameters, "");
+        auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+        std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
+        
+        m_picture.AddShape(id, std::move(shape));
     }
     else if (type == triangleString)
     {
-        std::string x1;
-        std::string y1;
-        std::string x2;
-        std::string y2;
-        std::string x3;
-        std::string y3;
+        std::string x1Str;
+        std::string y1Str;
+        std::string x2Str;
+        std::string y2Str;
+        std::string x3Str;
+        std::string y3Str;
 
-        iss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+        iss >> x1Str >> y1Str >> x2Str >> y2Str >> x3Str >> y3Str;
 
-        parameters.push_back(std::stod(x1));
-        parameters.push_back(std::stod(y1));
-        parameters.push_back(std::stod(x2));
-        parameters.push_back(std::stod(y2));
-        parameters.push_back(std::stod(x3));
-        parameters.push_back(std::stod(y3));
+        double x1 = std::stod(x1Str);
+        double y1 = std::stod(y1Str);
+        double x2 = std::stod(x2Str);
+        double y2 = std::stod(y2Str);
+        double x3 = std::stod(x3Str);
+        double y3 = std::stod(y3Str);
 
-        m_shapeService.AddShape(id, color, triangleString, parameters, "");
+        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+        std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
+
+        m_picture.AddShape(id, std::move(shape));
     }
     else if (type == lineString)
     {
-        std::string x1;
-        std::string y1;
-        std::string x2;
-        std::string y2;
+        std::string x1Str;
+        std::string y1Str;
+        std::string x2Str;
+        std::string y2Str;
 
-        iss >> x1 >> y1 >> x2 >> y2;
+        iss >> x1Str >> y1Str >> x2Str >> y2Str;
 
-        parameters.push_back(std::stod(x1));
-        parameters.push_back(std::stod(y1));
-        parameters.push_back(std::stod(x2));
-        parameters.push_back(std::stod(y2));
+        double x1 = std::stod(x1Str);
+        double y1 = std::stod(y1Str);
+        double x2 = std::stod(x2Str);
+        double y2 = std::stod(y2Str);
 
-        m_shapeService.AddShape(id, color, lineString, parameters, "");
+        auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+        std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
+        
+        m_picture.AddShape(id, std::move(shape));
     }
     else if (type == textString)
     {
-        std::string leftTopX;
-        std::string leftTopY;
-        std::string size;
+        std::string leftTopXStr;
+        std::string leftTopYStr;
+        std::string sizeStr;
         std::string text;
 
-        iss >> leftTopX >> leftTopY >> size;
+        iss >> leftTopXStr >> leftTopYStr >> sizeStr;
 
         std::getline(iss, text);
         if (!text.empty() && text[0] == ' ')
@@ -153,11 +164,14 @@ void ShapeController::AddShape(std::istringstream &iss)
             text.erase(0, 1);
         }
 
-        parameters.push_back(std::stod(leftTopX));
-        parameters.push_back(std::stod(leftTopY));
-        parameters.push_back(std::stod(size));
+        double leftTopX = std::stod(leftTopXStr);
+        double leftTopY = std::stod(leftTopYStr);
+        double size = std::stod(sizeStr);
 
-        m_shapeService.AddShape(id, color, textString, parameters, text);
+        auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+        std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
+
+        m_picture.AddShape(id, std::move(shape));
     }
 }
 
@@ -169,7 +183,7 @@ void ShapeController::MoveShape(std::istringstream &iss)
 
     iss >> id >> dx >> dy;
 
-    m_shapeService.MoveShape(id, std::stod(dx), std::stod(dy));
+    m_picture.MoveShape(id, std::stod(dx), std::stod(dy));
 }
 
 void ShapeController::DeleteShape(std::istringstream &iss)
@@ -178,12 +192,12 @@ void ShapeController::DeleteShape(std::istringstream &iss)
 
     iss >> id;
 
-    m_shapeService.DeleteShape(id);
+    m_picture.DeleteShape(id);
 }
 
 void ShapeController::ListShape()
 {
-    m_shapeService.List();
+    m_picture.List();
 }
 
 void ShapeController::ChangeColor(std::istringstream &iss)
@@ -194,7 +208,7 @@ void ShapeController::ChangeColor(std::istringstream &iss)
     iss >> id;
     iss >> std::hex >> color;
 
-    m_shapeService.ChangeColor(id, color);
+    m_picture.ChangeColor(id, color);
 }
 
 void ShapeController::MovePicture(std::istringstream &iss)
@@ -203,7 +217,7 @@ void ShapeController::MovePicture(std::istringstream &iss)
     std::string dy;
 
     iss >> dx >> dy;
-    m_shapeService.MovePicture(std::stod(dx), std::stod(dy));
+    m_picture.MovePicture(std::stod(dx), std::stod(dy));
 }
 
 void ShapeController::ChangeShape(std::istringstream &iss)
@@ -235,78 +249,86 @@ void ShapeController::ChangeShape(std::istringstream &iss)
 
     if (type == rectangleString)
     {
-        std::string leftTopX;
-        std::string leftTopY;
-        std::string width;
-        std::string height;
+        std::string leftTopXStr;
+        std::string leftTopYStr;
+        std::string widthStr;
+        std::string heightStr;
 
-        iss >> leftTopX >> leftTopY >> width >> height;
+        iss >> leftTopXStr >> leftTopYStr >> widthStr >> heightStr;
 
-        parameters.push_back(std::stod(leftTopX));
-        parameters.push_back(std::stod(leftTopY));
-        parameters.push_back(std::stod(width));
-        parameters.push_back(std::stod(height));
+        double leftTopX = std::stod(leftTopXStr);
+        double leftTopY = std::stod(leftTopYStr);
+        double width = std::stod(widthStr);
+        double height = std::stod(heightStr);
 
-        m_shapeService.ChangeShape(id, rectangleString, parameters, "");
+        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+
+        m_picture.ChangeShape(id, std::move(rectangleDrawingStrategy));
     }
     else if (type == circleString)
     {
-        std::string centerX;
-        std::string centerY;
-        std::string radius;
+        std::string centerXStr;
+        std::string centerYStr;
+        std::string radiusStr;
 
-        iss >> centerX >> centerY >> radius;
+        iss >> centerXStr >> centerYStr >> radiusStr;
 
-        parameters.push_back(std::stod(centerX));
-        parameters.push_back(std::stod(centerY));
-        parameters.push_back(std::stod(radius));
+        double centerX = std::stod(centerXStr);
+        double centerY = std::stod(centerYStr);
+        double radius = std::stod(radiusStr);
 
-        m_shapeService.ChangeShape(id, circleString, parameters, "");
+        auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+
+        m_picture.ChangeShape(id, std::move(circleDrawingStrategy));
     }
     else if (type == triangleString)
     {
-        std::string x1;
-        std::string y1;
-        std::string x2;
-        std::string y2;
-        std::string x3;
-        std::string y3;
+        std::string x1Str;
+        std::string y1Str;
+        std::string x2Str;
+        std::string y2Str;
+        std::string x3Str;
+        std::string y3Str;
 
-        iss >> x1 >> y1 >> x2 >> y2 >> x3 >> y3;
+        iss >> x1Str >> y1Str >> x2Str >> y2Str >> x3Str >> y3Str;
 
-        parameters.push_back(std::stod(x1));
-        parameters.push_back(std::stod(y1));
-        parameters.push_back(std::stod(x2));
-        parameters.push_back(std::stod(y2));
-        parameters.push_back(std::stod(x3));
-        parameters.push_back(std::stod(y3));
+        double x1 = std::stod(x1Str);
+        double y1 = std::stod(y1Str);
+        double x2 = std::stod(x2Str);
+        double y2 = std::stod(y2Str);
+        double x3 = std::stod(x3Str);
+        double y3 = std::stod(y3Str);
 
-        m_shapeService.ChangeShape(id, triangleString, parameters, "");
+        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+
+        m_picture.ChangeShape(id, std::move(triangleDrawingStrategy));
     }
     else if (type == lineString)
     {
-        std::string x1;
-        std::string y1;
-        std::string x2;
-        std::string y2;
+        std::string x1Str;
+        std::string y1Str;
+        std::string x2Str;
+        std::string y2Str;
 
-        iss >> x1 >> y1 >> x2 >> y2;
+        iss >> x1Str >> y1Str >> x2Str >> y2Str;
 
-        parameters.push_back(std::stod(x1));
-        parameters.push_back(std::stod(y1));
-        parameters.push_back(std::stod(x2));
-        parameters.push_back(std::stod(y2));
+        double x1 = std::stod(x1Str);
+        double y1 = std::stod(y1Str);
+        double x2 = std::stod(x2Str);
+        double y2 = std::stod(y2Str);
 
-        m_shapeService.ChangeShape(id, lineString, parameters, "");
+        auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+
+        m_picture.ChangeShape(id, std::move(lineDrawingStrategy));
     }
     else if (type == textString)
     {
-        std::string leftTopX;
-        std::string leftTopY;
-        std::string size;
+        std::string leftTopXStr;
+        std::string leftTopYStr;
+        std::string sizeStr;
         std::string text;
 
-        iss >> leftTopX >> leftTopY >> size;
+        iss >> leftTopXStr >> leftTopYStr >> sizeStr;
 
         std::getline(iss, text);
         if (!text.empty() && text[0] == ' ')
@@ -314,10 +336,12 @@ void ShapeController::ChangeShape(std::istringstream &iss)
             text.erase(0, 1);
         }
 
-        parameters.push_back(std::stod(leftTopX));
-        parameters.push_back(std::stod(leftTopY));
-        parameters.push_back(std::stod(size));
+        double leftTopX = std::stod(leftTopXStr);
+        double leftTopY = std::stod(leftTopYStr);
+        double size = std::stod(sizeStr);
 
-        m_shapeService.ChangeShape(id, textString, parameters, text);
+        auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+
+        m_picture.ChangeShape(id, std::move(textDrawingStrategy));
     }
 }

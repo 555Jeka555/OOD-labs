@@ -21,7 +21,7 @@ namespace shapes
     class Picture
     {
     public:
-        void AddShape(const std::string& id, uint32_t color, const std::string& type, const std::vector<double>& parameters, const std::string& text);
+        void AddShape(const std::string& id, std::unique_ptr<Shape> shape);
 
         void MoveShape(const std::string& id, double dx, double dy);
 
@@ -33,7 +33,7 @@ namespace shapes
 
         void ChangeColor(const std::string& id, uint32_t color);
 
-        void ChangeShape(const std::string& id, const std::string& type, const std::vector<double>& parameters, const std::string& text);
+        void ChangeShape(const std::string &id, std::unique_ptr<IDrawingStrategy> newDrawingStrategy);
 
         std::map<std::string, std::unique_ptr<shapes::Shape>> GetShapes()
         {
