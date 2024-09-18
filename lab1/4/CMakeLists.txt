@@ -19,16 +19,16 @@ set(SOURCE_FILES
         src/Picture/Picture.h
         src/Canvas/ICanvas.h
         src/Shape/Shape.h
-        src/Shape/DrawingStrategy/IDrawingStrategy.h
-        src/Shape/DrawingStrategy/RectangleDrawingStrategy.h
+        src/Shape/DrawingStrategy/IGeometryTypeStrategy.h
+        src/Shape/DrawingStrategy/RectangleGeometryTypeStrategy.h
         src/Picture/ShapeType.h
         src/Picture/ShapeTypeConverter.h
         src/Picture/Picture.cpp
         src/Controller/ShapeController.cpp
-        src/Shape/DrawingStrategy/CircleDrawingStrategy.h
-        src/Shape/DrawingStrategy/TriangleDrawingStrategy.h
-        src/Shape/DrawingStrategy/LineDrawingStrategy.h
-        src/Shape/DrawingStrategy/TextDrawingStrategy.h
+        src/Shape/DrawingStrategy/CircleGeometryTypeStrategy.h
+        src/Shape/DrawingStrategy/TriangleGeometryTypeStrategy.h
+        src/Shape/DrawingStrategy/LineGeometryTypeStrategy.h
+        src/Shape/DrawingStrategy/TextGeometryTypeStrategy.h
 )
 
 set(TEST_SOURCE_FILES

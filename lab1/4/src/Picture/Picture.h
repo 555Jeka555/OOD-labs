@@ -9,12 +9,12 @@
 #include "ShapeType.h"
 #include "../Picture/ShapeTypeConverter.h"
 #include "../Shape/Shape.h"
-#include "../Shape/DrawingStrategy/IDrawingStrategy.h"
-#include "../Shape/DrawingStrategy/RectangleDrawingStrategy.h"
-#include "../Shape/DrawingStrategy/CircleDrawingStrategy.h"
-#include "../Shape/DrawingStrategy/TriangleDrawingStrategy.h"
-#include "../Shape/DrawingStrategy/LineDrawingStrategy.h"
-#include "../Shape/DrawingStrategy/TextDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/IGeometryTypeStrategy.h"
+#include "../Shape/DrawingStrategy/RectangleGeometryTypeStrategy.h"
+#include "../Shape/DrawingStrategy/CircleGeometryTypeStrategy.h"
+#include "../Shape/DrawingStrategy/TriangleGeometryTypeStrategy.h"
+#include "../Shape/DrawingStrategy/LineGeometryTypeStrategy.h"
+#include "../Shape/DrawingStrategy/TextGeometryTypeStrategy.h"
 
 namespace shapes
 {
@@ -33,7 +33,7 @@ namespace shapes
 
         void ChangeColor(const std::string& id, uint32_t color);
 
-        void ChangeShape(const std::string &id, std::unique_ptr<IDrawingStrategy> newDrawingStrategy);
+        void ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy);
 
         std::map<std::string, std::unique_ptr<shapes::Shape>> GetShapes()
         {

@@ -1,16 +1,16 @@
-#ifndef INC_4_TRIANGLEDRAWINGSTRATEGY_H
-#define INC_4_TRIANGLEDRAWINGSTRATEGY_H
+#ifndef INC_4_TRIANGLEGEOMETRYTYPESTRATEGY_H
+#define INC_4_TRIANGLEGEOMETRYTYPESTRATEGY_H
 
 #include <iostream>
 #include <string>
-#include "IDrawingStrategy.h"
+#include "IGeometryTypeStrategy.h"
 
 namespace shapes
 {
-    class TriangleDrawingStrategy : public IDrawingStrategy
+    class TriangleGeometryTypeStrategy : public IGeometryTypeStrategy
     {
     public:
-        TriangleDrawingStrategy(
+        TriangleGeometryTypeStrategy(
                 double x1,
                 double y1,
                 double x2,
@@ -64,4 +64,4 @@ namespace shapes
     };
 }
 
-#endif //INC_4_TRIANGLEDRAWINGSTRATEGY_H
+#endif //INC_4_TRIANGLEGEOMETRYTYPESTRATEGY_H

@@ -1,23 +1,21 @@
-#ifndef INC_4_TEXTDRAWINGSTRATEGY_H
-#define INC_4_TEXTDRAWINGSTRATEGY_H
+#ifndef INC_4_RECTANGLEGEOMETRYTYPESTRATEGY_H
+#define INC_4_RECTANGLEGEOMETRYTYPESTRATEGY_H
 
 #include <iostream>
 #include <string>
-#include <utility>
-#include "IDrawingStrategy.h"
+#include "IGeometryTypeStrategy.h"
 
-namespace shapes
-{
-    class TextDrawingStrategy : public IDrawingStrategy
+namespace shapes {
+    class RectangleGeometryTypeStrategy : public IGeometryTypeStrategy
     {
     public:
-        TextDrawingStrategy(
+        RectangleGeometryTypeStrategy(
                 double leftTopX,
                 double leftTopY,
-                double size,
-                std::string  text
+                double width,
+                double height
         ) :
-                m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_size(size), m_text(std::move(text)) {}
+            m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_width(width), m_height(height) {}
 
         void Draw(ICanvas &canvas, uint32_t color) const override
         {
@@ -42,17 +40,17 @@ namespace shapes
                       << "#" << std::hex << std::setw(6) << std::setfill('0') << color << " "
                       << m_leftTopX << " "
                       << m_leftTopY << " "
-                      << m_size << " "
-                      << m_text << std::endl;
+                      << m_width << " "
+                      << m_height << std::endl;
         }
 
     private:
-        std::string m_type = "text";
+        std::string m_type = "rectangle";
         double m_leftTopX;
         double m_leftTopY;
-        double m_size;
-        std::string m_text;
+        double m_width;
+        double m_height;
     };
 }
 
-#endif //INC_4_TEXTDRAWINGSTRATEGY_H
+#endif //INC_4_RECTANGLEGEOMETRYTYPESTRATEGY_H

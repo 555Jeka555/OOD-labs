@@ -5,7 +5,7 @@
 // TODO Canvas на mermaid
 // TODO Проблема с change text
 // TODO Убрать Вввод вывод из Shape
-// TODO Переменовать IDrawingStrategy
+// TODO Переменовать IGeometryTypeStrategy
 // TODO static type в mermaid underlined
 // TODO namespaces
 // TODO добавить Point
@@ -74,7 +74,7 @@ void shapes::Picture::MovePicture(double dx, double dy)
     }
 }
 
-void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IDrawingStrategy> newDrawingStrategy)
+void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy)
 {
     if (!m_shapes.contains(id))
     {

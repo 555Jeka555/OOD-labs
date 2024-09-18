@@ -7,14 +7,14 @@
 #include <memory>
 #include <utility>
 #include "../Canvas/ICanvas.h"
-#include "../Shape/DrawingStrategy/IDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/IGeometryTypeStrategy.h"
 
 namespace shapes
 {
     class Shape
     {
     public:
-        Shape(std::string id, uint32_t color, std::unique_ptr<IDrawingStrategy> drawingStrategy) :
+        Shape(std::string id, uint32_t color, std::unique_ptr<IGeometryTypeStrategy> drawingStrategy) :
                 m_id(std::move(id)), m_color(color), m_drawingStrategy(std::move(drawingStrategy))
         {}
 
@@ -41,7 +41,7 @@ namespace shapes
             m_color = color;
         }
 
-        void SetDrawingStrategy(std::unique_ptr<IDrawingStrategy> drawingStrategy) {
+        void SetDrawingStrategy(std::unique_ptr<IGeometryTypeStrategy> drawingStrategy) {
             m_drawingStrategy = std::move(drawingStrategy);
         }
 
@@ -54,7 +54,7 @@ namespace shapes
     private:
         std::string m_id;
         uint32_t m_color;
-        std::unique_ptr<IDrawingStrategy> m_drawingStrategy;
+        std::unique_ptr<IGeometryTypeStrategy> m_drawingStrategy;
     };
 }
 

@@ -1,16 +1,16 @@
-#ifndef INC_4_LINEDRAWINGSTRATEGY_H
-#define INC_4_LINEDRAWINGSTRATEGY_H
+#ifndef INC_4_LINEGEOMETRYTYPESTRATEGY_H
+#define INC_4_LINEGEOMETRYTYPESTRATEGY_H
 
 #include <iostream>
 #include <string>
-#include "IDrawingStrategy.h"
+#include "IGeometryTypeStrategy.h"
 
 namespace shapes
 {
-    class LineDrawingStrategy : public IDrawingStrategy
+    class LineGeometryTypeStrategy : public IGeometryTypeStrategy
     {
     public:
-        LineDrawingStrategy(
+        LineGeometryTypeStrategy(
                 double x1,
                 double y1,
                 double x2,
@@ -56,4 +56,4 @@ namespace shapes
     };
 }
 
-#endif //INC_4_LINEDRAWINGSTRATEGY_H
+#endif //INC_4_LINEGEOMETRYTYPESTRATEGY_H

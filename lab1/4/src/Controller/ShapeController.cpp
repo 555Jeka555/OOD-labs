@@ -85,7 +85,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         double width = std::stod(widthStr);
         double height = std::stod(heightStr);
 
-        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
         std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
 
         m_picture.AddShape(id, std::move(shape));
@@ -102,7 +102,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         double centerY = std::stod(centerYStr);
         double radius = std::stod(radiusStr);
 
-        auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+        auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
         std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
         
         m_picture.AddShape(id, std::move(shape));
@@ -125,7 +125,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         double x3 = std::stod(x3Str);
         double y3 = std::stod(y3Str);
 
-        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
         std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
 
         m_picture.AddShape(id, std::move(shape));
@@ -144,7 +144,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         double x2 = std::stod(x2Str);
         double y2 = std::stod(y2Str);
 
-        auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+        auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
         std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
         
         m_picture.AddShape(id, std::move(shape));
@@ -168,7 +168,7 @@ void ShapeController::AddShape(std::istringstream &iss)
         double leftTopY = std::stod(leftTopYStr);
         double size = std::stod(sizeStr);
 
-        auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+        auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
         std::unique_ptr<shapes::Shape> shape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
 
         m_picture.AddShape(id, std::move(shape));
@@ -261,7 +261,7 @@ void ShapeController::ChangeShape(std::istringstream &iss)
         double width = std::stod(widthStr);
         double height = std::stod(heightStr);
 
-        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+        auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
 
         m_picture.ChangeShape(id, std::move(rectangleDrawingStrategy));
     }
@@ -277,7 +277,7 @@ void ShapeController::ChangeShape(std::istringstream &iss)
         double centerY = std::stod(centerYStr);
         double radius = std::stod(radiusStr);
 
-        auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+        auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
 
         m_picture.ChangeShape(id, std::move(circleDrawingStrategy));
     }
@@ -299,7 +299,7 @@ void ShapeController::ChangeShape(std::istringstream &iss)
         double x3 = std::stod(x3Str);
         double y3 = std::stod(y3Str);
 
-        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+        auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
 
         m_picture.ChangeShape(id, std::move(triangleDrawingStrategy));
     }
@@ -317,7 +317,7 @@ void ShapeController::ChangeShape(std::istringstream &iss)
         double x2 = std::stod(x2Str);
         double y2 = std::stod(y2Str);
 
-        auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+        auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
 
         m_picture.ChangeShape(id, std::move(lineDrawingStrategy));
     }
@@ -340,7 +340,7 @@ void ShapeController::ChangeShape(std::istringstream &iss)
         double leftTopY = std::stod(leftTopYStr);
         double size = std::stod(sizeStr);
 
-        auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+        auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
 
         m_picture.ChangeShape(id, std::move(textDrawingStrategy));
     }

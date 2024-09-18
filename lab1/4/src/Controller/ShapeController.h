@@ -9,7 +9,7 @@
 #include "../Picture/Picture.h"
 #include "../Picture/ShapeType.h"
 #include "../Picture/ShapeTypeConverter.h"
-#include "../Shape/DrawingStrategy/RectangleDrawingStrategy.h"
+#include "../Shape/DrawingStrategy/RectangleGeometryTypeStrategy.h"
 
 class ShapeController
 {

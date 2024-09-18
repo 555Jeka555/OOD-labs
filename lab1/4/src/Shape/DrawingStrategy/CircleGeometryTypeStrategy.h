@@ -1,16 +1,16 @@
-#ifndef INC_4_CIRCLEDRAWINGSTRATEGY_H
-#define INC_4_CIRCLEDRAWINGSTRATEGY_H
+#ifndef INC_4_CIRCLEGEOMETRYTYPESTRATEGY_H
+#define INC_4_CIRCLEGEOMETRYTYPESTRATEGY_H
 
 #include <iostream>
 #include <string>
-#include "IDrawingStrategy.h"
+#include "IGeometryTypeStrategy.h"
 
 namespace shapes
 {
-    class CircleDrawingStrategy : public IDrawingStrategy
+    class CircleGeometryTypeStrategy : public IGeometryTypeStrategy
     {
     public:
-        CircleDrawingStrategy(
+        CircleGeometryTypeStrategy(
                 double centerX,
                 double centerY,
                 double radius
@@ -50,4 +50,4 @@ namespace shapes
     };
 }
 
-#endif //INC_4_CIRCLEDRAWINGSTRATEGY_H
+#endif //INC_4_CIRCLEGEOMETRYTYPESTRATEGY_H

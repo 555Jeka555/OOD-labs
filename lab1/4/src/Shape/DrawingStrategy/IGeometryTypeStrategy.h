@@ -1,5 +1,5 @@
-#ifndef INC_4_IDRAWINGSTRATEGY_H
-#define INC_4_IDRAWINGSTRATEGY_H
+#ifndef INC_4_IGEOMETRYTYPESTRATEGY_H
+#define INC_4_IGEOMETRYTYPESTRATEGY_H
 
 #include <cstdint>
 #include <string>
@@ -9,7 +9,7 @@
 
 namespace shapes
 {
-    class IDrawingStrategy
+    class IGeometryTypeStrategy
     {
     public:
         virtual void Draw(ICanvas& canvas, uint32_t color) const = 0;
@@ -20,7 +20,7 @@ namespace shapes
 
         virtual void Display(const std::string& id, uint32_t color) const = 0;
 
-        virtual ~IDrawingStrategy() = default;
+        virtual ~IGeometryTypeStrategy() = default;
     };
 }
-#endif //INC_4_IDRAWINGSTRATEGY_H
+#endif //INC_4_IGEOMETRYTYPESTRATEGY_H

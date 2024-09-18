@@ -14,7 +14,7 @@ TEST (test_service_shape, add_rectangle_success)
 
     shapes::Picture picture;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
@@ -43,7 +43,7 @@ TEST (test_service_shape, move_rectangle_success)
     double dy = -1;
 
     shapes::Picture picture;
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
@@ -69,7 +69,7 @@ TEST (test_service_shape, add_circle_success)
     double radius = 10;
 
     shapes::Picture picture;
-    auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+    auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
@@ -97,7 +97,7 @@ TEST (test_service_shape, move_circle_success)
     double dy = -1;
 
     shapes::Picture picture;
-    auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+    auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
@@ -126,7 +126,7 @@ TEST (test_service_shape, add_triangle_success)
     double y3 = 35;
 
     shapes::Picture picture;
-    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
@@ -157,7 +157,7 @@ TEST (test_service_shape, move_triangle_success)
     double dy = 2;
 
     shapes::Picture picture;
-    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
@@ -184,7 +184,7 @@ TEST (test_service_shape, add_line_success)
     double y2 = 50;
 
     shapes::Picture picture;
-    auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+    auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
@@ -213,7 +213,7 @@ TEST (test_service_shape, move_line_success)
     double dy = 2;
 
     shapes::Picture picture;
-    auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+    auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
@@ -240,7 +240,7 @@ TEST (test_service_shape, add_text_success)
     std::string text = "Hello world";
 
     shapes::Picture picture;
-    auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+    auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
 
@@ -269,7 +269,7 @@ TEST (test_service_shape, move_text_success)
     double dy = 2;
 
     shapes::Picture picture;
-    auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+    auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.MoveShape(id, dx, dy);
@@ -294,7 +294,7 @@ TEST (test_service_shape, delete_shape_success)
     double height = 5;
 
     shapes::Picture picture;
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.DeleteShape(id);
@@ -319,7 +319,7 @@ TEST (test_service_shape, change_color_shape_success)
     double height = 5;
 
     shapes::Picture picture;
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> newShape = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(newShape));
     picture.ChangeColor(id, newColor);
@@ -351,7 +351,7 @@ TEST (test_service_shape, list_shape_success)
     double width = 2.5;
     double height = 5;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> rectangle = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(rectangle));
 
@@ -361,7 +361,7 @@ TEST (test_service_shape, list_shape_success)
     double centerY = 20.5;
     double radius = 10;
 
-    auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+    auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     std::unique_ptr<shapes::Shape> circle = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
     picture.AddShape(id, std::move(circle));
 
@@ -374,7 +374,7 @@ TEST (test_service_shape, list_shape_success)
     double x3 = 40;
     double y3 = 35;
 
-    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
     std::unique_ptr<shapes::Shape> triangle = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
     picture.AddShape(id, std::move(triangle));
 
@@ -385,7 +385,7 @@ TEST (test_service_shape, list_shape_success)
     x2 = 10;
     y2 = 50;
 
-    auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+    auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
     std::unique_ptr<shapes::Shape> line = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
     picture.AddShape(id, std::move(line));
 
@@ -396,7 +396,7 @@ TEST (test_service_shape, list_shape_success)
     double size = 35;
     std::string text = "Hello world";
 
-    auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+    auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
     std::unique_ptr<shapes::Shape> textShape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
     picture.AddShape(id, std::move(textShape));
 
@@ -423,7 +423,7 @@ TEST (test_service_shape, move_all_shape_success)
     double width = 2.5;
     double height = 5;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> rectangle = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(rectangle));
 
@@ -433,7 +433,7 @@ TEST (test_service_shape, move_all_shape_success)
     double centerY = 20.5;
     double radius = 10;
 
-    auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+    auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     std::unique_ptr<shapes::Shape> circle = make_unique<shapes::Shape>(id, color, std::move(circleDrawingStrategy));
     picture.AddShape(id, std::move(circle));
 
@@ -446,7 +446,7 @@ TEST (test_service_shape, move_all_shape_success)
     double x3 = 40;
     double y3 = 35;
 
-    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleDrawingStrategy>(x1, y1, x2, y2, x3, y3);
+    auto triangleDrawingStrategy = std::make_unique<shapes::TriangleGeometryTypeStrategy>(x1, y1, x2, y2, x3, y3);
     std::unique_ptr<shapes::Shape> triangle = make_unique<shapes::Shape>(id, color, std::move(triangleDrawingStrategy));
     picture.AddShape(id, std::move(triangle));
 
@@ -457,7 +457,7 @@ TEST (test_service_shape, move_all_shape_success)
     x2 = 10;
     y2 = 50;
 
-    auto lineDrawingStrategy = std::make_unique<shapes::LineDrawingStrategy>(x1, y1, x2, y2);
+    auto lineDrawingStrategy = std::make_unique<shapes::LineGeometryTypeStrategy>(x1, y1, x2, y2);
     std::unique_ptr<shapes::Shape> line = make_unique<shapes::Shape>(id, color, std::move(lineDrawingStrategy));
     picture.AddShape(id, std::move(line));
 
@@ -468,7 +468,7 @@ TEST (test_service_shape, move_all_shape_success)
     double size = 35;
     std::string text = "Hello world";
 
-    auto textDrawingStrategy = std::make_unique<shapes::TextDrawingStrategy>(leftTopX, leftTopY, size, text);
+    auto textDrawingStrategy = std::make_unique<shapes::TextGeometryTypeStrategy>(leftTopX, leftTopY, size, text);
     std::unique_ptr<shapes::Shape> textShape = make_unique<shapes::Shape>(id, color, std::move(textDrawingStrategy));
     picture.AddShape(id, std::move(textShape));
 
@@ -495,7 +495,7 @@ TEST (test_service_shape, change_rectangle_to_circle_success)
     double width = 2.5;
     double height = 5;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> rectangle = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(rectangle));
 
@@ -503,7 +503,7 @@ TEST (test_service_shape, change_rectangle_to_circle_success)
     double centerY = 20.5;
     double radius = 10;
 
-    auto circleDrawingStrategy = std::make_unique<shapes::CircleDrawingStrategy>(centerX, centerY, radius);
+    auto circleDrawingStrategy = std::make_unique<shapes::CircleGeometryTypeStrategy>(centerX, centerY, radius);
     picture.ChangeShape(id, std::move(circleDrawingStrategy));
 
     std::map<std::string, std::unique_ptr<shapes::Shape>> shapes = picture.GetShapes();
@@ -527,11 +527,11 @@ TEST (test_service_shape, add_shape_already_exist_id_failed)
 
     shapes::Picture picture;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> rectangle = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy));
     picture.AddShape(id, std::move(rectangle));
 
-    auto rectangleDrawingStrategy2 = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy2 = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
     std::unique_ptr<shapes::Shape> rectangle2 = make_unique<shapes::Shape>(id, color, std::move(rectangleDrawingStrategy2));
 
     EXPECT_THROW(picture.AddShape(id, std::move(rectangle)), std::invalid_argument);
@@ -558,7 +558,6 @@ TEST (test_service_shape, change_color_shape_not_exist_id_failed)
 TEST (test_service_shape, change_shape_not_exist_id_failed)
 {
     std::string id = "rec";
-    uint32_t color = 0x0F0F0F;
     double leftTopX = 10.2;
     double leftTopY = 20;
     double width = 2.5;
@@ -566,7 +565,7 @@ TEST (test_service_shape, change_shape_not_exist_id_failed)
 
     shapes::Picture picture;
 
-    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleDrawingStrategy>(leftTopX, leftTopY, width, height);
+    auto rectangleDrawingStrategy = std::make_unique<shapes::RectangleGeometryTypeStrategy>(leftTopX, leftTopY, width, height);
 
     EXPECT_THROW(picture.ChangeShape(id, std::move(rectangleDrawingStrategy)), std::invalid_argument);
 }
