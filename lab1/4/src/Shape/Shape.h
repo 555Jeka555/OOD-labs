@@ -18,7 +18,7 @@ namespace shapes
                 m_id(std::move(id)), m_color(color), m_geometryTypeStrategy(std::move(geometryTypeStrategy))
         {}
 
-        void Draw(ICanvas& canvas)
+        void Draw(gfx::ICanvas& canvas)
         {
             m_geometryTypeStrategy->Draw(canvas, m_color);
         }

@@ -17,7 +17,7 @@ namespace shapes {
         ) :
             m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_width(width), m_height(height) {}
 
-        void Draw(ICanvas &canvas, uint32_t color) const override
+        void Draw(gfx::ICanvas &canvas, uint32_t color) const override
         {
             canvas.SetColor(color);
             canvas.MoveTo(m_leftTopX, m_leftTopY);

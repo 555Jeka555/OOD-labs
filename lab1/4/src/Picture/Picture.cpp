@@ -87,7 +87,7 @@ void shapes::Picture::ChangeShape(const std::string &id, std::unique_ptr<IGeomet
     m_shapes.at(id)->SetDrawingStrategy(std::move(newDrawingStrategy));
 }
 
-void shapes::Picture::DrawShape(const std::string &id, ICanvas &canvas)
+void shapes::Picture::DrawShape(const std::string &id, gfx::ICanvas &canvas)
 {
     if (!m_shapes.contains(id))
     {
@@ -97,7 +97,7 @@ void shapes::Picture::DrawShape(const std::string &id, ICanvas &canvas)
     m_shapes.at(id)->Draw(canvas);
 }
 
-void shapes::Picture::DrawPicture(ICanvas &canvas)
+void shapes::Picture::DrawPicture(gfx::ICanvas &canvas)
 {
     for (const auto& id : m_shapeIds) {
         m_shapes.at(id)->Draw(canvas);

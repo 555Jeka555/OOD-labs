@@ -36,9 +36,9 @@ namespace shapes
 
         void ChangeShape(const std::string &id, std::unique_ptr<IGeometryTypeStrategy> newDrawingStrategy);
 
-        void DrawShape(const std::string& id, ICanvas &canvas);
+        void DrawShape(const std::string& id, gfx::ICanvas &canvas);
 
-        void DrawPicture(ICanvas &canvas);
+        void DrawPicture(gfx::ICanvas &canvas);
 
         std::map<std::string, std::unique_ptr<shapes::Shape>> GetShapes()
         {

@@ -12,7 +12,7 @@ namespace shapes
     class IGeometryTypeStrategy
     {
     public:
-        virtual void Draw(ICanvas& canvas, uint32_t color) const = 0;
+        virtual void Draw(gfx::ICanvas& canvas, uint32_t color) const = 0;
 
         virtual void Move(double dx, double dy) = 0;
 

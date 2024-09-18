@@ -7,7 +7,7 @@
 
 const std::string& FONTFILEPATH = R"(C:\Volgatech\3course\OOD-labs\lab1\4\src\Canvas\PNGCanvas\font\Minecraft-Regular.ttf)";
 
-std::string ColorToString(const Color &color)
+std::string ColorToString(const gfx::Color &color)
 {
     std::ostringstream oss;
     oss << "#"
@@ -18,8 +18,8 @@ std::string ColorToString(const Color &color)
     return oss.str();
 }
 
-Color StringToColor(uint32_t color) {
-    Color result{};
+gfx::Color gfx::StringToColor(uint32_t color) {
+    gfx::Color result{};
 
     result.r = static_cast<uint8_t>((color >> 24) & 0xFF);
     result.g = static_cast<uint8_t>((color >> 16) & 0xFF);
@@ -29,7 +29,7 @@ Color StringToColor(uint32_t color) {
     return result;
 }
 
-void PNGCanvas::DrawText(double left, double top, double fontSize, const std::string& text)
+void gfx::PNGCanvas::DrawText(double left, double top, double fontSize, const std::string& text)
 {
     // Load the font file
     std::ifstream fontFile(FONTFILEPATH, std::ios::binary);
@@ -93,7 +93,7 @@ void PNGCanvas::DrawText(double left, double top, double fontSize, const std::st
     }
 }
 
-void PNGCanvas::SaveToFile(const std::string& filename)
+void gfx::PNGCanvas::SaveToFile(const std::string& filename)
 {
     stbi_write_png(filename.c_str(), width, height, 4, pixels.data(), width * 4);
 }

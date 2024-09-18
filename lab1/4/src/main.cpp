@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
         Args args = ParseArgs(argc, argv);
 
         shapes::Picture picture;
-        PNGCanvas canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        gfx::PNGCanvas canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
         if (args.inputFileName != COMMAND_INPUT_ARGS)
         {

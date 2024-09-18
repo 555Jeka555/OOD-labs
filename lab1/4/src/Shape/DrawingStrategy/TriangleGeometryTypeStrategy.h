@@ -20,7 +20,7 @@ namespace shapes
         ) :
             m_x1(x1), m_y1(y1), m_x2(x2), m_y2(y2), m_x3(x3), m_y3(y3) {}
 
-        void Draw(ICanvas &canvas, uint32_t color) const override
+        void Draw(gfx::ICanvas &canvas, uint32_t color) const override
         {
             canvas.SetColor(color);
             canvas.MoveTo(m_x1, m_y1);

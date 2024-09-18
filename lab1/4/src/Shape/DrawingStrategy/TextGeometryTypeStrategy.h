@@ -19,7 +19,7 @@ namespace shapes
         ) :
                 m_leftTopX(leftTopX), m_leftTopY(leftTopY), m_size(size), m_text(std::move(text)) {}
 
-        void Draw(ICanvas &canvas, uint32_t color) const override
+        void Draw(gfx::ICanvas &canvas, uint32_t color) const override
         {
             canvas.SetColor(color);
             canvas.DrawText(m_leftTopX, m_leftTopY, m_size, m_text);
