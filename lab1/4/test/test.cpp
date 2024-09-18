@@ -631,6 +631,66 @@ TEST (test_service_shape, change_rectangle_to_circle_success)
     ASSERT_EQ(buffer.str(), expectedStr);
 }
 
+TEST (test_service_shape, add_shape_already_exist_id_failed)
+{
+    std::string id = "rec";
+    uint32_t color = 0x0F0F0F;
+    double leftTopX = 10.2;
+    double leftTopY = 20;
+    double width = 2.5;
+    double height = 5;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            width,
+            height
+    };
+
+    ShapeService shapeService;
+    shapeService.AddShape(id, color, type, parameters, "");
+
+    EXPECT_THROW(shapeService.AddShape(id, color, type, parameters, ""), std::invalid_argument);
+}
+
+TEST (test_service_shape, move_shape_not_exist_id_failed)
+{
+    ShapeService shapeService;
+    EXPECT_THROW(shapeService.MoveShape("rec", 5, 10), std::invalid_argument);
+}
+
+TEST (test_service_shape, delete_shape_not_exist_id_failed)
+{
+    ShapeService shapeService;
+    EXPECT_THROW(shapeService.DeleteShape("rec"), std::invalid_argument);
+}
+
+TEST (test_service_shape, change_color_shape_not_exist_id_failed)
+{
+    ShapeService shapeService;
+    EXPECT_THROW(shapeService.ChangeColor("rec", 0x0F0F0F), std::invalid_argument);
+}
+
+TEST (test_service_shape, change_shape_not_exist_id_failed)
+{
+    std::string id = "rec";
+    double leftTopX = 10.2;
+    double leftTopY = 20;
+    double width = 2.5;
+    double height = 5;
+    std::string type = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
+    std::vector<double> parameters = {
+            leftTopX,
+            leftTopY,
+            width,
+            height
+    };
+
+    ShapeService shapeService;
+    EXPECT_THROW(shapeService.ChangeShape(id, type, parameters, ""), std::invalid_argument);
+}
+
+
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;
     testing::InitGoogleTest(&argc, argv);

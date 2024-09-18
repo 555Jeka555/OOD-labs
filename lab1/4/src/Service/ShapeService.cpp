@@ -2,6 +2,11 @@
 
 void ShapeService::AddShape(const std::string& id, uint32_t color, const std::string& type, const std::vector<double>& parameters, const std::string& text)
 {
+    if (m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id already exists");
+    }
+
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
     std::string circleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::CIRCLE);
     std::string triangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::TRIANGLE);
@@ -69,12 +74,22 @@ void ShapeService::AddShape(const std::string& id, uint32_t color, const std::st
 
 void ShapeService::MoveShape(const std::string &id, double dx, double dy)
 {
+    if (!m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id not exists");
+    }
+
     auto& shape = m_shapes.at(id);
     shape->Move(dx, dy);
 }
 
 void ShapeService::DeleteShape(const std::string &id)
 {
+    if (!m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id not exists");
+    }
+
     m_shapes.erase(id);
     std::erase(m_shapeIds, id);
 }
@@ -94,6 +109,11 @@ void ShapeService::List()
 
 void ShapeService::ChangeColor(const std::string &id, uint32_t color)
 {
+    if (!m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id not exists");
+    }
+
     auto& shape = m_shapes.at(id);
     shape->SetColor(color);
 }
@@ -109,6 +129,11 @@ void ShapeService::MovePicture(double dx, double dy)
 void ShapeService::ChangeShape(const std::string &id, const std::string &type, const std::vector<double> &parameters,
                                const std::string &text)
 {
+    if (!m_shapes.contains(id))
+    {
+        throw std::invalid_argument("Shape with given Id not exists");
+    }
+
     auto& shape = m_shapes.at(id);
 
     std::string rectangleString = ShapeTypeConverter::ConvertShapeTypeToString(ShapeType::RECTANGLE);
