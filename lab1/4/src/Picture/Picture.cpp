@@ -1,5 +1,9 @@
 #include "Picture.h"
 
+// TODO Из List убрать вывод, как вариант передавать колбек
+// TODO GetShapes() не вытаскивать наружу, убрать
+// TODO Доставать Shape из Picture и вызывать методы из Shape
+
 // TODO Переменовать класс ShapeService в Picture
 // TODO В Picture Добавлять готовые фигуры через композицию, а не создавать их внутри сервиса
 // TODO Canvas на mermaid
