@@ -63,7 +63,7 @@ public:
 
     void RemoveObserver(ObserverType & observer) override
     {
-        m_toRemoveObservers.erase(&observer);
+        m_toRemoveObservers.insert(&observer);
     }
 
 protected:

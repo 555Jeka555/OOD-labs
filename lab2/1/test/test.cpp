@@ -19,7 +19,7 @@ private:
     CObservable<SWeatherInfo> &m_observable;
 };
 
-TEST(ObserverTests, TestRemoveObserverDuringNotify)
+TEST(observer_test, removing_observer_success)
 {
     CWeatherData wd;
 
@@ -28,12 +28,11 @@ TEST(ObserverTests, TestRemoveObserverDuringNotify)
     RemovingObserver selfRemovingObserver(wd);
     wd.RegisterObserver(selfRemovingObserver);
 
-    std::cout << "First measurement update:" << std::endl;
-    wd.SetMeasurements(10, 0.8, 761);
+    std::cout << "First measurement update " << std::endl;
+    wd.SetMeasurements(5, 0.6, 761);
 
-    std::cout << "Second measurement update:" << std::endl;
-    wd.SetMeasurements(15, 0.6, 765);
-
+    std::cout << "Second measurement update " << std::endl;
+    wd.SetMeasurements(10, 0.5, 762);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
