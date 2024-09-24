@@ -3,7 +3,7 @@ project(1)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./../bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ./../lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ./../lib)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -15,12 +15,14 @@ FetchContent_MakeAvailable(googletest)
 
 set(SOURCE_FILES
         src/1_1/Observer.h
-        src/1_1/main.cpp
         src/1_1/WeatherData.h
+        src/1_2/Observer.h
+        src/1_2/WeatherData.h
+        src/main.cpp
 )
 
 set(TEST_SOURCE_FILES
-        test/1_1/test.cpp
+        test/test.cpp
 )
 
 add_executable(1_1 ${SOURCE_FILES})

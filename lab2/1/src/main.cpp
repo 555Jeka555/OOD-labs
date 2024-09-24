@@ -1,4 +1,4 @@
-#include "WeatherData.h"
+ #include "1_2/WeatherData.h"
 
 int main() {
     CWeatherData wd;
