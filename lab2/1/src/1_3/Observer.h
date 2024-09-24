@@ -30,7 +30,7 @@ class IObservable
 {
 public:
     virtual ~IObservable() = default;
-    virtual void RegisterObserver(IObserver<T> & observer, int priority = 0) = 0;
+    virtual void RegisterObserver(IObserver<T> & observer, int priority) = 0;
     virtual void NotifyObservers() = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
@@ -42,7 +42,7 @@ class CObservable : public IObservable<T>
 public:
     typedef IObserver<T> ObserverType;
 
-    void RegisterObserver(ObserverType & observer, int priority = 0) override
+    void RegisterObserver(ObserverType & observer, int priority) override
     {
         if (!m_priorityToObservers.contains(priority))
         {

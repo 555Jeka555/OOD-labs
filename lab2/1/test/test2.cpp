@@ -28,10 +28,10 @@ TEST(observer_test2, removing_observer_success)
     RemovingObserver selfRemovingObserver(wd);
     wd.RegisterObserver(selfRemovingObserver);
 
-    std::cout << "First measurement update " << std::endl;
+    std::cout << "First measurement " << std::endl;
     wd.SetMeasurements(5, 0.6, 761);
 
-    std::cout << "Second measurement update " << std::endl;
+    std::cout << "Second measurement " << std::endl;
     wd.SetMeasurements(10, 0.5, 762);
 }
 

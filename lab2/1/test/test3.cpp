@@ -26,17 +26,17 @@ TEST(observer_test3, priority_observer_success)
 
     std::vector<int> callOrder;
 
-    PriorityObserver highPriorityObserver(1, callOrder);
-    PriorityObserver lowPriorityObserver(2, callOrder);
+    PriorityObserver highPriority(1, callOrder);
+    PriorityObserver lowPriority(2, callOrder);
 
-    wd.RegisterObserver(highPriorityObserver, 5);
-    wd.RegisterObserver(lowPriorityObserver, 1);
+    wd.RegisterObserver(highPriority, 5);
+    wd.RegisterObserver(lowPriority, 1);
 
-    wd.SetMeasurements(10, 0.8, 761);
+    wd.SetMeasurements(5, 1, 761);
 
     ASSERT_EQ(callOrder.size(), 2);
 
-    EXPECT_LT(callOrder[0], callOrder[1]) << "High-priority observer should be called before low-priority observer";
+    EXPECT_TRUE(callOrder[0] < callOrder[1]);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
