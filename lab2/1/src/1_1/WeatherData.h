@@ -102,7 +102,6 @@ private:
     CStatistics m_statisticsTemperature;
     CStatistics m_statisticsHumidity;
     CStatistics m_statisticsPressure;
-
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
@@ -114,7 +113,7 @@ public:
         return m_temperature;
     }
     // Относительная влажность (0...100)
-        double GetHumidity()const
+    double GetHumidity()const
     {
         return m_humidity;
     }
