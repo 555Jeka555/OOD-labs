@@ -19,7 +19,7 @@ private:
     CObservable<SWeatherInfo> &m_observable;
 };
 
-TEST(observer_test, removing_observer_success)
+TEST(observer_test2, removing_observer_success)
 {
     CWeatherData wd;
 

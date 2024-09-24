@@ -22,12 +22,29 @@ set(SOURCE_FILES
 )
 
 set(TEST_SOURCE_FILES
-        test/test.cpp
+        test/test2.cpp
 )
 
-add_executable(1_1 ${SOURCE_FILES})
+add_executable(1_2 ${SOURCE_FILES})
 
-add_executable(1_1_test ${TEST_SOURCE_FILES})
-target_link_libraries(1_1_test gtest_main)
+add_executable(1_2_test ${TEST_SOURCE_FILES})
+target_link_libraries(1_2_test gtest_main)
 enable_testing()
-add_test(NAME 1_1_test COMMAND 1_1_test)
+add_test(NAME 1_2_test COMMAND 1_2_test)
+
+set(SOURCE_FILES
+        src/main.cpp
+        src/1_3/Observer.h
+        src/1_3/WeatherData.h
+)
+
+set(TEST_SOURCE_FILES
+        test/test3.cpp
+)
+
+add_executable(1_3 ${SOURCE_FILES})
+
+add_executable(1_3_test ${TEST_SOURCE_FILES})
+target_link_libraries(1_3_test gtest_main)
+enable_testing()
+add_test(NAME 1_3_test COMMAND 1_3_test)
