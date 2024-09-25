@@ -1,6 +1,6 @@
 ```mermaid
 classDiagram
-    IObserver o-- IObservable
+    IObservable o-- IObserver 
     IObservable <|.. CObservable 
 
     CObservable <|-- CWeatherData
@@ -72,7 +72,7 @@ classDiagram
 
 ```mermaid
 classDiagram
-    IObserver o-- IObservable
+    IObservable o-- IObserver
     IObservable <|.. CObservable 
 
     CObservable <|-- CWeatherData
@@ -146,7 +146,7 @@ classDiagram
 
 ```mermaid
 classDiagram
-    IObserver o-- IObservable
+    IObservable o-- IObserver
     IObservable <|.. CObservable 
 
     CObservable <|-- CWeatherData
