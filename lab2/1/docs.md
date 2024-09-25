@@ -1,6 +1,6 @@
 ```mermaid
 classDiagram
-    IObservable o-- IObserver 
+    IObserver <.. IObservable  : "Use"
     IObservable <|.. CObservable 
 
     CObservable <|-- CWeatherData
@@ -72,7 +72,7 @@ classDiagram
 
 ```mermaid
 classDiagram
-    IObservable o-- IObserver
+    IObserver <.. IObservable  : "Use"
     IObservable <|.. CObservable 
 
     CObservable <|-- CWeatherData
