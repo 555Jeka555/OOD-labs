@@ -48,3 +48,20 @@ add_executable(1_3_test ${TEST_SOURCE_FILES})
 target_link_libraries(1_3_test gtest_main)
 enable_testing()
 add_test(NAME 1_3_test COMMAND 1_3_test)
+
+set(SOURCE_FILES
+        src/main.cpp
+        src/1_4/Observer.h
+        src/1_4/WeatherData.h
+)
+
+set(TEST_SOURCE_FILES
+        test/test4.cpp
+)
+
+add_executable(1_4 ${SOURCE_FILES})
+
+add_executable(1_4_test ${TEST_SOURCE_FILES})
+target_link_libraries(1_4_test gtest gmock gtest_main)
+enable_testing()
+add_test(NAME 1_4_test COMMAND 1_4_test)

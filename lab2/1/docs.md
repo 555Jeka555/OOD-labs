@@ -296,3 +296,82 @@ classDiagram
         + double pressure = 0
     }
 ```
+
+```mermaid
+classDiagram
+    IObservable o-- IObserver
+    IObservable <|.. CObservable 
+
+    CObservable <|-- CWeatherData
+    SWeatherInfo <.. CWeatherData : "Create"
+
+    IObserver <|.. CStatsDisplayDuo
+    IObserver <|.. CDisplayDuo
+    CObservable <.. IObserver : "Use"
+
+    SWeatherInfo <.. CStatsDisplayDuo : "Use"
+    SWeatherInfo <.. CDisplayDuo : "Use"
+
+    CObservable o-- CStatsDisplayDuo
+    CObservable o-- CDisplayDuo
+
+    CStatistics *-- CStatsDisplayDuo
+
+    class IObserver {
+        + Update(T const& data, const CObservable<T>* observable)
+    }
+
+    class IObservable {
+        + RegisterObserver(IObserver<T> & observer, int priority)
+        + RemoveObserver(IObserver<T> & observer)
+    }
+
+    class CObservable {
+        - map<int, set<ObserverType*>> m_priorityToObservers
+        + RegisterObserver(IObserver<T> & observer)
+        + NotifyObservers()
+        + RemoveObserver(IObserver<T> & observer)
+        # GetChangedData() T
+    }
+
+    class CWeatherData {
+        + GetTemperature() double
+        + GetHumidity() double
+        + GetPressure() double
+        + MeasurementsChanged()
+        + SetMeasurements(double temp, double humidity, double pressure)
+        # GetChangedData() SWeatherInfo
+    }
+
+    class CDisplayDuo {
+        - Update(SWeatherInfo const& data, const CObservable* observable)
+        - const CObservable* m_weatherDataIn
+        - const CObservable* m_weatherDataOut
+    }
+
+    class CStatsDisplayDuo {
+        - Update(SWeatherInfo const& data)
+        - CStatistics m_statisticsTemperature
+        - CStatistics m_statisticsHumidity
+        - CStatistics m_statisticsPressure
+        - const CObservable* m_weatherDataIn
+        - const CObservable* m_weatherDataOut
+    }
+
+    class CStatistics {
+        + Update(double value)
+        + GetMin() double
+        + GetMax() double
+        + GetAverage() double
+        - double m_min
+        - double m_max
+        - double m_acc
+        - int m_countAcc
+    }
+
+    class SWeatherInfo {
+        + double temperature = 0
+        + double humidity = 0
+        + double pressure = 0
+    }
+```
