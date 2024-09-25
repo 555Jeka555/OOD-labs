@@ -30,7 +30,6 @@ class IObservable
 public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer) = 0;
-    virtual void NotifyObservers() = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
 
@@ -46,7 +45,7 @@ public:
         m_observers.insert(&observer);
     }
 
-    void NotifyObservers() override
+    void NotifyObservers()
     {
         T data = GetChangedData();
         for (auto & observer : m_observers)

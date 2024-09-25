@@ -31,7 +31,6 @@ class IObservable
 public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer, int priority) = 0;
-    virtual void NotifyObservers() = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
 
@@ -52,7 +51,7 @@ public:
         m_priorityToObservers.at(priority).insert(&observer);
     }
 
-    void NotifyObservers() override
+    void NotifyObservers()
     {
         T data = GetChangedData();
         auto observersCopy = m_priorityToObservers;

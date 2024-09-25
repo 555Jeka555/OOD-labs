@@ -24,13 +24,15 @@ public:
 Шаблонный интерфейс IObservable. Позволяет подписаться и отписаться на оповещения, а также
 инициировать рассылку уведомлений зарегистрированным наблюдателям.
 */
+
+// TODO Нужен ли IObservable. Да, для защиты от записи,
+//  интерфейс не должен содержать методов уведомления -> генерация события (запись) была в методе NotifyObservers
 template <typename T>
 class IObservable
 {
 public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer) = 0;
-    virtual void NotifyObservers() = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
 };
 
@@ -46,9 +48,9 @@ public:
         m_observers.insert(&observer);
     }
 
-    void NotifyObservers() override
+    void NotifyObservers()
     {
-        T data = GetChangedData();
+        T data = GetChangedData(); // Генерация события
         for (auto & observer : m_observers)
         {
             observer->Update(data);

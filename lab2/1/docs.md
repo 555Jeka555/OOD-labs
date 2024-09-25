@@ -20,7 +20,6 @@ classDiagram
 
     class IObservable {
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
     }
 
@@ -92,7 +91,6 @@ classDiagram
 
     class IObservable {
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
     }
 
@@ -166,7 +164,6 @@ classDiagram
 
     class IObservable {
         + RegisterObserver(IObserver<T> & observer, int priority)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
     }
 

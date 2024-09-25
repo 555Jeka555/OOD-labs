@@ -49,17 +49,17 @@ public:
         m_countAcc++;
     }
 
-    double getMin() const
+    double GetMin() const
     {
         return m_min;
     }
 
-    double getMax() const
+    double GetMax() const
     {
         return m_max;
     }
 
-    double getAverage() const
+    double GetAverage() const
     {
         return m_acc / static_cast<double>(m_countAcc);
     }
@@ -84,17 +84,17 @@ private:
         m_statisticsHumidity.Update(data.humidity);
         m_statisticsPressure.Update(data.pressure);
 
-        std::cout << "Max Temp " << m_statisticsTemperature.getMax() << std::endl;
-        std::cout << "Min Temp " << m_statisticsTemperature.getMin() << std::endl;
-        std::cout << "Average Temp " << m_statisticsTemperature.getAverage() << std::endl;
+        std::cout << "Max Temp " << m_statisticsTemperature.GetMax() << std::endl;
+        std::cout << "Min Temp " << m_statisticsTemperature.GetMin() << std::endl;
+        std::cout << "Average Temp " << m_statisticsTemperature.GetAverage() << std::endl;
 
-        std::cout << "Max Hum " << m_statisticsHumidity.getMax() << std::endl;
-        std::cout << "Min Hum " << m_statisticsHumidity.getMin() << std::endl;
-        std::cout << "Average Hum " << m_statisticsHumidity.getAverage() << std::endl;
+        std::cout << "Max Hum " << m_statisticsHumidity.GetMax() << std::endl;
+        std::cout << "Min Hum " << m_statisticsHumidity.GetMin() << std::endl;
+        std::cout << "Average Hum " << m_statisticsHumidity.GetAverage() << std::endl;
 
-        std::cout << "Max Pressure " << m_statisticsPressure.getMax() << std::endl;
-        std::cout << "Min Pressure " << m_statisticsPressure.getMin() << std::endl;
-        std::cout << "Average Pressure " << m_statisticsPressure.getAverage() << std::endl;
+        std::cout << "Max Pressure " << m_statisticsPressure.GetMax() << std::endl;
+        std::cout << "Min Pressure " << m_statisticsPressure.GetMin() << std::endl;
+        std::cout << "Average Pressure " << m_statisticsPressure.GetAverage() << std::endl;
 
         std::cout << "----------------" << std::endl;
     }
