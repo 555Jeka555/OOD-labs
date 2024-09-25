@@ -1,5 +1,89 @@
 ```mermaid
 classDiagram
+    IObserver <|.. Observer1
+    IObserver <|.. Observer2
+
+    Info <.. Subject : "Create"
+    Info <.. Observer1 : "Use"
+    Info <.. Observer2 : "Use"
+
+    IObserver o-- Subject
+
+    Subject o-- Observer1
+    Subject o-- Observer2
+
+    
+    class Subject {
+        + AddObserver(IObserver observer)
+        + RemoveObserver(IObserver observer)
+        + GetInfo() Info
+    }
+
+    class IObserver {
+        + Update()
+    }
+
+    class Observer1 {
+        - Subject m_subject
+        + Update()
+    }
+
+    class Observer2 {
+        - Subject m_subject
+        + Update()
+    }
+
+    class Info {
+
+    }
+```
+
+```mermaid
+classDiagram
+    IObserver <|.. Observer1
+    IObserver <|.. Observer2
+
+    Info <.. Subject : "Create"
+    Context <.. Subject : "Create"
+
+    IObserver o-- Subject
+
+    Context <.. IObserver : "Use"
+
+    Subject o-- Observer1
+    Subject o-- Observer2
+
+    Context <.. Observer1 : "Use"
+    Context <.. Observer2 : "Use"
+
+    
+    class Subject {
+        + AddObserver(IObserver observer)
+        + RemoveObserver(IObserver observer)
+        + GetInfo() Info
+    }
+
+    class IObserver {
+        + Update(Context context)
+    }
+
+    class Observer1 {
+        - Subject m_subject
+        + Update(Context context)
+    }
+
+    class Observer2 {
+        - Subject m_subject
+        + Update(Context context)
+    }
+
+    class Info {
+
+    }
+```
+
+```mermaid
+classDiagram
     IObserver <.. IObservable  : "Use"
     IObservable <|.. CObservable 
 
