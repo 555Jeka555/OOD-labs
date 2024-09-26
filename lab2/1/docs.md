@@ -182,7 +182,6 @@ classDiagram
 
     class CObservable {
         - set<ObserverType*> m_observers
-        - set<ObserverType*> m_toRemoveObservers
         + RegisterObserver(IObserver<T> & observer)
         + RemoveObserver(IObserver<T> & observer)
         # NotifyObservers()

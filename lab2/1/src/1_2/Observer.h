@@ -50,23 +50,18 @@ public:
 
     void RemoveObserver(ObserverType & observer) override
     {
-        m_toRemoveObservers.insert(&observer);
+        m_observers.erase(&observer);
     }
 
 protected:
     void NotifyObservers()
     {
         T data = GetChangedData();
-        for (auto & observer : m_observers)
+        auto observersCopy = m_observers;
+        for (auto & observer : observersCopy)
         {
             observer->Update(data);
         }
-
-        for (auto & observer : m_toRemoveObservers)
-        {
-            m_observers.erase(observer);
-        }
-        m_toRemoveObservers.clear();
     }
 
     // Классы-наследники должны перегрузить данный метод,
@@ -75,7 +70,6 @@ protected:
 
 private:
     std::set<ObserverType *> m_observers;
-    std::set<ObserverType *> m_toRemoveObservers;
 };
 
 #endif //INC_2_OBSERVER_H

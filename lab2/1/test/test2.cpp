@@ -26,6 +26,7 @@ TEST(observer_test2, removing_observer_success)
     CDisplay display1;
     wd.RegisterObserver(display1);
     RemovingObserver selfRemovingObserver(wd);
+
     wd.RegisterObserver(selfRemovingObserver);
 
     std::cout << "First measurement " << std::endl;
