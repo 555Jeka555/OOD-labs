@@ -35,6 +35,9 @@ public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer, int priority) = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
+
+protected:
+    virtual void NotifyObservers() = 0;
 };
 
 // Реализация интерфейса IObservable
@@ -54,6 +57,18 @@ public:
         m_priorityToObservers[priority].insert(&observer);
     }
 
+    void RemoveObserver(ObserverType & observer) override
+    {
+        for (auto& [priority, observers] : m_priorityToObservers)
+        {
+            if (observers.erase(&observer) > 0)
+            {
+                return;
+            }
+        }
+    }
+
+protected:
     void NotifyObservers()
     {
         T data = GetChangedData();
@@ -67,18 +82,6 @@ public:
         }
     }
 
-    void RemoveObserver(ObserverType & observer) override
-    {
-        for (auto& [priority, observers] : m_priorityToObservers)
-        {
-            if (observers.erase(&observer) > 0)
-            {
-                return;
-            }
-        }
-    }
-
-protected:
     // Классы-наследники должны перегрузить данный метод,
     // в котором возвращать информацию об изменениях в объекте
     virtual T GetChangedData() const = 0;

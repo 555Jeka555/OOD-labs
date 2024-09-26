@@ -26,7 +26,8 @@ public:
 */
 
 // TODO Нужен ли IObservable. Да, для защиты от записи,
-//  интерфейс не должен содержать методов уведомления -> генерация события (запись) была в методе NotifyObservers
+// интерфейс не должен содержать методов уведомления -> генерация события (запись) была в методе NotifyObservers
+// Чтобы IObserver могли подписаться на любой субъект реализованный IObservable
 template <typename T>
 class IObservable
 {
@@ -34,6 +35,9 @@ public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer) = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
+
+protected:
+    virtual void NotifyObservers() = 0;
 };
 
 // Реализация интерфейса IObservable
@@ -48,6 +52,12 @@ public:
         m_observers.insert(&observer);
     }
 
+    void RemoveObserver(ObserverType & observer) override
+    {
+        m_observers.erase(&observer);
+    }
+
+protected:
     void NotifyObservers()
     {
         T data = GetChangedData(); // Генерация события
@@ -57,12 +67,6 @@ public:
         }
     }
 
-    void RemoveObserver(ObserverType & observer) override
-    {
-        m_observers.erase(&observer);
-    }
-
-protected:
     // Классы-наследники должны перегрузить данный метод,
     // в котором возвращать информацию об изменениях в объекте
     virtual T GetChangedData()const = 0;

@@ -105,13 +105,14 @@ classDiagram
     class IObservable {
         + RegisterObserver(IObserver<T> & observer)
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
     }
 
     class CObservable {
         - set<ObserverType*> m_observers
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
         # GetChangedData() T
     }
 
@@ -176,14 +177,15 @@ classDiagram
     class IObservable {
         + RegisterObserver(IObserver<T> & observer)
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
     }
 
     class CObservable {
         - set<ObserverType*> m_observers
         - set<ObserverType*> m_toRemoveObservers
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
         # GetChangedData() T
     }
 
@@ -249,13 +251,14 @@ classDiagram
     class IObservable {
         + RegisterObserver(IObserver<T> & observer, int priority)
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
     }
 
     class CObservable {
         - map<int, set<ObserverType*>> m_priorityToObservers
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
         # GetChangedData() T
     }
 
@@ -324,13 +327,14 @@ classDiagram
     class IObservable {
         + RegisterObserver(IObserver<T> & observer, int priority)
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
     }
 
     class CObservable {
         - map<int, set<ObserverType*>> m_priorityToObservers
         + RegisterObserver(IObserver<T> & observer)
-        + NotifyObservers()
         + RemoveObserver(IObserver<T> & observer)
+        # NotifyObservers()
         # GetChangedData() T
     }
 

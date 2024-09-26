@@ -31,6 +31,9 @@ public:
     virtual ~IObservable() = default;
     virtual void RegisterObserver(IObserver<T> & observer) = 0;
     virtual void RemoveObserver(IObserver<T> & observer) = 0;
+
+protected:
+    virtual void NotifyObservers() = 0;
 };
 
 // Реализация интерфейса IObservable
@@ -45,6 +48,12 @@ public:
         m_observers.insert(&observer);
     }
 
+    void RemoveObserver(ObserverType & observer) override
+    {
+        m_toRemoveObservers.insert(&observer);
+    }
+
+protected:
     void NotifyObservers()
     {
         T data = GetChangedData();
@@ -60,12 +69,6 @@ public:
         m_toRemoveObservers.clear();
     }
 
-    void RemoveObserver(ObserverType & observer) override
-    {
-        m_toRemoveObservers.insert(&observer);
-    }
-
-protected:
     // Классы-наследники должны перегрузить данный метод,
     // в котором возвращать информацию об изменениях в объекте
     virtual T GetChangedData()const = 0;
