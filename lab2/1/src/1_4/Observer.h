@@ -6,6 +6,7 @@
 #include <set>
 #include <unordered_set>
 #include <map>
+#include <unordered_map>
 
 template <typename T>
 class CObservable;
@@ -49,22 +50,25 @@ public:
 
     void RegisterObserver(ObserverType & observer, int priority) override
     {
-        if (m_priorityToObservers.find(priority) == m_priorityToObservers.end())
-        {
-            m_priorityToObservers[priority] = {};
-        }
-
-        m_priorityToObservers[priority].insert(&observer);
+        auto result = m_priorityToObservers.insert({priority, {}});
+        result.first->second.insert(&observer);
+        m_observerToPriority[&observer] = priority;
     }
 
     void RemoveObserver(ObserverType & observer) override
     {
-        for (auto& [priority, observers] : m_priorityToObservers)
+        auto it = m_observerToPriority.find(&observer);
+        if (it != m_observerToPriority.end())
         {
-            if (observers.erase(&observer) > 0)
+            int priority = it->second;
+            m_priorityToObservers[priority].erase(&observer);
+
+            if (m_priorityToObservers[priority].empty())
             {
-                return;
+                m_priorityToObservers.erase(priority);
             }
+
+            m_observerToPriority.erase(it);
         }
     }
 
@@ -88,6 +92,7 @@ protected:
 
 private:
     std::map<int, std::unordered_set<ObserverType *>> m_priorityToObservers;
+    std::unordered_map<ObserverType*, int> m_observerToPriority;
 };
 
 #endif //INC_4_OBSERVER_H

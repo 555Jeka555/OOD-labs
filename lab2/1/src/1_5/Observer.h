@@ -1,11 +1,15 @@
-#ifndef INC_3_OBSERVER_H
-#define INC_3_OBSERVER_H
+#ifndef INC_5_OBSERVER_H
+#define INC_5_OBSERVER_H
 
 #pragma once
 
 #include <set>
 #include <unordered_set>
-#include <functional>
+#include <map>
+#include <unordered_map>
+
+template <typename T>
+class CObservable;
 
 /*
 Шаблонный интерфейс IObserver. Его должен реализовывать класс,
@@ -17,7 +21,7 @@ template <typename T>
 class IObserver
 {
 public:
-    virtual void Update(T const& data) = 0;
+    virtual void Update(T const& data, const CObservable<T>* observable) = 0;
     virtual ~IObserver() = default;
 };
 
@@ -46,8 +50,6 @@ public:
 
     void RegisterObserver(ObserverType & observer, int priority) override
     {
-        // TODO Не искать лишний раз. Просто вызвать insert в if он вернёт true
-
         auto result = m_priorityToObservers.insert({priority, {}});
         result.first->second.insert(&observer);
         m_observerToPriority[&observer] = priority;
@@ -55,7 +57,6 @@ public:
 
     void RemoveObserver(ObserverType & observer) override
     {
-        // TODO Не быстре O(N)
         auto it = m_observerToPriority.find(&observer);
         if (it != m_observerToPriority.end())
         {
@@ -80,18 +81,18 @@ protected:
         {
             for (auto& observer : it->second)
             {
-                observer->Update(data);
+                observer->Update(data, this);
             }
         }
     }
 
     // Классы-наследники должны перегрузить данный метод,
     // в котором возвращать информацию об изменениях в объекте
-    virtual T GetChangedData()const = 0;
+    virtual T GetChangedData() const = 0;
 
 private:
     std::map<int, std::unordered_set<ObserverType *>> m_priorityToObservers;
     std::unordered_map<ObserverType*, int> m_observerToPriority;
 };
 
-#endif //INC_3_OBSERVER_H
+#endif //INC_5_OBSERVER_H

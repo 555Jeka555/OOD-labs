@@ -50,18 +50,18 @@ enable_testing()
 add_test(NAME 1_3_test COMMAND 1_3_test)
 
 set(SOURCE_FILES
-        src/main.cpp
-        src/1_4/Observer.h
-        src/1_4/WeatherData.h
+        src/1_5/main.cpp
+        src/1_5/Observer.h
+        src/1_5/WeatherData.h
 )
 
 set(TEST_SOURCE_FILES
-        test/test4.cpp
+        test/test5.cpp
 )
 
-add_executable(1_4 ${SOURCE_FILES})
+add_executable(1_5 ${SOURCE_FILES})
 
-add_executable(1_4_test ${TEST_SOURCE_FILES})
-target_link_libraries(1_4_test gtest gmock gtest_main)
+add_executable(1_5_test ${TEST_SOURCE_FILES})
+target_link_libraries(1_5_test gtest gmock gtest_main)
 enable_testing()
-add_test(NAME 1_4_test COMMAND 1_4_test)
+add_test(NAME 1_5_test COMMAND 1_5_test)
