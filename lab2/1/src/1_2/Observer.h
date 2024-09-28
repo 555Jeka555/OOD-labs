@@ -57,7 +57,7 @@ protected:
     void NotifyObservers()
     {
         T data = GetChangedData();
-        auto observersCopy = m_observers;
+        auto observersCopy = m_observers; // Копия чтобы умирать не в итерируемом объекте
         for (auto & observer : observersCopy)
         {
             observer->Update(data);
