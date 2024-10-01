@@ -1,6 +1,15 @@
 ```mermaid
 classDiagram
 
+    IBeverage <|.. CBeverage
+
+    CBeverage <|-- CCoffee
+    CBeverage <|-- CTea
+    CBeverage <|-- CMilkshake
+
+    CCoffee <|-- CCappuccino
+    CCoffee <|-- CLatte
+
     namespace Beverage {
         class IBeverage {
             + GetDescription() string
@@ -51,6 +60,27 @@ classDiagram
             - MilkshakeSize m_size
         }
     }
+
+    IBeverage <|.. CCondimentDecorator
+
+    CCondimentDecorator o-- IBeverage
+
+    CCondimentDecorator <|-- CCinnamon
+    CCinnamon o-- IBeverage
+
+    CCondimentDecorator <|-- CLemon
+    CLemon o-- IBeverage
+
+    CCondimentDecorator <|-- CIceCubes
+    CIceCubes o-- IBeverage
+    IceCubeType <.. CIceCubes : "Use"
+
+    CCondimentDecorator <|-- CSyrup
+    SyrupType <.. CSyrup : "Use"
+
+    CCondimentDecorator <|-- CChocolateCrumbs
+
+    CCondimentDecorator <|-- CCoconutFlakes
 
     namespace Condiment {
         class CCondimentDecorator {
