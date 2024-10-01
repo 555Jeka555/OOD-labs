@@ -4,8 +4,12 @@ classDiagram
     IBeverage <|.. CBeverage
 
     CBeverage <|-- CCoffee
+
     CBeverage <|-- CTea
+    TeaType <.. CTea : "Use"
+
     CBeverage <|-- CMilkshake
+    MilkshakeSizeType <.. CMilkshake : "Use"
 
     CCoffee <|-- CCappuccino
     CCoffee <|-- CLatte
@@ -37,10 +41,9 @@ classDiagram
 
         class TeaType {
             <<Enumuration>>
-            Black,
-            White,
-            Blue,
-            Cyan
+            BLACK,
+            GREEN,
+            RED
         }
 
         class CTea {
@@ -48,11 +51,11 @@ classDiagram
             - TeaType m_type
         }
 
-        class MilkshakeSize {
+        class MilkshakeSizeType {
             <<Enumuration>>
-            Small,
-            Medium,
-            Large
+            SMALL,
+            MEDIUM,
+            LARGE
         }
 
         class CMilkshake {
