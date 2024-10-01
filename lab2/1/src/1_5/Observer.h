@@ -50,8 +50,7 @@ public:
 
     void RegisterObserver(ObserverType & observer, int priority) override
     {
-        auto result = m_priorityToObservers.insert({priority, {}});
-        result.first->second.insert(&observer);
+        auto result = m_priorityToObservers.insert({priority, {&observer}});
         m_observerToPriority[&observer] = priority;
     }
 
