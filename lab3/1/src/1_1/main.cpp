@@ -19,7 +19,7 @@ struct MakeLemon
 
     auto operator()(IBeveragePtr && beverage)const
     {
-        return make_unique<CLemon>(move(beverage), m_quantity);
+        return make_unique<CLemon>(std::move(beverage), m_quantity);
     }
 private:
     unsigned m_quantity;
@@ -31,7 +31,7 @@ private:
 function<IBeveragePtr(IBeveragePtr &&)> MakeCinnamon()
 {
     return [] (IBeveragePtr && b) {
-        return make_unique<CCinnamon>(move(b));
+        return make_unique<CCinnamon>(std::move(b));
     };
 }
 
@@ -51,7 +51,7 @@ auto MakeCondiment(const Args&...args)
     // конструктору декоратора через make_unique
     return [=](auto && b) {
         // Функции make_unique передаем b вместе со списком аргументов внешней функции
-        return make_unique<Condiment>(forward<decltype(b)>(b), args...);
+        return make_unique<Condiment>(std::forward<decltype(b)>(b), args...);
     };
 }
 
@@ -105,7 +105,7 @@ unique_ptr<CCinnamon> operator << (IBeveragePtr && lhs, const MakeCinnamon & fac
 template <typename Component, typename Decorator>
 auto operator << (Component && component, const Decorator & decorate)
 {
-    return decorate(forward<Component>(component));
+    return decorate(std::forward<Component>(component));
 }
 
 bool CompleteBeverageChoice(unique_ptr<IBeverage> &beverage, int beverageChoice)
@@ -212,12 +212,14 @@ bool CompleteCondimentChoice(unique_ptr<IBeverage> &beverage, int condimentChoic
         case 6:
             cout << "Choose Syrup Type (1 - Maple, 2 - Chocolate): ";
             int syrupChoice;
+
             cin >> syrupChoice;
             if (syrupChoice > 2 or syrupChoice < 1)
             {
                 cout << "Invalid Syrup Type choice";
                 return false;
             }
+
             beverage = std::move(beverage) << MakeCondiment<CSyrup>
                     (syrupChoice == 1 ? SyrupType::Maple : SyrupType::Chocolate);
             return true;
