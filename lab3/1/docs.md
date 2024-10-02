@@ -1,5 +1,39 @@
 ```mermaid
 classDiagram
+    ICompoment <|.. Component
+
+    ICompoment <|.. ComponentDecorator
+    ComponentDecorator o-- ICompoment
+
+    ComponentDecorator <|-- ComponentDecoratorA
+    ComponentDecorator <|-- ComponentDecoratorB
+
+    class ICompoment {
+        + Operation()
+    }
+
+    class Component {
+        + Operation()
+    }
+
+    class ComponentDecorator {
+        + Operation()
+        - ICompomemt m_component
+    }
+
+    class ComponentDecoratorA {
+        + Operation()
+        - SomeA()
+    }
+
+    class ComponentDecoratorB {
+        + Operation()
+        - SomeB()
+    }
+```
+
+```mermaid
+classDiagram
 
     IBeverage <|.. CBeverage
 
@@ -141,5 +175,5 @@ classDiagram
             # GetCondimentDescription() string
             - unsigned m_mass
         }
-    }
+    }   
 ```
