@@ -101,15 +101,9 @@ classDiagram
     IBeverage <|.. CCondimentDecorator
 
     CCondimentDecorator *-- IBeverage
-
     CCondimentDecorator <|-- CCinnamon
-    CCinnamon *-- IBeverage
-
     CCondimentDecorator <|-- CLemon
-    CLemon *-- IBeverage
-
     CCondimentDecorator <|-- CIceCubes
-    CIceCubes *-- IBeverage
     IceCubeType <.. CIceCubes : "Use"
 
     CCondimentDecorator <|-- CSyrup
