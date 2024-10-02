@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 
-TEST(observer_test1, removing_observer_success)
+TEST(observer_test2, removing_observer_success)
 {
 }
 
