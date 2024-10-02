@@ -310,8 +310,6 @@ void DialogWithUserDeprecated()
         }
     }
 
-
-
     cout << beverage->GetDescription() << ", cost: " << beverage->GetCost() << endl;
 }
 

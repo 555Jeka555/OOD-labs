@@ -1,14 +1,14 @@
 ```mermaid
 classDiagram
-    ICompoment <|.. Component
+    IComponent <|.. Component
 
-    ICompoment <|.. ComponentDecorator
-    ComponentDecorator o-- ICompoment
+    IComponent <|.. ComponentDecorator
+    ComponentDecorator *-- IComponent
 
     ComponentDecorator <|-- ComponentDecoratorA
     ComponentDecorator <|-- ComponentDecoratorB
 
-    class ICompoment {
+    class IComponent {
         + Operation()
     }
 
@@ -18,7 +18,7 @@ classDiagram
 
     class ComponentDecorator {
         + Operation()
-        - ICompomemt m_component
+        - IComponent m_component
     }
 
     class ComponentDecoratorA {
