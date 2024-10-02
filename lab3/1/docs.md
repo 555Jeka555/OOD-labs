@@ -3,7 +3,7 @@ classDiagram
     IComponent <|.. Component
 
     IComponent <|.. ComponentDecorator
-    ComponentDecorator *-- IComponent
+    ComponentDecorator o-- IComponent
 
     ComponentDecorator <|-- ComponentDecoratorA
     ComponentDecorator <|-- ComponentDecoratorB
@@ -100,16 +100,16 @@ classDiagram
 
     IBeverage <|.. CCondimentDecorator
 
-    CCondimentDecorator o-- IBeverage
+    CCondimentDecorator *-- IBeverage
 
     CCondimentDecorator <|-- CCinnamon
-    CCinnamon o-- IBeverage
+    CCinnamon *-- IBeverage
 
     CCondimentDecorator <|-- CLemon
-    CLemon o-- IBeverage
+    CLemon *-- IBeverage
 
     CCondimentDecorator <|-- CIceCubes
-    CIceCubes o-- IBeverage
+    CIceCubes *-- IBeverage
     IceCubeType <.. CIceCubes : "Use"
 
     CCondimentDecorator <|-- CSyrup
