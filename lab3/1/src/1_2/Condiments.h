@@ -169,7 +169,7 @@ public:
     {}
 
 protected:
-    double GetCondimentCost()const override
+    [[nodiscard]] double GetCondimentCost()const override
     {
         return 1.0 * m_mass;
     }
@@ -184,7 +184,21 @@ private:
 class CCream : public CCondimentDecorator
 {
 public:
-    CCream(IBeveragePtr && beverage)
+    // TODO для чего explicit
+    // Конструктор с ключевым словом explicit в C++ используется
+    // для предотвращения неявного преобразования типов.
+    // Это особенно важно, когда конструктор принимает один параметр,
+    // чтобы избежать нежелательных автоматических преобразований,
+    // которые могут привести к ошибкам или неясному поведению программы.
+    //    class MyClass {
+    //    public:
+    //        explicit MyClass(int j) { /* ... */ }
+    //    };
+    //
+    //    MyClass obj = 10; // Ошибка: неявное преобразование не разрешено
+    //    MyClass obj2(10); // ОК: явное создание объекта
+
+    explicit CCream(IBeveragePtr && beverage)
     : CCondimentDecorator(move(beverage))
     {}
 
