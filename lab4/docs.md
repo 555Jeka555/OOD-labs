@@ -70,6 +70,7 @@ classDiagram
     }
 
     class PictureDraft {
+        + AddShape(Shape)
         + GetShapes() vector<Shape>
 
         - vector<Shape> m_shapes
