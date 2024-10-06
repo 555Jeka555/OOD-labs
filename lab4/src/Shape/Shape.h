@@ -17,7 +17,7 @@ public:
             m_color(color)
     {}
 
-    virtual void Draw(ICanvas& canvas) const = 0;
+    virtual void Draw(gfx::ICanvas& canvas) const = 0;
 
     [[nodiscard]] Color GetColor() const
     {

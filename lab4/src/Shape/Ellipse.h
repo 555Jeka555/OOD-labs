@@ -10,16 +10,20 @@
 class Ellipse : public Shape
 {
 public:
-    Ellipse(Color color, Point center, double radius) :
-            Shape(color), m_center(center), m_radius(radius) {}
+    constexpr static std::string type = "ellipse";
 
-    void Draw(ICanvas &canvas) const override
+    Ellipse(Color color, Point center, double horizontalRadius, double verticalRadius) :
+            Shape(color), m_center(center), m_horizontalRadius(horizontalRadius), m_verticalRadius(verticalRadius) {}
+
+    void Draw(gfx::ICanvas &canvas) const override
     {
-        canvas.DrawEllipse(m_center.x, m_center.y, m_radius, m_radius);
+        canvas.SetColor(convertColorToHEX(GetColor()));
+        canvas.DrawEllipse(m_center.x, m_center.y, m_horizontalRadius, m_verticalRadius);
     }
 
 private:
     Point m_center;
-    double m_radius;
+    double m_horizontalRadius;
+    double m_verticalRadius;
 };
 #endif //INC_4_CIRCLEGEOMETRYTYPESTRATEGY_H

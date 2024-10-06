@@ -12,7 +12,7 @@ public:
         : m_designer(designer)
     {}
 
-    void HandleCommand(std::istream & inputData, ICanvas & canvas, IPainter & painter)
+    void HandleCommand(std::istream & inputData, gfx::ICanvas & canvas, IPainter & painter)
     {
         PictureDraft pictureDraft = m_designer.CreateDraft(inputData);
 
