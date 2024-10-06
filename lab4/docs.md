@@ -21,18 +21,16 @@ classDiagram
 
     Color <.. Shape : "Use"        
     Shape <.. ShapeFactory : "Create"
-    Shape *-- IGeometryTypeStrategy
-    IGeometryTypeStrategy <.. ShapeFactory : "Use"
-    IGeometryTypeStrategy <|.. RectangleGeometryTypeStrategy
-    IGeometryTypeStrategy <|.. EllipseGeometryTypeStrategy
-    IGeometryTypeStrategy <|.. TriangleGeometryTypeStrategy
-    IGeometryTypeStrategy <|.. RegularPolygonGeometryTypeStrategy
+    Shape <|.. Rectangle
+    Shape <|.. Ellipse
+    Shape <|.. Triangle
+    Shape <|.. RegularPolygon
 
     Point <.. ShapeFactory : "Use"
-    Point <.. RectangleGeometryTypeStrategy : "Use"
-    Point <.. EllipseGeometryTypeStrategy : "Use"
-    Point <.. TriangleGeometryTypeStrategy : "Use"
-    Point <.. RegularPolygonGeometryTypeStrategy : "Use"
+    Point <.. Rectangle : "Use"
+    Point <.. Ellipse : "Use"
+    Point <.. Triangle : "Use"
+    Point <.. RegularPolygon : "Use"
 
     class Client {
     }
@@ -106,11 +104,7 @@ classDiagram
             + GetColor() Color 
         }
 
-        class IGeometryTypeStrategy {
-            + Draw(ICanvas canvas, Color color)
-        }
-
-        class RectangleGeometryTypeStrategy {
+        class Rectangle {
             - Point m_leftTop
             - double m_width
             - double m_height
@@ -118,7 +112,7 @@ classDiagram
             + Draw(ICanvas canvas, Color color)
         }
 
-        class EllipseGeometryTypeStrategy {
+        class Ellipse {
             - Point m_center
             - double m_horizotalRadius
             - double m_verticalRadius
@@ -126,7 +120,7 @@ classDiagram
             + Draw(ICanvas canvas, Color color)
         }
 
-        class TriangleGeometryTypeStrategy {
+        class Triangle {
             - Point m_point1
             - Point m_point2
             - Point m_point3      
@@ -134,7 +128,7 @@ classDiagram
             + Draw(ICanvas canvas, Color color)
         }
 
-        class RegularPolygonGeometryTypeStrategy {
+        class RegularPolygon {
             - Point m_center
             - int m_pointsCount
             - double m_radius  
