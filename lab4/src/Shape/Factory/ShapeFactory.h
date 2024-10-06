@@ -78,6 +78,24 @@ class ShapeFactory : public IShapeFactory
                     std::stod(heightStr)
             );
         }
+        else if (shapeType == RegularPolygon::type)
+        {
+            std::string centerX1Str;
+            std::string centerY1Str;
+            std::string pointsCountStr;
+            std::string radiusStr;
+
+            iss >> centerX1Str >> centerY1Str >> pointsCountStr >> radiusStr;
+
+            Point center(std::stod(centerX1Str), std::stod(centerY1Str));
+
+            return std::make_unique<RegularPolygon>(
+                    color,
+                    center,
+                    std::stoi(pointsCountStr),
+                    std::stod(radiusStr)
+            );
+        }
 
         throw std::invalid_argument("Unknown shape type");
     }
