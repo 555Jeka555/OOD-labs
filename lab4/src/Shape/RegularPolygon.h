@@ -7,7 +7,6 @@
 #include "Color.h"
 #include "Shape.h"
 
-// regularPolygon #123456 10 20 8 40
 class RegularPolygon : public Shape
 {
 public:
@@ -20,21 +19,26 @@ public:
     {
         canvas.SetColor(convertColorToHEX(GetColor()));
 
-        canvas.MoveTo(m_center.x, m_center.y);
         double angleStep = 2 * M_PI / m_pointsCount;
 
         double startX = m_center.x + m_radius * std::cos(0);
         double startY = m_center.y + m_radius * std::sin(0);
-        canvas.MoveTo(startX, startY);
+
+        double prevX = startX;
+        double prevY = startY;
 
         for (int i = 1; i <= m_pointsCount; ++i) {
             double angle = i * angleStep;
             double x = m_center.x + m_radius * std::cos(angle);
             double y = m_center.y + m_radius * std::sin(angle);
-            canvas.LineTo(x, y);
+
+            canvas.DrawLine(prevX, prevY, x, y);
+
+            prevX = x;
+            prevY = y;
         }
 
-        canvas.LineTo(startX, startY);
+        canvas.DrawLine(prevX, prevY, startX, startY);
     }
 
 private:

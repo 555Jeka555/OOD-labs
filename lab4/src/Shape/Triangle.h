@@ -18,10 +18,9 @@ public:
     void Draw(gfx::ICanvas &canvas) const override
     {
         canvas.SetColor(convertColorToHEX(GetColor()));
-        canvas.MoveTo(m_point1.x, m_point1.y);
-        canvas.LineTo(m_point2.x, m_point2.y);
-        canvas.LineTo(m_point3.x, m_point3.y);
-        canvas.LineTo(m_point1.x, m_point1.y);
+        canvas.DrawLine(m_point1.x, m_point1.y, m_point2.x, m_point2.y);
+        canvas.DrawLine(m_point2.x, m_point2.y, m_point3.x, m_point3.y);
+        canvas.DrawLine(m_point3.x, m_point3.y, m_point1.x, m_point1.y);
     }
 
 private:
