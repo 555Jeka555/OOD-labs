@@ -3,22 +3,17 @@
 
 #include <iostream>
 #include <string>
-#include "IGeometryTypeStrategy.h"
-#include "../Point.h"
-#include "../Color.h"
+#include "Point.h"
+#include "Color.h"
+#include "Shape.h"
 
-
-class RegularPolygonGeometryTypeStrategy : public IGeometryTypeStrategy
+class RegularPolygon : public Shape
 {
 public:
-    RegularPolygonGeometryTypeStrategy(
-        Point center,
-        int pointsCount,
-        double radius
-    ) :
-        m_center(center), m_pointsCount(pointsCount), m_radius(radius) {}
+    RegularPolygon(Color color, Point center, int pointsCount, double radius) :
+            Shape(color), m_center(center), m_pointsCount(pointsCount), m_radius(radius) {}
 
-    void Draw(ICanvas &canvas, Color color) const override
+    void Draw(ICanvas &canvas) const override
     {
         // TODO написать рисовку правильного многоугольника, добавить работу с Color
         canvas.MoveTo(m_center.x, m_center.y);

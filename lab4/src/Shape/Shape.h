@@ -7,25 +7,17 @@
 #include <memory>
 #include <utility>
 #include "../Canvas/ICanvas.h"
-#include "../Shape/GeometryTypeStrategy/IGeometryTypeStrategy.h"
+
 #include "Color.h"
 
 class Shape
 {
 public:
-    Shape(std::string id, Color color, std::unique_ptr<IGeometryTypeStrategy> geometryTypeStrategy) :
-            m_id(std::move(id)), m_color(color), m_geometryTypeStrategy(std::move(geometryTypeStrategy))
+    explicit Shape(Color color) :
+            m_color(color)
     {}
 
-    void Draw(ICanvas& canvas)
-    {
-        m_geometryTypeStrategy->Draw(canvas, m_color);
-    }
-
-    [[nodiscard]] std::string GetId() const
-    {
-        return m_id;
-    }
+    virtual void Draw(ICanvas& canvas) const = 0;
 
     [[nodiscard]] Color GetColor() const
     {
@@ -34,9 +26,7 @@ public:
 
     ~Shape() = default;
 private:
-    std::string m_id;
     Color m_color;
-    std::unique_ptr<IGeometryTypeStrategy> m_geometryTypeStrategy;
 };
 
 #endif //INC_4_SHAPE_H

@@ -20,12 +20,11 @@ set(SOURCE_FILES
         src/Canvas/PNGCanvas/PNGCanvas.cpp
         src/Canvas/PNGCanvas/stb_image_write.h
         src/Canvas/PNGCanvas/stb_truetype.h
-        src/Shape/GeometryTypeStrategy/IGeometryTypeStrategy.h
-        src/Shape/GeometryTypeStrategy/EllipseGeometryTypeStrategy.h
+        src/Shape/Ellipse.h
         src/Shape/Point.h
-        src/Shape/GeometryTypeStrategy/RectangleGeometryTypeStrategy.h
-        src/Shape/GeometryTypeStrategy/TriangleGeometryTypeStrategy.h
-        src/Shape/GeometryTypeStrategy/RegularPolygonGeometryTypeStrategy.h
+        src/Shape/Rectangle.h
+        src/Shape/Triangle.h
+        src/Shape/RegularPolygon.h
         src/Shape/Factory/IShapeFactory.h
         src/Shape/Factory/ShapeFactory.h
         src/Designer/Designer.h

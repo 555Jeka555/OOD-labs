@@ -3,21 +3,17 @@
 
 #include <iostream>
 #include <string>
-#include "IGeometryTypeStrategy.h"
-#include "../Point.h"
-#include "../Color.h"
+#include "Point.h"
+#include "Color.h"
+#include "Shape.h"
 
-class TriangleGeometryTypeStrategy : public IGeometryTypeStrategy
+class Triangle : public Shape
 {
 public:
-    TriangleGeometryTypeStrategy(
-            Point point1,
-            Point point2,
-            Point point3
-    ) :
-            m_point1(point1), m_point2(point2), m_point3(point3) {}
+    Triangle(Color color, Point point1, Point point2, Point point3) :
+            Shape(color), m_point1(point1), m_point2(point2), m_point3(point3) {}
 
-    void Draw(ICanvas &canvas, Color color) const override
+    void Draw(ICanvas &canvas) const override
     {
         canvas.MoveTo(m_point1.x, m_point1.y);
         canvas.LineTo(m_point2.x, m_point2.y);
