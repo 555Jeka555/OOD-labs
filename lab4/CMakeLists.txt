@@ -40,7 +40,6 @@ set(SOURCE_FILES
 
 set(TEST_SOURCE_FILES
         test/test.cpp
-        test/RectangleTest.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

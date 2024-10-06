@@ -21,6 +21,21 @@ public:
         canvas.DrawEllipse(m_center.x, m_center.y, m_horizontalRadius, m_verticalRadius);
     }
 
+    Point GetCenter() const
+    {
+        return m_center;
+    }
+
+    double GetHorizontalRadius() const
+    {
+        return m_horizontalRadius;
+    }
+
+    double GetVerticalRadius() const
+    {
+        return m_verticalRadius;
+    }
+
 private:
     Point m_center;
     double m_horizontalRadius;
