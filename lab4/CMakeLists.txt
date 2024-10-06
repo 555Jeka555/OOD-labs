@@ -2,5 +2,50 @@ cmake_minimum_required(VERSION 3.26)
 project(lab4)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./../bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ./../lib)
 
-add_executable(lab4 main.cpp)
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+
+FetchContent_MakeAvailable(googletest)
+
+set(SOURCE_FILES
+        src/main.cpp
+        src/Shape/Shape.h
+        src/Canvas/PNGCanvas/PNGCanvas.h
+        src/Canvas/PNGCanvas/PNGCanvas.cpp
+        src/Canvas/PNGCanvas/stb_image_write.h
+        src/Canvas/PNGCanvas/stb_truetype.h
+        src/Shape/GeometryTypeStrategy/IGeometryTypeStrategy.h
+        src/Shape/GeometryTypeStrategy/EllipseGeometryTypeStrategy.h
+        src/Shape/Point.h
+        src/Shape/GeometryTypeStrategy/RectangleGeometryTypeStrategy.h
+        src/Shape/GeometryTypeStrategy/TriangleGeometryTypeStrategy.h
+        src/Shape/GeometryTypeStrategy/RegularPolygonGeometryTypeStrategy.h
+        src/Shape/Factory/IShapeFactory.h
+        src/Shape/Factory/ShapeFactory.h
+        src/Designer/Designer.h
+        src/Designer/PictureDraft.h
+        src/Designer/PictureDraft.h
+        src/Designer/IDesigner.h
+        src/Designer/IDesigner.h
+        src/Painter/Painter.h
+        src/Client.h
+        src/Painter/IPainter.h
+        src/Painter/IPainter.h
+)
+
+set(TEST_SOURCE_FILES
+        test/test.cpp
+)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+add_executable(${PROJECT_NAME}_test ${TEST_SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}_test gtest_main)
+enable_testing()
+add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
