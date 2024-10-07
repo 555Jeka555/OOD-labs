@@ -6,6 +6,7 @@
 #include "../src/Shape/RegularPolygon.h"
 #include "../src/Shape/Factory/ShapeFactory.h"
 #include "../src/Designer/PictureDraft.h"
+#include "../src/Designer/Designer.h"
 
 using ::testing::_;
 using ::testing::Return;
@@ -19,9 +20,14 @@ public:
 
 class MockShape : public Shape {
 public:
-    MOCK_METHOD(void, Draw, (gfx::ICanvas &canvas), (const, override));
-
     explicit MockShape(Color color) : Shape(color) {}
+
+    MOCK_METHOD(void, Draw, (gfx::ICanvas &canvas), (const, override));
+};
+
+class MockShapeFactory : public IShapeFactory {
+public:
+    MOCK_METHOD(std::unique_ptr<Shape>, CreateShape, (const std::string& description), (override));
 };
 
 void AssertEqualPoint(Point expectedPoint, Point actualPoint)
@@ -208,7 +214,7 @@ TEST(shape_factory, create_triangle_success)
     EXPECT_NE(shape, nullptr);
     EXPECT_EQ(typeid(*shape), typeid(Triangle));
 
-    Triangle* triangle = dynamic_cast<Triangle*>(shape.get());
+    auto* triangle = dynamic_cast<Triangle*>(shape.get());
     ASSERT_NE(triangle, nullptr);
 
     EXPECT_EQ(triangle->GetColor(), Color::BLACK);
@@ -227,7 +233,7 @@ TEST(shape_factory, create_ellipse_success)
     EXPECT_NE(shape, nullptr);
     EXPECT_EQ(typeid(*shape), typeid(Ellipse));
 
-    Ellipse* ellipse = dynamic_cast<Ellipse*>(shape.get());
+    auto* ellipse = dynamic_cast<Ellipse*>(shape.get());
     ASSERT_NE(ellipse, nullptr);
 
     EXPECT_EQ(ellipse->GetColor(), Color::RED);
@@ -246,7 +252,7 @@ TEST(shape_factory, create_rectangle_success)
     EXPECT_NE(shape, nullptr);
     EXPECT_EQ(typeid(*shape), typeid(Rectangle));
 
-    Rectangle* rectangle = dynamic_cast<Rectangle*>(shape.get());
+    auto* rectangle = dynamic_cast<Rectangle*>(shape.get());
     ASSERT_NE(rectangle, nullptr);
 
     EXPECT_EQ(rectangle->GetColor(), Color::GREEN);
@@ -265,7 +271,7 @@ TEST(shape_factory, create_regular_polygon_success)
     EXPECT_NE(shape, nullptr);
     EXPECT_EQ(typeid(*shape), typeid(RegularPolygon));
 
-    RegularPolygon* polygon = dynamic_cast<RegularPolygon*>(shape.get());
+    auto* polygon = dynamic_cast<RegularPolygon*>(shape.get());
     ASSERT_NE(polygon, nullptr);
 
     EXPECT_EQ(polygon->GetColor(), Color::BLUE);
@@ -274,7 +280,8 @@ TEST(shape_factory, create_regular_polygon_success)
     EXPECT_EQ(polygon->GetRadius(), 30);
 }
 
-TEST(shape_factory, create_shape_unknown_type_error) {
+TEST(shape_factory, create_shape_unknown_type_error)
+{
     std::string description = "unknownShape black";
 
     ShapeFactory shapeFactory;
@@ -282,7 +289,8 @@ TEST(shape_factory, create_shape_unknown_type_error) {
     EXPECT_THROW(shapeFactory.CreateShape(description), std::invalid_argument);
 }
 
-TEST(picture_draft, add_shape_success) {
+TEST(picture_draft, add_shape_success)
+{
     PictureDraft draft;
 
     auto triangle = std::make_unique<MockShape>(Color::BLACK);
@@ -296,7 +304,8 @@ TEST(picture_draft, add_shape_success) {
     EXPECT_EQ(std::distance(draft.begin(), draft.end()), 3);
 }
 
-TEST(picture_draft, iterate_shapes_success) {
+TEST(picture_draft, iterate_shapes_success)
+{
     PictureDraft draft;
 
     auto triangle = std::make_unique<MockShape>(Color::BLACK);
@@ -306,7 +315,8 @@ TEST(picture_draft, iterate_shapes_success) {
     draft.AddShape(std::move(ellipse));
 
     int count = 0;
-    for (const auto& shape : draft) {
+    for (const auto& shape : draft)
+    {
         EXPECT_NE(shape, nullptr);
         count++;
     }
@@ -314,12 +324,38 @@ TEST(picture_draft, iterate_shapes_success) {
     EXPECT_EQ(count, 2);
 
     count = 0;
-    for (const auto& shape : draft) {
+    for (const auto& shape : draft)
+    {
         EXPECT_NE(shape, nullptr);
         count++;
     }
 
     EXPECT_EQ(count, 2);
+}
+
+TEST(designer, create_draft_with_shapes_success)
+{
+    MockShapeFactory mockFactory;
+    Designer designer(mockFactory);
+
+    std::istringstream inputData(
+            "triangle black 10 20 40 20 25 50\n"
+            "ellipse red 50 50 30 20\n"
+            "rectangle green 10 20 30 50\n"
+    );
+
+    EXPECT_CALL(mockFactory, CreateShape("triangle black 10 20 40 20 25 50"))
+            .WillOnce(Return(std::make_unique<MockShape>(Color::BLACK)));
+
+    EXPECT_CALL(mockFactory, CreateShape("ellipse red 50 50 30 20"))
+            .WillOnce(Return(std::make_unique<MockShape>(Color::RED)));
+
+    EXPECT_CALL(mockFactory, CreateShape("rectangle green 10 20 30 50"))
+            .WillOnce(Return(std::make_unique<MockShape>(Color::GREEN)));
+
+    PictureDraft draft = designer.CreateDraft(inputData);
+
+    EXPECT_EQ(std::distance(draft.begin(), draft.end()), 3);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
