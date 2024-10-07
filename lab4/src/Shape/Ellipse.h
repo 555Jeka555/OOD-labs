@@ -26,12 +26,12 @@ public:
         return m_center;
     }
 
-    double GetHorizontalRadius() const
+    [[nodiscard]] double GetHorizontalRadius() const
     {
         return m_horizontalRadius;
     }
 
-    double GetVerticalRadius() const
+    [[nodiscard]] double GetVerticalRadius() const
     {
         return m_verticalRadius;
     }

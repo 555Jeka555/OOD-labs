@@ -33,6 +33,7 @@ classDiagram
     Point <.. RegularPolygon : "Use"
 
     class Client {
+        + HandleCommand(istream inputData, ICanvas canvas, IPainter painter)
     }
 
     namespace PainterNamespace {
@@ -61,7 +62,7 @@ classDiagram
 
     namespace DesignerNamespace {
         class IDesigner {
-            + CreateDraft(istream stream) PictureDraft
+            + CreateDraft(istream inputData) PictureDraft
         }
 
         class Designer {
@@ -105,6 +106,8 @@ classDiagram
         }
 
         class Rectangle {
+            + string type = "rectangle"$
+
             - Point m_leftTop
             - double m_width
             - double m_height
@@ -113,6 +116,8 @@ classDiagram
         }
 
         class Ellipse {
+            + string type = "ellipse"$
+
             - Point m_center
             - double m_horizotalRadius
             - double m_verticalRadius
@@ -121,6 +126,8 @@ classDiagram
         }
 
         class Triangle {
+            + string type = "triangle"$
+
             - Point m_point1
             - Point m_point2
             - Point m_point3      
@@ -129,6 +136,8 @@ classDiagram
         }
 
         class RegularPolygon {
+            + string type = "regularPolygon"$
+
             - Point m_center
             - int m_pointsCount
             - double m_radius  
