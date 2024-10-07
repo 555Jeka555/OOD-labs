@@ -24,7 +24,7 @@ public:
         return m_color;
     }
 
-    ~Shape() = default;
+    virtual ~Shape() = default;
 private:
     Color m_color;
 };

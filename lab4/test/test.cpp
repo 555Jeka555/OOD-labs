@@ -4,6 +4,7 @@
 #include "../src/Shape/Ellipse.h"
 #include "../src/Shape/Triangle.h"
 #include "../src/Shape/RegularPolygon.h"
+#include "../src/Shape/Factory/ShapeFactory.h"
 
 using ::testing::_;
 using ::testing::Return;
@@ -15,7 +16,7 @@ public:
     MOCK_METHOD(void, DrawEllipse, (double cx, double cy, double rx, double ry), (override));
 };
 
-void assertEqualPoint(Point expectedPoint, Point actualPoint)
+void AssertEqualPoint(Point expectedPoint, Point actualPoint)
 {
     EXPECT_EQ(expectedPoint.x, actualPoint.x);
     EXPECT_EQ(expectedPoint.y, actualPoint.y);
@@ -31,12 +32,13 @@ TEST (rectangle, create_success)
     Rectangle rectangle(color, leftTop, width, height);
 
     EXPECT_EQ(color, rectangle.GetColor());
-    assertEqualPoint(leftTop, rectangle.GetLeftTop());
+    AssertEqualPoint(leftTop, rectangle.GetLeftTop());
     EXPECT_EQ(width, rectangle.GetWidth());
     EXPECT_EQ(height, rectangle.GetHeight());
 }
 
-TEST(rectangle, draw_success) {
+TEST(rectangle, draw_success)
+{
     Color color = Color::BLACK;
     Point leftTop(10, 20);
     double width = 30;
@@ -61,7 +63,8 @@ TEST(rectangle, draw_success) {
     rectangle.Draw(mockCanvas);
 }
 
-TEST (ellipse, create_success) {
+TEST (ellipse, create_success)
+{
     Color color = Color::BLACK;
     Point center(50, 50);
     double horizontalRadius = 30;
@@ -70,12 +73,13 @@ TEST (ellipse, create_success) {
     Ellipse ellipse(color, center, horizontalRadius, verticalRadius);
 
     EXPECT_EQ(color, ellipse.GetColor());
-    assertEqualPoint(center, ellipse.GetCenter());
+    AssertEqualPoint(center, ellipse.GetCenter());
     EXPECT_EQ(horizontalRadius, ellipse.GetHorizontalRadius());
     EXPECT_EQ(verticalRadius, ellipse.GetVerticalRadius());
 }
 
-TEST(ellipse, draw_success) {
+TEST(ellipse, draw_success)
+{
     Color color = Color::BLACK;
     Point center(50, 50);
     double horizontalRadius = 30;
@@ -94,7 +98,8 @@ TEST(ellipse, draw_success) {
     ellipse.Draw(mockCanvas);
 }
 
-TEST (triangle, create_success) {
+TEST (triangle, create_success)
+{
     Color color = Color::BLACK;
     Point point1(10, 20);
     Point point2(40, 20);
@@ -103,12 +108,13 @@ TEST (triangle, create_success) {
     Triangle triangle(color, point1, point2, point3);
 
     EXPECT_EQ(color, triangle.GetColor());
-    assertEqualPoint(point1, triangle.GetPoint1());
-    assertEqualPoint(point2, triangle.GetPoint2());
-    assertEqualPoint(point3, triangle.GetPoint3());
+    AssertEqualPoint(point1, triangle.GetPoint1());
+    AssertEqualPoint(point2, triangle.GetPoint2());
+    AssertEqualPoint(point3, triangle.GetPoint3());
 }
 
-TEST(triangle, draw_success) {
+TEST(triangle, draw_success)
+{
     Color color = Color::BLACK;
     Point point1(10, 20);
     Point point2(40, 20);
@@ -131,7 +137,8 @@ TEST(triangle, draw_success) {
     triangle.Draw(mockCanvas);
 }
 
-TEST (regular_polygon, create_success) {
+TEST (regular_polygon, create_success)
+{
     Color color = Color::BLACK;
     Point center(50, 50);
     int pointsCount = 5;
@@ -140,12 +147,13 @@ TEST (regular_polygon, create_success) {
     RegularPolygon polygon(color, center, pointsCount, radius);
 
     EXPECT_EQ(color, polygon.GetColor());
-    assertEqualPoint(center, polygon.GetCenter());
+    AssertEqualPoint(center, polygon.GetCenter());
     EXPECT_EQ(pointsCount, polygon.GetPointsCount());
     EXPECT_EQ(radius, polygon.GetRadius());
 }
 
-TEST(regular_polygon, draw_success) {
+TEST(regular_polygon, draw_success)
+{
     Color color = Color::BLACK;
     Point center(50, 50);
     int pointsCount = 5;
@@ -180,6 +188,90 @@ TEST(regular_polygon, draw_success) {
     EXPECT_CALL(mockCanvas, DrawLine(prevX, prevY, startX, startY)).Times(1);
 
     polygon.Draw(mockCanvas);
+}
+
+TEST(shape_factory, create_triangle_success)
+{
+    std::string description = "triangle black 10 20 40 20 25 50";
+
+    ShapeFactory shapeFactory;
+    auto shape = shapeFactory.CreateShape(description);
+
+    EXPECT_NE(shape, nullptr);
+    EXPECT_EQ(typeid(*shape), typeid(Triangle));
+
+    Triangle* triangle = dynamic_cast<Triangle*>(shape.get());
+    ASSERT_NE(triangle, nullptr);
+
+    EXPECT_EQ(triangle->GetColor(), Color::BLACK);
+    AssertEqualPoint(triangle->GetPoint1(), Point(10, 20));
+    AssertEqualPoint(triangle->GetPoint2(), Point(40, 20));
+    AssertEqualPoint(triangle->GetPoint3(), Point(25, 50));
+}
+
+TEST(shape_factory, create_ellipse_success)
+{
+    std::string description = "ellipse red 50 50 30 20";
+
+    ShapeFactory shapeFactory;
+    auto shape = shapeFactory.CreateShape(description);
+
+    EXPECT_NE(shape, nullptr);
+    EXPECT_EQ(typeid(*shape), typeid(Ellipse));
+
+    Ellipse* ellipse = dynamic_cast<Ellipse*>(shape.get());
+    ASSERT_NE(ellipse, nullptr);
+
+    EXPECT_EQ(ellipse->GetColor(), Color::RED);
+    AssertEqualPoint(ellipse->GetCenter(), Point(50, 50));
+    EXPECT_EQ(ellipse->GetHorizontalRadius(), 30);
+    EXPECT_EQ(ellipse->GetVerticalRadius(), 20);
+}
+
+TEST(shape_factory, create_rectangle_success)
+{
+    std::string description = "rectangle green 10 20 30 50";
+
+    ShapeFactory shapeFactory;
+    auto shape = shapeFactory.CreateShape(description);
+
+    EXPECT_NE(shape, nullptr);
+    EXPECT_EQ(typeid(*shape), typeid(Rectangle));
+
+    Rectangle* rectangle = dynamic_cast<Rectangle*>(shape.get());
+    ASSERT_NE(rectangle, nullptr);
+
+    EXPECT_EQ(rectangle->GetColor(), Color::GREEN);
+    AssertEqualPoint(rectangle->GetLeftTop(), Point(10, 20));
+    EXPECT_EQ(rectangle->GetWidth(), 30);
+    EXPECT_EQ(rectangle->GetHeight(), 50);
+}
+
+TEST(shape_factory, create_regularPolygon_success)
+{
+    std::string description = "regularPolygon blue 50 50 5 30";
+
+    ShapeFactory shapeFactory;
+    auto shape = shapeFactory.CreateShape(description);
+
+    EXPECT_NE(shape, nullptr);
+    EXPECT_EQ(typeid(*shape), typeid(RegularPolygon));
+
+    RegularPolygon* polygon = dynamic_cast<RegularPolygon*>(shape.get());
+    ASSERT_NE(polygon, nullptr);
+
+    EXPECT_EQ(polygon->GetColor(), Color::BLUE);
+    AssertEqualPoint(polygon->GetCenter(), Point(50, 50));
+    EXPECT_EQ(polygon->GetPointsCount(), 5);
+    EXPECT_EQ(polygon->GetRadius(), 30);
+}
+
+TEST(shape_factory, create_shape_unknown_type_error) {
+    std::string description = "unknownShape black";
+
+    ShapeFactory shapeFactory;
+
+    EXPECT_THROW(shapeFactory.CreateShape(description), std::invalid_argument);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
