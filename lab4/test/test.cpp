@@ -5,6 +5,7 @@
 #include "../src/Shape/Triangle.h"
 #include "../src/Shape/RegularPolygon.h"
 #include "../src/Shape/Factory/ShapeFactory.h"
+#include "../src/Designer/PictureDraft.h"
 
 using ::testing::_;
 using ::testing::Return;
@@ -14,6 +15,13 @@ public:
     MOCK_METHOD(void, SetColor, (uint32_t color), (override));
     MOCK_METHOD(void, DrawLine, (double fromX, double fromY, double toX, double toY), (override));
     MOCK_METHOD(void, DrawEllipse, (double cx, double cy, double rx, double ry), (override));
+};
+
+class MockShape : public Shape {
+public:
+    MOCK_METHOD(void, Draw, (gfx::ICanvas &canvas), (const, override));
+
+    explicit MockShape(Color color) : Shape(color) {}
 };
 
 void AssertEqualPoint(Point expectedPoint, Point actualPoint)
@@ -247,7 +255,7 @@ TEST(shape_factory, create_rectangle_success)
     EXPECT_EQ(rectangle->GetHeight(), 50);
 }
 
-TEST(shape_factory, create_regularPolygon_success)
+TEST(shape_factory, create_regular_polygon_success)
 {
     std::string description = "regularPolygon blue 50 50 5 30";
 
@@ -272,6 +280,46 @@ TEST(shape_factory, create_shape_unknown_type_error) {
     ShapeFactory shapeFactory;
 
     EXPECT_THROW(shapeFactory.CreateShape(description), std::invalid_argument);
+}
+
+TEST(picture_draft, add_shape_success) {
+    PictureDraft draft;
+
+    auto triangle = std::make_unique<MockShape>(Color::BLACK);
+    auto ellipse = std::make_unique<MockShape>(Color::BLACK);
+    auto rectangle = std::make_unique<MockShape>(Color::BLACK);
+
+    draft.AddShape(std::move(triangle));
+    draft.AddShape(std::move(ellipse));
+    draft.AddShape(std::move(rectangle));
+
+    EXPECT_EQ(std::distance(draft.begin(), draft.end()), 3);
+}
+
+TEST(picture_draft, iterate_shapes_success) {
+    PictureDraft draft;
+
+    auto triangle = std::make_unique<MockShape>(Color::BLACK);
+    auto ellipse = std::make_unique<MockShape>(Color::BLACK);
+
+    draft.AddShape(std::move(triangle));
+    draft.AddShape(std::move(ellipse));
+
+    int count = 0;
+    for (const auto& shape : draft) {
+        EXPECT_NE(shape, nullptr);
+        count++;
+    }
+
+    EXPECT_EQ(count, 2);
+
+    count = 0;
+    for (const auto& shape : draft) {
+        EXPECT_NE(shape, nullptr);
+        count++;
+    }
+
+    EXPECT_EQ(count, 2);
 }
 
 GTEST_API_ int main(int argc, char **argv) {

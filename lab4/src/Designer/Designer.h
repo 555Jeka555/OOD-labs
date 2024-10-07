@@ -17,7 +17,7 @@ public:
         std::string line;
         while (getline(inputData, line))
         {
-            draft.AddShape(m_factory.CreateShape(line));
+            draft.AddShape(std::move(m_factory.CreateShape(line)));
         }
         return draft;
     }

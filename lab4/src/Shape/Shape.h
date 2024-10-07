@@ -7,7 +7,6 @@
 #include <memory>
 #include <utility>
 #include "../Canvas/ICanvas.h"
-
 #include "Color.h"
 
 class Shape
