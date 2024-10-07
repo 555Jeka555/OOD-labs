@@ -7,27 +7,42 @@
 #include "../src/Shape/Factory/ShapeFactory.h"
 #include "../src/Designer/PictureDraft.h"
 #include "../src/Designer/Designer.h"
+#include "../src/Painter/Painter.h"
+#include "../src/Client.h"
 
 using ::testing::_;
 using ::testing::Return;
 
-class MockCanvas : public gfx::ICanvas {
-public:
-    MOCK_METHOD(void, SetColor, (uint32_t color), (override));
-    MOCK_METHOD(void, DrawLine, (double fromX, double fromY, double toX, double toY), (override));
-    MOCK_METHOD(void, DrawEllipse, (double cx, double cy, double rx, double ry), (override));
-};
-
-class MockShape : public Shape {
+class MockShape : public Shape
+{
 public:
     explicit MockShape(Color color) : Shape(color) {}
 
     MOCK_METHOD(void, Draw, (gfx::ICanvas &canvas), (const, override));
 };
 
-class MockShapeFactory : public IShapeFactory {
+class MockShapeFactory : public IShapeFactory
+{
 public:
     MOCK_METHOD(std::unique_ptr<Shape>, CreateShape, (const std::string& description), (override));
+};
+
+class MockDesigner : public IDesigner
+{
+public:
+    MOCK_METHOD(PictureDraft, CreateDraft, (std::istream & inputData), (override));
+};
+
+class MockPainter : public IPainter {
+public:
+    MOCK_METHOD(void, DrawPicture, (const PictureDraft& draft, gfx::ICanvas& canvas), (override));
+};
+
+class MockCanvas : public gfx::ICanvas {
+public:
+    MOCK_METHOD(void, SetColor, (uint32_t color), (override));
+    MOCK_METHOD(void, DrawLine, (double fromX, double fromY, double toX, double toY), (override));
+    MOCK_METHOD(void, DrawEllipse, (double cx, double cy, double rx, double ry), (override));
 };
 
 void AssertEqualPoint(Point expectedPoint, Point actualPoint)
@@ -356,6 +371,42 @@ TEST(designer, create_draft_with_shapes_success)
     PictureDraft draft = designer.CreateDraft(inputData);
 
     EXPECT_EQ(std::distance(draft.begin(), draft.end()), 3);
+}
+
+TEST(painter, draw_picture_success)
+{
+    Painter painter;
+    MockCanvas mockCanvas;
+
+    auto shape1 = std::make_unique<MockShape>(Color::BLACK);
+    auto shape2 = std::make_unique<MockShape>(Color::RED);
+
+    EXPECT_CALL(*shape1, Draw(testing::Ref(mockCanvas))).Times(1);
+    EXPECT_CALL(*shape2, Draw(testing::Ref(mockCanvas))).Times(1);
+
+    PictureDraft draft;
+    draft.AddShape(std::move(shape1));
+    draft.AddShape(std::move(shape2));
+
+    painter.DrawPicture(draft, mockCanvas);
+}
+
+TEST(client, hadle_command) {
+    MockDesigner mockDesigner;
+    MockPainter mockPainter;
+    MockCanvas mockCanvas;
+
+    Client client(mockDesigner);
+
+    std::istringstream inputData("triangle black 10 20 40 20 25 50\n");
+
+    EXPECT_CALL(mockDesigner, CreateDraft(testing::Ref(inputData)))
+            .WillOnce(Return(PictureDraft()));
+
+    EXPECT_CALL(mockPainter, DrawPicture(_, testing::Ref(mockCanvas)))
+            .Times(1);
+
+    client.HandleCommand(inputData, mockCanvas, mockPainter);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
