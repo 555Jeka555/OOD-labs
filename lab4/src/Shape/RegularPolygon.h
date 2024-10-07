@@ -41,6 +41,21 @@ public:
         canvas.DrawLine(prevX, prevY, startX, startY);
     }
 
+    Point GetCenter() const
+    {
+        return m_center;
+    }
+
+    int GetPointsCount() const
+    {
+        return m_pointsCount;
+    }
+
+    double GetRadius() const
+    {
+        return m_radius;
+    }
+
 private:
     Point m_center;
     int m_pointsCount;

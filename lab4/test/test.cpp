@@ -2,6 +2,8 @@
 #include <gmock/gmock.h>
 #include "../src/Shape/Rectangle.h"
 #include "../src/Shape/Ellipse.h"
+#include "../src/Shape/Triangle.h"
+#include "../src/Shape/RegularPolygon.h"
 
 using ::testing::_;
 using ::testing::Return;
@@ -90,6 +92,94 @@ TEST(ellipse, draw_success) {
             .Times(1);
 
     ellipse.Draw(mockCanvas);
+}
+
+TEST (triangle, create_success) {
+    Color color = Color::BLACK;
+    Point point1(10, 20);
+    Point point2(40, 20);
+    Point point3(25, 50);
+
+    Triangle triangle(color, point1, point2, point3);
+
+    EXPECT_EQ(color, triangle.GetColor());
+    assertEqualPoint(point1, triangle.GetPoint1());
+    assertEqualPoint(point2, triangle.GetPoint2());
+    assertEqualPoint(point3, triangle.GetPoint3());
+}
+
+TEST(triangle, draw_success) {
+    Color color = Color::BLACK;
+    Point point1(10, 20);
+    Point point2(40, 20);
+    Point point3(25, 50);
+
+    Triangle triangle(color, point1, point2, point3);
+
+    MockCanvas mockCanvas;
+
+    EXPECT_CALL(mockCanvas, SetColor(convertColorToHEX(color)))
+            .Times(1);
+
+    EXPECT_CALL(mockCanvas, DrawLine(point1.x, point1.y, point2.x, point2.y))
+            .Times(1);
+    EXPECT_CALL(mockCanvas, DrawLine(point2.x, point2.y, point3.x, point3.y))
+            .Times(1);
+    EXPECT_CALL(mockCanvas, DrawLine(point3.x, point3.y, point1.x, point1.y))
+            .Times(1);
+
+    triangle.Draw(mockCanvas);
+}
+
+TEST (regular_polygon, create_success) {
+    Color color = Color::BLACK;
+    Point center(50, 50);
+    int pointsCount = 5;
+    double radius = 30.0;
+
+    RegularPolygon polygon(color, center, pointsCount, radius);
+
+    EXPECT_EQ(color, polygon.GetColor());
+    assertEqualPoint(center, polygon.GetCenter());
+    EXPECT_EQ(pointsCount, polygon.GetPointsCount());
+    EXPECT_EQ(radius, polygon.GetRadius());
+}
+
+TEST(regular_polygon, draw_success) {
+    Color color = Color::BLACK;
+    Point center(50, 50);
+    int pointsCount = 5;
+    double radius = 30.0;
+
+    RegularPolygon polygon(color, center, pointsCount, radius);
+
+    MockCanvas mockCanvas;
+
+    EXPECT_CALL(mockCanvas, SetColor(convertColorToHEX(color)))
+            .Times(1);
+
+    double angleStep = 2 * M_PI / pointsCount;
+
+    double startX = center.x + radius * std::cos(0);
+    double startY = center.y + radius * std::sin(0);
+
+    double prevX = startX;
+    double prevY = startY;
+
+    for (int i = 1; i <= pointsCount; ++i) {
+        double angle = i * angleStep;
+        double x = center.x + radius * std::cos(angle);
+        double y = center.y + radius * std::sin(angle);
+
+        EXPECT_CALL(mockCanvas, DrawLine(prevX, prevY, x, y)).Times(1);
+
+        prevX = x;
+        prevY = y;
+    }
+
+    EXPECT_CALL(mockCanvas, DrawLine(prevX, prevY, startX, startY)).Times(1);
+
+    polygon.Draw(mockCanvas);
 }
 
 GTEST_API_ int main(int argc, char **argv) {

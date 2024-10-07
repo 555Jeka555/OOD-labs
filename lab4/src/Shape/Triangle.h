@@ -23,6 +23,21 @@ public:
         canvas.DrawLine(m_point3.x, m_point3.y, m_point1.x, m_point1.y);
     }
 
+    Point GetPoint1() const
+    {
+        return m_point1;
+    }
+
+    Point GetPoint2() const
+    {
+        return m_point2;
+    }
+
+    Point GetPoint3() const
+    {
+        return m_point3;
+    }
+
 private:
     Point m_point1;
     Point m_point2;
