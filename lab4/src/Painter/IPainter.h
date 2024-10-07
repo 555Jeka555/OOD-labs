@@ -8,6 +8,8 @@ class IPainter
 {
 public:
     virtual void DrawPicture(const PictureDraft& draft, gfx::ICanvas& canvas) = 0;
+
+    virtual ~IPainter() = default;
 };
 
 #endif //LAB4_IPAINTER_H
