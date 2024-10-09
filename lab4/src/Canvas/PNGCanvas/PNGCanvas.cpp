@@ -7,8 +7,7 @@
 
 namespace gfx
 {
-    const std::string& FONTFILEPATH = R"(C:\Volgatech\3course\OOD-labs\lab4\src\Canvas\PNGCanvas\font\Minecraft-Regular.ttf)";
-
+    // TODO без абсолютных
     gfx::Color StringToColor(uint32_t color) {
         gfx::Color result{};
 

@@ -1,7 +1,7 @@
 #ifndef LAB4_IDESIGNER_H
 #define LAB4_IDESIGNER_H
 
-#include "PictureDraft.h"
+#include "../PictureDraft/PictureDraft.h"
 
 class IDesigner
 {

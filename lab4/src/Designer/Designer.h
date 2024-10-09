@@ -1,9 +1,9 @@
 #ifndef LAB4_DESIGNER_H
 #define LAB4_DESIGNER_H
 
-#include "PictureDraft.h"
+#include "../PictureDraft/PictureDraft.h"
 #include "IDesigner.h"
-#include "../Shape/Factory/IShapeFactory.h"
+#include "../ShapeFactory/IShapeFactory.h"
 
 class Designer : public IDesigner
 {

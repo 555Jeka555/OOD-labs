@@ -4,9 +4,10 @@
 #include "Designer/Designer.h"
 #include "Painter/Painter.h"
 #include "Client.h"
-#include "Shape/Factory/ShapeFactory.h"
+#include "ShapeFactory/ShapeFactory.h"
 
 const std::string COMMAND_INPUT_ARGS = "cin";
+const std::string PICTURE_OUTPUT_NAME = "output.png";
 
 const int CANVAS_WIDTH = 800;
 const int CANVAS_HEIGHT = 800;
@@ -42,6 +43,22 @@ void CheckOpenInputStream(std::ifstream& inputFile)
     }
 }
 
+// Принцип инверсии зависимостей (dependency inversion) - принцип объектно-ориентированного программирования,
+// суть которого состоит в том, что классы должны зависеть от абстракций, а не от конкретных деталей
+// Модули верхнего уровня не должны зависеть от модулей нижнего уровня; оба типа модулей должны зависеть
+// от абстракций (например, интерфейсов).
+// Абстракции не должны зависеть от деталей; детали должны зависеть от абстракций.
+
+// Внедрение зависимостей — это паттерн проектирования, который реализует инверсию зависимостей.
+// Он позволяет передавать зависимости (например, объекты) в класс извне, а не создавать их внутри класса.
+// Основная цель внедрения зависимостей — уменьшить связанность между классами
+// и упростить тестирование, позволяя легко подменять зависимости на моки или стабы.
+
+// TODO IDESINER в поле в диаграмме
+// TODO Указать недостающие связи, лучше от интерфейсов
+// TODO Разобраться с директориями
+// TODO Осмысленная картинка (девочку)
+
 int main(int argc, char* argv[])
 {
     try
@@ -71,6 +88,8 @@ int main(int argc, char* argv[])
         {
             client.HandleCommand(std::cin, canvas, painter);
         }
+
+        canvas.SaveToFile(PICTURE_OUTPUT_NAME);
     }
     catch (const std::exception& e)
     {

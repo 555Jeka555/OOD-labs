@@ -184,7 +184,7 @@ private:
 class CCream : public CCondimentDecorator
 {
 public:
-    // TODO для чего explicit
+    // TODO для чего explicit, в каких случаях не использовать explicit
     // Конструктор с ключевым словом explicit в C++ используется
     // для предотвращения неявного преобразования типов.
     // Это особенно важно, когда конструктор принимает один параметр,
@@ -200,7 +200,7 @@ public:
     //    MyClass obj2(10); // ОК: явное создание объекта
 
     explicit CCream(IBeveragePtr && beverage)
-    : CCondimentDecorator(move(beverage))
+    : CCondimentDecorator(std::move(beverage))
     {}
 
 protected:

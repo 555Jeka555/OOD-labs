@@ -5,10 +5,10 @@
 #include <algorithm>
 #include <cctype>
 #include "IShapeFactory.h"
-#include "../Triangle.h"
-#include "../Ellipse.h"
-#include "../Rectangle.h"
-#include "../RegularPolygon.h"
+#include "../Shape/Triangle.h"
+#include "../Shape/Ellipse.h"
+#include "../Shape/Rectangle.h"
+#include "../Shape/RegularPolygon.h"
 
 class ShapeFactory : public IShapeFactory
 {

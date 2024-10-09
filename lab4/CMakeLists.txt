@@ -25,11 +25,11 @@ set(SOURCE_FILES
         src/Shape/Rectangle.h
         src/Shape/Triangle.h
         src/Shape/RegularPolygon.h
-        src/Shape/Factory/IShapeFactory.h
-        src/Shape/Factory/ShapeFactory.h
+        src/ShapeFactory/IShapeFactory.h
+        src/ShapeFactory/ShapeFactory.h
         src/Designer/Designer.h
-        src/Designer/PictureDraft.h
-        src/Designer/PictureDraft.h
+        src/PictureDraft/PictureDraft.h
+        src/PictureDraft/PictureDraft.h
         src/Designer/IDesigner.h
         src/Designer/IDesigner.h
         src/Painter/Painter.h

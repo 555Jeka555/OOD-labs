@@ -1,7 +1,7 @@
 #ifndef LAB4_IPAINTER_H
 #define LAB4_IPAINTER_H
 
-#include "../Designer/PictureDraft.h"
+#include "../PictureDraft/PictureDraft.h"
 #include "../Canvas/ICanvas.h"
 
 class IPainter

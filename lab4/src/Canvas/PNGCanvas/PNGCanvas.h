@@ -7,6 +7,9 @@
 //#include "stb_truetype.h"
 ////#endif // STB_TRUETYPE_IMPLEMENTATION
 
+// TODO Защитить заголовочные файлы от повторного включения
+#pragma once
+
 #include <fstream>
 #include <string>
 #include <cmath>
@@ -36,10 +39,7 @@ namespace gfx
             pixels.resize(width * height * 4, 255);
         }
 
-        ~PNGCanvas() override
-        {
-            SaveToFile("output.png");
-        }
+        // TODO Убрать из деструктора
 
         void SetColor(uint32_t color) override
         {

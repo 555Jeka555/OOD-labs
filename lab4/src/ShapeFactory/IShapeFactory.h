@@ -1,7 +1,7 @@
 #ifndef LAB4_ISHAPEFACTORY_H
 #define LAB4_ISHAPEFACTORY_H
 
-#include "../Shape.h"
+#include "../Shape/Shape.h"
 
 class IShapeFactory
 {

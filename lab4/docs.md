@@ -9,7 +9,7 @@ classDiagram
 
     IDesigner <|.. Designer
     Designer o-- IShapeFactory
-    PictureDraft <.. Designer : "Create"
+    PictureDraft <.. IDesigner : "Create"
 
     IPainter <|.. Painter
     PictureDraft <.. IPainter : "Use"
@@ -19,20 +19,21 @@ classDiagram
 
     IShapeFactory <|.. ShapeFactory
 
-    Color <.. Shape : "Use"        
-    Shape <.. ShapeFactory : "Create"
+    Color *-- Shape        
+    Shape <.. IShapeFactory : "Create"
     Shape <|.. Rectangle
     Shape <|.. Ellipse
     Shape <|.. Triangle
     Shape <|.. RegularPolygon
 
     Point <.. ShapeFactory : "Use"
-    Point <.. Rectangle : "Use"
-    Point <.. Ellipse : "Use"
-    Point <.. Triangle : "Use"
-    Point <.. RegularPolygon : "Use"
+    Point *-- Rectangle
+    Point *-- Ellipse
+    Point *-- Triangle
+    Point *-- RegularPolygon
 
     class Client {
+        - IDesigner m_designer
         + HandleCommand(istream inputData, ICanvas canvas, IPainter painter)
     }
 
@@ -60,6 +61,14 @@ classDiagram
         }
     }
 
+    namespace PictureDraftNamespace {
+        class PictureDraft {
+            - vector<Shape> m_shapes
+
+            + AddShape(Shape)
+        }
+    }
+
     namespace DesignerNamespace {
         class IDesigner {
             + CreateDraft(istream inputData) PictureDraft
@@ -68,15 +77,17 @@ classDiagram
         class Designer {
             + CreateDraft(istream inputData) PictureDraft
         }
-
-        
-
-        class PictureDraft {
-            - vector<Shape> m_shapes
-
-            + AddShape(Shape)
-        }
     }    
+
+    namespace ShapeFactoryNamespace {
+        class IShapeFactory {
+            + CreateShape(string description) Shape
+        }
+
+        class ShapeFactory {
+            + CreateShape(string description) Shape
+        }
+    }
 
     namespace ShapeNamespace {
         class Color {
@@ -87,14 +98,6 @@ classDiagram
             + YELLOW
             + PINK
             + BLACK
-        }
-
-        class IShapeFactory {
-            + CreateShape(string description) Shape
-        }
-
-        class ShapeFactory {
-            + CreateShape(string description) Shape
         }
 
         class Shape {
