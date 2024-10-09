@@ -49,7 +49,7 @@ classDiagram
 
     namespace CanvasNamespace {
         class ICanvas {
-            + SetColor(Color color)
+            + SetColor(uint32_t color)
             + DrawLine(double fromX, double fromY, double toX, double toY)
             + DrawEllipse(double centerX, double centerY, double radiusX, double radiusY)
         }
@@ -153,4 +153,5 @@ classDiagram
             + double y
         }
     }
+
 ```
