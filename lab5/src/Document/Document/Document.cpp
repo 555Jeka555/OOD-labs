@@ -1,9 +1,8 @@
 #include "Document.h"
 
-std::shared_ptr<IParagraph> Document::InsertParagraph(const std::string &text, std::optional<size_t> position)
+void Document::InsertParagraph(const std::string &text, std::optional<size_t> position)
 {
     m_history.AddAndExecuteCommand(std::make_unique<InsertParagraphCommand>(m_documentItems, text, position));
-    return nullptr;
 }
 
 std::shared_ptr<IImage>
@@ -34,12 +33,12 @@ void Document::DeleteItem(size_t index)
 
 std::string Document::GetTitle() const
 {
-    return std::string();
+    return m_title;
 }
 
 void Document::SetTitle(const std::string &title)
 {
-
+    m_history.AddAndExecuteCommand(std::make_unique<SetTitleCommand>(m_title, title));
 }
 
 bool Document::CanUndo() const

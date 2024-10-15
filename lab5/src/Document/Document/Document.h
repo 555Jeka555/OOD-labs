@@ -5,13 +5,14 @@
 #include "../IDocument.h"
 #include "../History/History.h"
 #include "../Command/InsertParagraphCommand/InsertParagraphCommand.h"
+#include "../Command/SetTitleCommand/SetTitleCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument
 {
 public:
-    std::shared_ptr<IParagraph> InsertParagraph(const std::string& text,
-                                                        std::optional<size_t> position = std::nullopt) override;
+    void InsertParagraph(const std::string& text,
+                         std::optional<size_t> position = std::nullopt) override;
 
     std::shared_ptr<IImage> InsertImage(const std::string& path, int width, int height,
                                                 std::optional<size_t> position = std::nullopt) override;

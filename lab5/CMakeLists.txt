@@ -35,6 +35,8 @@ set(SOURCE_FILES
         src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.h
         src/Document/Paragraph/Paragraph.h
         src/Document/Image/Image.h
+        src/Document/Command/SetTitleCommand/SetTitleCommand.cpp
+        src/Document/Command/SetTitleCommand/SetTitleCommand.h
 )
 
 set(TEST_SOURCE_FILES

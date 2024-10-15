@@ -16,7 +16,7 @@ class IDocument
 public:
     // Вставляет параграф текста в указанную позицию (сдвигая последующие элементы)
     // Если параметр position не указан, вставка происходит в конец документа
-    virtual std::shared_ptr<IParagraph> InsertParagraph(const std::string& text,
+    virtual void InsertParagraph(const std::string& text,
                                        std::optional<size_t> position = std::nullopt) = 0;
     // Вставляет изображение в указанную позицию (сдвигая последующие элементы)
     // Параметр path задает путь к вставляемому изображению

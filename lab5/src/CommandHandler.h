@@ -34,6 +34,10 @@ public:
             {
                 m_menu.AddItem("List", "Show document", std::bind(&CommandHandler::List, this, std::placeholders::_1));
             }
+            else if (name == SetTitleCommand::name)
+            {
+                AddMenuItem(SetTitleCommand::name, "Set title", &CommandHandler::SetTitle);
+            }
         }
     }
 
@@ -93,6 +97,15 @@ private:
         }
 
         m_document.InsertParagraph(text, position);
+    }
+
+    void SetTitle(std::istream & in)
+    {
+        std::string title;
+
+        in >> title;
+
+        m_document.SetTitle(title);
     }
 };
 
