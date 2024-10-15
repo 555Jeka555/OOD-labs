@@ -6,6 +6,7 @@
 #include "../History/History.h"
 #include "../Command/InsertParagraphCommand/InsertParagraphCommand.h"
 #include "../Command/SetTitleCommand/SetTitleCommand.h"
+#include "../Command/ReplaceTextCommand/ReplaceTextCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument
@@ -13,6 +14,8 @@ class Document : public IDocument
 public:
     void InsertParagraph(const std::string& text,
                          std::optional<size_t> position = std::nullopt) override;
+
+    void ReplaceText(const std::string& newText, std::optional<size_t> position) override;
 
     std::shared_ptr<IImage> InsertImage(const std::string& path, int width, int height,
                                                 std::optional<size_t> position = std::nullopt) override;

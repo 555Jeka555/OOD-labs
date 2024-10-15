@@ -65,3 +65,8 @@ void Document::Save(const std::string &path) const
 {
 
 }
+
+void Document::ReplaceText(const std::string &newText, std::optional<size_t> position)
+{
+    m_history.AddAndExecuteCommand(std::make_unique<ReplaceTextCommand>(m_documentItems, newText, position));
+}

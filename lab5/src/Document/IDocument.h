@@ -18,6 +18,8 @@ public:
     // Если параметр position не указан, вставка происходит в конец документа
     virtual void InsertParagraph(const std::string& text,
                                        std::optional<size_t> position = std::nullopt) = 0;
+    virtual void ReplaceText(const std::string& newText,
+                             std::optional<size_t> position) = 0;
     // Вставляет изображение в указанную позицию (сдвигая последующие элементы)
     // Параметр path задает путь к вставляемому изображению
     // При вставке изображение должно копироваться в подкаталог images

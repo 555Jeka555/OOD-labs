@@ -38,6 +38,11 @@ public:
             {
                 AddMenuItem(SetTitleCommand::name, "Set title", &CommandHandler::SetTitle);
             }
+            else if (name == ReplaceTextCommand::name)
+            {
+                AddMenuItem(ReplaceTextCommand::name, "Replace text", &CommandHandler::ReplaceText);
+
+            }
         }
     }
 
@@ -106,6 +111,26 @@ private:
         in >> title;
 
         m_document.SetTitle(title);
+    }
+
+    void ReplaceText(std::istream & in)
+    {
+        std::string newText;
+        std::string positionStr;
+
+        in >> positionStr >> newText;
+
+        std::optional<size_t> position = std::nullopt;
+        try
+        {
+            position = std::stoi(positionStr);
+        }
+        catch (...)
+        {
+            throw std::invalid_argument("Invalid type position");
+        }
+
+        m_document.ReplaceText(newText, position);
     }
 };
 
