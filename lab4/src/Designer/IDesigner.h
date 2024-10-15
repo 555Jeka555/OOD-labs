@@ -8,6 +8,7 @@ class IDesigner
 public:
     virtual PictureDraft CreateDraft(std::istream & inputData) = 0;
 
+    // TODO зачем тут виртуальный дисктруктор и какие альтернативы
     virtual ~IDesigner() = default;
 };
 
