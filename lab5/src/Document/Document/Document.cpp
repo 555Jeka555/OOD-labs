@@ -28,7 +28,7 @@ DocumentItem Document::GetItem(size_t index)
 
 void Document::DeleteItem(size_t index)
 {
-    m_history.AddAndExecuteCommand(std::make_unique<DeleteItemCommand>(m_documentItems, index, m_documentItems.at(index)));
+    m_history.AddAndExecuteCommand(std::make_unique<DeleteItemCommand>(m_documentItems, index));
 }
 
 std::string Document::GetTitle() const

@@ -10,42 +10,15 @@ class CommandHandler
 public:
     CommandHandler(Menu & menu, Document & document)
         : m_menu(menu), m_document(document)
-    {}
-
-    void Handle(std::istream & inputData)
     {
-        std::string line;
-        while (getline(inputData, line))
-        {
-            std::istringstream iss(line);
-            std::string name;
-            iss >> name;
-
-            if (name == "Help")
-            {
-                m_menu.AddItem("Help", "Help", [this](std::istream&) { m_menu.ShowInstructions(); });
-            }
-            else if (name == InsertParagraphCommand::name)
-            {
-                AddMenuItem(InsertParagraphCommand::name, "InsertParagraph", &CommandHandler::InsertParagraph);
-            }
-            else if (name == "List")
-            {
-                m_menu.AddItem("List", "Show document", std::bind(&CommandHandler::List, this, std::placeholders::_1));
-            }
-            else if (name == SetTitleCommand::name)
-            {
-                AddMenuItem(SetTitleCommand::name, "Set title", &CommandHandler::SetTitle);
-            }
-            else if (name == ReplaceTextCommand::name)
-            {
-                AddMenuItem(ReplaceTextCommand::name, "Replace text", &CommandHandler::ReplaceText);
-            }
-            else if (name == DeleteItemCommand::name)
-            {
-                AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
-            }
-        }
+        m_menu.AddItem("Help", "Help", [this](std::istream&) { m_menu.ShowInstructions(); });
+        AddMenuItem(InsertParagraphCommand::name, "InsertParagraph", &CommandHandler::InsertParagraph);
+        AddMenuItem("List", "Show document", &CommandHandler::List);
+        AddMenuItem(SetTitleCommand::name, "Set title", &CommandHandler::SetTitle);
+        AddMenuItem(ReplaceTextCommand::name, "Replace text", &CommandHandler::ReplaceText);
+        AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
+        AddMenuItem("Undo", "Undo command", &CommandHandler::Undo);
+        AddMenuItem("Redo", "Redo undone command", &CommandHandler::Redo);
     }
 
 private:
@@ -152,6 +125,30 @@ private:
         }
 
         m_document.DeleteItem(position);
+    }
+
+    void Undo(std::istream &)
+    {
+        if (m_document.CanUndo())
+        {
+            m_document.Undo();
+        }
+        else
+        {
+            std::cout << "Can't undo" << std::endl;
+        }
+    }
+
+    void Redo(std::istream &)
+    {
+        if (m_document.CanRedo())
+        {
+            m_document.Redo();
+        }
+        else
+        {
+            std::cout << "Can't redo" << std::endl;
+        }
     }
 };
 

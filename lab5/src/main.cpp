@@ -47,24 +47,6 @@ int main(int argc, char* argv[])
         Menu menu;
         CommandHandler commandHandler(menu, document);
 
-        if (args.inputFileName != COMMAND_INPUT_ARGS)
-        {
-            std::ifstream fileInput = GetInputFile(args.inputFileName);
-            CheckOpenInputStream(fileInput);
-
-            if (fileInput.peek() == std::ifstream::traits_type::eof())
-            {
-                std::cout << "Error reading input file: file is empty" << std::endl;
-                return 0;
-            }
-
-            commandHandler.Handle(fileInput);
-        }
-        else
-        {
-            commandHandler.Handle(std::cin);
-        }
-
         menu.Run();
         menu.Exit();
     }
