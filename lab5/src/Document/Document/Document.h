@@ -8,6 +8,7 @@
 #include "../Command/SetTitleCommand/SetTitleCommand.h"
 #include "../Command/ReplaceTextCommand/ReplaceTextCommand.h"
 #include "../Command/DeleteItemCommand/DeleteItemCommand.h"
+#include "../Command/SaveCommand/SaveCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument

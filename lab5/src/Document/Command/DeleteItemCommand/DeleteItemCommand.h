@@ -10,7 +10,7 @@
 class DeleteItemCommand : public AbstractCommand
 {
 public:
-    static constexpr const char* name = "DeleteItem"; // Используйте const char*
+    static constexpr std::string name = "DeleteItem";
 
     DeleteItemCommand(std::vector<DocumentItem>& documentItems, size_t position)
             : m_documentItems(documentItems), m_position(position)

@@ -63,7 +63,7 @@ void Document::Redo()
 
 void Document::Save(const std::string &path) const
 {
-
+    std::make_unique<SaveCommand>(m_documentItems, path, m_title)->Execute();
 }
 
 void Document::ReplaceText(const std::string &newText, std::optional<size_t> position)

@@ -19,6 +19,7 @@ public:
         AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
         AddMenuItem("Undo", "Undo command", &CommandHandler::Undo);
         AddMenuItem("Redo", "Redo undone command", &CommandHandler::Redo);
+        AddMenuItem("Save", "Save to html", &CommandHandler::Save);
     }
 
 private:
@@ -149,6 +150,15 @@ private:
         {
             std::cout << "Can't redo" << std::endl;
         }
+    }
+
+    void Save(std::istream & in)
+    {
+        std::string path;
+
+        in >> path;
+
+        m_document.Save(path);
     }
 };
 
