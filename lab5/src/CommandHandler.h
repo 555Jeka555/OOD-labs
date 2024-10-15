@@ -73,9 +73,25 @@ private:
         std::string text;
         std::string positionStr;
 
-        in >> text >> positionStr;
+        in >> positionStr >> text;
 
-        std::optional<size_t> position = std::nullopt;
+        std::optional<size_t> position;
+        if (positionStr == "end")
+        {
+            position = std::nullopt;
+        }
+        else
+        {
+            try
+            {
+                position = std::stoi(positionStr);
+            }
+            catch (...)
+            {
+                throw std::invalid_argument("Invalid type position");
+            }
+        }
+
         m_document.InsertParagraph(text, position);
     }
 };
