@@ -4,12 +4,12 @@
 #include <sstream>
 #include "Menu/Menu.h"
 #include "Document/IDocument.h"
-#include "Document/Command/HelpCommand/HelpCommand.h"
+#include "Document/Command/InsertParagraphCommand/InsertParagraphCommand.h"
 
 class CommandHandler
 {
 public:
-    CommandHandler(Menu & menu, IDocument & document)
+    CommandHandler(Menu & menu, Document & document)
         : m_menu(menu), m_document(document)
     {}
 
@@ -22,19 +22,62 @@ public:
             std::string name;
             iss >> name;
 
-            if (name == HelpCommand::name)
+            if (name == "Help")
             {
-                m_menu.AddItem(HelpCommand::name, "Help", [&](std::istream &args) {
-                    HelpCommand helpCommand;
-                    helpCommand.Execute();
-                });
+                m_menu.AddItem("Help", "Help", [this](std::istream&) { m_menu.ShowInstructions(); });
+            }
+            else if (name == InsertParagraphCommand::name)
+            {
+                AddMenuItem(InsertParagraphCommand::name, "InsertParagraph", &CommandHandler::InsertParagraph);
+            }
+            else if (name == "List")
+            {
+                m_menu.AddItem("List", "Show document", std::bind(&CommandHandler::List, this, std::placeholders::_1));
             }
         }
     }
 
 private:
     Menu & m_menu;
-    IDocument & m_document;
+    Document & m_document;
+
+    typedef void (CommandHandler::*MenuHandler)(std::istream & in);
+    void AddMenuItem(const std::string & shortcut, const std::string & description, MenuHandler handler)
+    {
+        m_menu.AddItem(shortcut, description, bind(handler, this, std::placeholders::_1));
+    }
+
+    void List(std::istream &)
+    {
+        std::cout << "Title " << m_document.GetTitle() << "\n";
+
+        for (int i = 0; i < m_document.GetItemsCount(); i++)
+        {
+            auto documentItem = m_document.GetItem(i);
+            auto paragraph = documentItem.GetParagraph();
+            if (paragraph != nullptr)
+            {
+                std::cout << (i + 1) << ". Paragrpah: " << paragraph->GetText() << "\n";
+            }
+
+            auto image = documentItem.GetImage();
+            if (image != nullptr)
+            {
+                std::cout<< (i + 1) << ". Image: " << image->GetWidth() << " " << image->GetHeight() << " " << image->GetPath() << "\n";
+            }
+        }
+    }
+
+    void InsertParagraph(std::istream & in)
+    {
+        std::string text;
+        std::string positionStr;
+
+        in >> text >> positionStr;
+
+        std::optional<size_t> position = std::nullopt;
+        m_document.InsertParagraph(text, position);
+    }
 };
 
 #endif //LAB5_COMMANDHANDLER_H

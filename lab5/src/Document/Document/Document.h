@@ -1,7 +1,11 @@
 #ifndef LAB5_DOCUMENT_H
 #define LAB5_DOCUMENT_H
 
+#include <vector>
 #include "../IDocument.h"
+#include "../History/History.h"
+#include "../Command/InsertParagraphCommand/InsertParagraphCommand.h"
+#include "../DocumentItem.h"
 
 class Document : public IDocument
 {
@@ -33,6 +37,11 @@ public:
     void Redo() override;
     
     void Save(const std::string& path)const override;
+
+private:
+    std::string m_title;
+    History m_history;
+    std::vector<DocumentItem> m_documentItems;
 };
 
 

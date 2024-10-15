@@ -16,8 +16,8 @@ FetchContent_MakeAvailable(googletest)
 set(SOURCE_FILES
         src/main.cpp
         src/Document/IDocument.h
-        src/IParagraph.h
-        src/IImage.h
+        src/Document/Paragraph/IParagraph.h
+        src/Document/Image/IImage.h
         src/Document/ConstDocumentItem.h
         src/Document/DocumentItem.h
         src/Menu/Menu.cpp
@@ -29,8 +29,12 @@ set(SOURCE_FILES
         src/Document/Command/AbstractCommand/AbstractCommand.cpp
         src/Document/Command/AbstractCommand/AbstractCommand.h
         src/CommandHandler.h
-        src/Document/Command/HelpCommand/HelpCommand.cpp
-        src/Document/Command/HelpCommand/HelpCommand.h
+        src/Document/History/History.cpp
+        src/Document/History/History.h
+        src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.cpp
+        src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.h
+        src/Document/Paragraph/Paragraph.h
+        src/Document/Image/Image.h
 )
 
 set(TEST_SOURCE_FILES

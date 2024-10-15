@@ -2,6 +2,7 @@
 
 std::shared_ptr<IParagraph> Document::InsertParagraph(const std::string &text, std::optional<size_t> position)
 {
+    m_history.AddAndExecuteCommand(std::make_unique<InsertParagraphCommand>(m_documentItems, text, position));
     return nullptr;
 }
 
@@ -13,17 +14,17 @@ Document::InsertImage(const std::string &path, int width, int height, std::optio
 
 size_t Document::GetItemsCount() const
 {
-    return 0;
+    return m_documentItems.size();
 }
 
 ConstDocumentItem Document::GetItem(size_t index) const
 {
-    return ConstDocumentItem();
+    return m_documentItems.at(index);
 }
 
 DocumentItem Document::GetItem(size_t index)
 {
-    return DocumentItem();
+    return m_documentItems.at(index);
 }
 
 void Document::DeleteItem(size_t index)
@@ -43,22 +44,22 @@ void Document::SetTitle(const std::string &title)
 
 bool Document::CanUndo() const
 {
-    return false;
+    return m_history.CanUndo();
 }
 
 void Document::Undo()
 {
-
+    m_history.Undo();
 }
 
 bool Document::CanRedo() const
 {
-    return false;
+    return m_history.CanRedo();
 }
 
 void Document::Redo()
 {
-
+    m_history.Redo();
 }
 
 void Document::Save(const std::string &path) const
