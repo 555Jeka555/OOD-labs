@@ -17,7 +17,7 @@ void InsertParagraphCommand::DoExecute()
         {
             throw std::invalid_argument("Out of range by position");
         }
-        m_documentItems[pos] = documentItem;
+        m_documentItems.insert(m_documentItems.begin() + static_cast<std::vector<DocumentItem>::iterator::difference_type>(pos), documentItem);
     }
 }
 

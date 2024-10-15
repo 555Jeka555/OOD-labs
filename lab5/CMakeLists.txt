@@ -39,6 +39,8 @@ set(SOURCE_FILES
         src/Document/Command/SetTitleCommand/SetTitleCommand.h
         src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.cpp
         src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.h
+        src/Document/Command/DeleteItemCommand/DeleteItemCommand.cpp
+        src/Document/Command/DeleteItemCommand/DeleteItemCommand.h
 )
 
 set(TEST_SOURCE_FILES

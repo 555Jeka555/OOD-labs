@@ -4,7 +4,6 @@
 #include <sstream>
 #include "Menu/Menu.h"
 #include "Document/IDocument.h"
-#include "Document/Command/InsertParagraphCommand/InsertParagraphCommand.h"
 
 class CommandHandler
 {
@@ -41,7 +40,10 @@ public:
             else if (name == ReplaceTextCommand::name)
             {
                 AddMenuItem(ReplaceTextCommand::name, "Replace text", &CommandHandler::ReplaceText);
-
+            }
+            else if (name == DeleteItemCommand::name)
+            {
+                AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
             }
         }
     }
@@ -120,7 +122,7 @@ private:
 
         in >> positionStr >> newText;
 
-        std::optional<size_t> position = std::nullopt;
+        std::optional<size_t> position;
         try
         {
             position = std::stoi(positionStr);
@@ -131,6 +133,25 @@ private:
         }
 
         m_document.ReplaceText(newText, position);
+    }
+
+    void DeleteItem(std::istream & in)
+    {
+        std::string positionStr;
+
+        in >> positionStr;
+
+        size_t position;
+        try
+        {
+            position = std::stoi(positionStr);
+        }
+        catch (...)
+        {
+            throw std::invalid_argument("Invalid type position");
+        }
+
+        m_document.DeleteItem(position);
     }
 };
 

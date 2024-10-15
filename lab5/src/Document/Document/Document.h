@@ -7,6 +7,7 @@
 #include "../Command/InsertParagraphCommand/InsertParagraphCommand.h"
 #include "../Command/SetTitleCommand/SetTitleCommand.h"
 #include "../Command/ReplaceTextCommand/ReplaceTextCommand.h"
+#include "../Command/DeleteItemCommand/DeleteItemCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument
