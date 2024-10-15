@@ -32,6 +32,15 @@ classDiagram
     Document *-- UndoCommand
     Document *-- RedoCommand
     Document *-- SaveCommand
+
+    InsertParagraphCommand o-- Document
+    InsertImageCommand o-- Document
+    SetTitleCommand o-- Document
+    ListCommand o-- Document
+    DeleteCommand o-- Document
+    UndoCommand o-- Document
+    RedoCommand o-- Document
+    SaveCommand o-- Document
     
     Menu *-- Item
     Menu o-- Document

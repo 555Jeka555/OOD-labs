@@ -22,8 +22,15 @@ set(SOURCE_FILES
         src/Document/DocumentItem.h
         src/Menu/Menu.cpp
         src/Menu/Menu.h
-        src/Document/Document.cpp
-        src/Document/Document.h
+        src/Document/Document/Document.cpp
+        src/Document/Document/Document.h
+        src/Document/Command/ICommand.h
+        src/Document/Command/ICommand_fwd.h
+        src/Document/Command/AbstractCommand/AbstractCommand.cpp
+        src/Document/Command/AbstractCommand/AbstractCommand.h
+        src/CommandHandler.h
+        src/Document/Command/HelpCommand/HelpCommand.cpp
+        src/Document/Command/HelpCommand/HelpCommand.h
 )
 
 set(TEST_SOURCE_FILES

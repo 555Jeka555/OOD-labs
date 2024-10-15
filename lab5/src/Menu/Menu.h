@@ -32,6 +32,7 @@ private:
     };
     std::vector<Item> m_items;
     bool m_exit = false;
+    bool m_forceExit = false;
 };
 
 

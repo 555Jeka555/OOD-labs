@@ -13,6 +13,7 @@ void Menu::Run()
     std::string command;
     while ((std::cout << ">")
            && getline(std::cin, command)
+           && !command.empty()
            && ExecuteCommand(command))
     {
     }

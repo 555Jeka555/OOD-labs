@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "Menu/Menu.h"
-#include "Document/Document.h"
+#include "Document/Document/Document.h"
+#include "CommandHandler.h"
 
 const std::string COMMAND_INPUT_ARGS = "cin";
 
@@ -44,9 +45,7 @@ int main(int argc, char* argv[])
 
         Document document;
         Menu menu;
-        menu.AddItem("east", "Makes the Robot walk east",
-                     std::bind(&Document::Undo, &document));
-
+        CommandHandler commandHandler(menu, document);
 
         if (args.inputFileName != COMMAND_INPUT_ARGS)
         {
@@ -59,11 +58,15 @@ int main(int argc, char* argv[])
                 return 0;
             }
 
+            commandHandler.Handle(fileInput);
         }
         else
         {
+            commandHandler.Handle(std::cin);
         }
 
+        menu.Run();
+        menu.Exit();
     }
     catch (const std::exception& e)
     {

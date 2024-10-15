@@ -1,7 +1,7 @@
 #ifndef LAB5_DOCUMENT_H
 #define LAB5_DOCUMENT_H
 
-#include "IDocument.h"
+#include "../IDocument.h"
 
 class Document : public IDocument
 {
