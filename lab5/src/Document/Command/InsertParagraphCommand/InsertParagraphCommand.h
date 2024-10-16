@@ -15,9 +15,9 @@ public:
     static constexpr std::string name = "InsertParagraph";
 
     InsertParagraphCommand(std::vector<DocumentItem> & documentItems,
-                           std::string text,
+                           const std::string& text,
                            std::optional<size_t> position)
-                           : m_documentItems(documentItems), m_text(std::move(text)), m_position(position) {};
+                           : m_documentItems(documentItems), m_text(text), m_position(position) {};
 protected:
     void DoExecute() override;
     void DoUnexecute() override;

@@ -16,7 +16,7 @@ class SaveCommand : public AbstractCommand
 public:
     static constexpr std::string name = "Save";
 
-    SaveCommand(const std::vector<DocumentItem>& documentItems, std::string  path, std::string  title)
+    SaveCommand(const std::vector<DocumentItem>& documentItems, std::string path, std::string  title)
         : m_documentItems(documentItems), m_path(std::move(path)), m_title(std::move(title)) {}
 
 protected:

@@ -6,7 +6,7 @@
 class Paragraph : public IParagraph
 {
 public:
-    explicit Paragraph (std::string & text) : m_text(std::move(text)) {}
+    explicit Paragraph (const std::string & text) : m_text(text) {}
 
     [[nodiscard]] std::string GetText() const override
     {

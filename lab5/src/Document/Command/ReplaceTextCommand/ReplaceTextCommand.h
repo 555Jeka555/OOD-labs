@@ -15,9 +15,9 @@ public:
     static constexpr std::string name = "ReplaceText";
 
     ReplaceTextCommand(std::vector<DocumentItem> & documentItems,
-            std::string newText,
+            const std::string& newText,
             std::optional<size_t> position)
-    : m_documentItems(documentItems), m_newText(std::move(newText)), m_position(position) {};
+    : m_documentItems(documentItems), m_newText(newText), m_position(position) {};
 protected:
     void DoExecute() override;
     void DoUnexecute() override;

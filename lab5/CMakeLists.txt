@@ -47,6 +47,14 @@ set(SOURCE_FILES
 
 set(TEST_SOURCE_FILES
         test/test.cpp
+        src/Document/Document/Document.cpp
+        src/Document/Command/AbstractCommand/AbstractCommand.cpp
+        src/Document/History/History.cpp
+        src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.cpp
+        src/Document/Command/SetTitleCommand/SetTitleCommand.cpp
+        src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.cpp
+        src/Document/Command/DeleteItemCommand/DeleteItemCommand.cpp
+        src/Document/Command/SaveCommand/SaveCommand.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

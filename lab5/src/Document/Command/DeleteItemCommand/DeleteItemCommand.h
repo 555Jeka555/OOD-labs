@@ -14,9 +14,7 @@ public:
 
     DeleteItemCommand(std::vector<DocumentItem>& documentItems, size_t position)
             : m_documentItems(documentItems), m_position(position)
-    {
-        m_oldDocumentItem = std::make_unique<DocumentItem>(m_documentItems.at(m_position));
-    }
+    {}
 
 protected:
     void DoExecute() override;
@@ -25,7 +23,7 @@ protected:
 private:
     std::vector<DocumentItem>& m_documentItems;
     size_t m_position;
-    std::unique_ptr<DocumentItem> m_oldDocumentItem;
+    std::unique_ptr<DocumentItem> m_oldDocumentItem = nullptr;
 };
 
 #endif //LAB5_DELETEITEMCOMMAND_H
