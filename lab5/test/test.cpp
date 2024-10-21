@@ -4,6 +4,9 @@
 #include "../src/Document/Command/DeleteItemCommand/DeleteItemCommand.h"
 #include "../src/Document/Command/SetTitleCommand/SetTitleCommand.h"
 #include "../src/Document/Command/SaveCommand/SaveCommand.h"
+#include "../src/Document/Command/InsertImageCommand/InsertImageCommand.h"
+
+const std::string IMAGE_PATH = "test/1.png";
 
 class InsertParagraphCommandTestable : public InsertParagraphCommand {
 public:
@@ -69,6 +72,25 @@ class SaveCommandTestable : public SaveCommand {
 public:
     SaveCommandTestable(const std::vector<DocumentItem>& documentItems, std::string path, std::string title)
             : SaveCommand(documentItems, std::move(path), std::move(title)) {}
+
+    void TestDoExecute() {
+        DoExecute();
+    }
+
+    void TestDoUnexecute() {
+        DoUnexecute();
+    }
+};
+
+class InsertImageCommandTestable : public InsertImageCommand {
+public:
+    InsertImageCommandTestable(
+            std::vector<DocumentItem>& documentItems,
+            const std::string& path,
+            int width,
+            int height,
+            std::optional<size_t> position)
+            : InsertImageCommand(documentItems, path, width, height, position) {}
 
     void TestDoExecute() {
         DoExecute();
@@ -400,6 +422,79 @@ TEST(SaveCommandTest, DoExecuteThrowsExceptionWhenFileCannotBeOpenedError) {
     SaveCommandTestable command(documentItems, invalidPath, "Test Document");
 
     EXPECT_THROW(command.TestDoExecute(), std::runtime_error);
+}
+
+TEST(InsertImageCommandTests, ExecuteInsertsImageAtEndSuccess)
+{
+    std::vector<DocumentItem> documentItems;
+    std::string imagePath = IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, imagePath, width, height, std::nullopt);
+
+    EXPECT_NO_THROW(command.TestDoExecute());
+
+    ASSERT_EQ(documentItems.size(), 1);
+    EXPECT_TRUE(std::filesystem::exists(imagePath));
+}
+
+TEST(InsertImageCommandTests, ExecuteInsertsImageAtPositionSuccess)
+{
+    std::vector<DocumentItem> documentItems;
+    std::string imagePath = IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, imagePath, width, height, 0);
+
+    EXPECT_NO_THROW(command.TestDoExecute());
+
+    ASSERT_EQ(documentItems.size(), 1);
+    EXPECT_TRUE(std::filesystem::exists(imagePath));
+}
+
+TEST(InsertImageCommandTests, ExecuteThrowsOnInvalidPositionError) {
+    std::vector<DocumentItem> documentItems;
+    std::string imagePath = IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, imagePath, width, height, 2);
+
+    EXPECT_THROW(command.TestDoExecute(), std::invalid_argument);
+}
+
+TEST(InsertImageCommandTests, UnexecuteRemovesLastInsertedSuccess) {
+    std::vector<DocumentItem> documentItems;
+    std::string imagePath = IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, imagePath, width, height, std::nullopt);
+
+    command.TestDoExecute();
+    ASSERT_EQ(documentItems.size(), 1);
+    EXPECT_TRUE(std::filesystem::exists(imagePath));
+
+    command.TestDoUnexecute();
+    ASSERT_EQ(documentItems.size(), 0);
+}
+
+TEST(InsertImageCommandTests, UnexecuteRemovesInsertedAtPosition) {
+    std::vector<DocumentItem> documentItems;
+    std::string imagePath = IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, imagePath, width, height, 0);
+
+    command.TestDoExecute();
+    ASSERT_EQ(documentItems.size(), 1);
+    EXPECT_TRUE(std::filesystem::exists(imagePath));
+
+    command.TestDoUnexecute();
+    ASSERT_EQ(documentItems.size(), 0);
 }
 
 GTEST_API_ int main(int argc, char **argv) {

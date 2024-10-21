@@ -54,7 +54,8 @@ void InsertImageCommand::CopyImage()
 
     if (std::filesystem::exists(imagePath))
     {
-        try {
+        try
+        {
             std::filesystem::path target = imagesDir / imageFileName;
             if (std::filesystem::exists(target))
             {
@@ -63,7 +64,9 @@ void InsertImageCommand::CopyImage()
 
             std::filesystem::copy(imagePath, target);
             std::cout << "Image copied to: " << (imagesDir / imageFileName).string() << std::endl;
-        } catch (const std::exception& e) {
+        }
+        catch (const std::exception& e)
+        {
             std::cerr << "Error during copy operation: " << e.what() << std::endl;
         }
     }

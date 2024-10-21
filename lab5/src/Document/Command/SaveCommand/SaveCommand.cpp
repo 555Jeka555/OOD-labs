@@ -1,38 +1,5 @@
 #include "SaveCommand.h"
 
-std::string SaveCommand::HtmlEncode(const std::string &text)
-{
-    std::string encoded;
-    for (char c : text)
-    {
-        switch (c)
-        {
-            case '<': encoded += "&lt;"; break;
-            case '>': encoded += "&gt;"; break;
-            case '"': encoded += "&quot;"; break;
-            case '\'': encoded += "&apos;"; break;
-            case '&': encoded += "&amp;"; break;
-            default: encoded += c; break;
-        }
-    }
-    return encoded;
-}
-
-void ClearDirectory(const std::filesystem::path& dir)
-{
-    if (std::filesystem::exists(dir))
-    {
-        for (const auto& entry : std::filesystem::directory_iterator(dir))
-        {
-            std::filesystem::remove(entry.path());
-        }
-    }
-    else
-    {
-        std::filesystem::create_directory(dir);
-    }
-}
-
 void SaveCommand::DoExecute()
 {
     std::filesystem::path imagesDir = "images";
@@ -87,4 +54,35 @@ void SaveCommand::DoUnexecute()
 
 }
 
+void SaveCommand::ClearDirectory(const std::filesystem::path& dir)
+{
+    if (std::filesystem::exists(dir))
+    {
+        for (const auto& entry : std::filesystem::directory_iterator(dir))
+        {
+            std::filesystem::remove(entry.path());
+        }
+    }
+    else
+    {
+        std::filesystem::create_directory(dir);
+    }
+}
 
+std::string SaveCommand::HtmlEncode(const std::string &text)
+{
+    std::string encoded;
+    for (char c : text)
+    {
+        switch (c)
+        {
+            case '<': encoded += "&lt;"; break;
+            case '>': encoded += "&gt;"; break;
+            case '"': encoded += "&quot;"; break;
+            case '\'': encoded += "&apos;"; break;
+            case '&': encoded += "&amp;"; break;
+            default: encoded += c; break;
+        }
+    }
+    return encoded;
+}

@@ -29,6 +29,7 @@ private:
     std::string m_path;
     std::string m_title;
 
+    void ClearDirectory(const std::filesystem::path& dir);
     static std::string HtmlEncode(const std::string &text);
 };
 

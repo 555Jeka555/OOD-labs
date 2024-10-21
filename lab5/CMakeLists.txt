@@ -53,6 +53,7 @@ set(TEST_SOURCE_FILES
         src/Document/Command/AbstractCommand/AbstractCommand.cpp
         src/Document/History/History.cpp
         src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.cpp
+        src/Document/Command/InsertImageCommand/InsertImageCommand.cpp
         src/Document/Command/SetTitleCommand/SetTitleCommand.cpp
         src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.cpp
         src/Document/Command/DeleteItemCommand/DeleteItemCommand.cpp
