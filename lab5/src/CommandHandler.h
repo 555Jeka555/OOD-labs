@@ -21,6 +21,7 @@ public:
         AddMenuItem("Redo", "Redo undone command", &CommandHandler::Redo);
         AddMenuItem("Save", "Save save.html", &CommandHandler::Save);
         AddMenuItem(InsertImageCommand::name, "InsertImage end 100 200 C:\\Volgatech\\3course\\OOD-labs\\lab5\\1.png", &CommandHandler::InsertImage);
+        AddMenuItem(ResizeImageCommand::name, "ResizeImage 0 400 500", &CommandHandler::ResizeImage);
     }
 
 private:
@@ -200,6 +201,45 @@ private:
         }
 
         m_document.InsertImage(path, width, height, position);
+    }
+
+    void ResizeImage(std::istream & in)
+    {
+        std::string widthStr;
+        std::string heightStr;
+        std::string positionStr;
+
+        in >> positionStr >> widthStr >> heightStr;
+
+        int width, height;
+        try
+        {
+            width = std::stoi(widthStr);
+            height = std::stoi(heightStr);
+        }
+        catch (...)
+        {
+            throw std::invalid_argument("Invalid width or height");
+        }
+
+        std::optional<size_t> position;
+        if (positionStr == "end")
+        {
+            position = std::nullopt;
+        }
+        else
+        {
+            try
+            {
+                position = std::stoi(positionStr);
+            }
+            catch (...)
+            {
+                throw std::invalid_argument("Invalid type position");
+            }
+        }
+
+        m_document.ResizeImage(width, height, position);
     }
 };
 

@@ -45,6 +45,8 @@ set(SOURCE_FILES
         src/Document/Command/SaveCommand/SaveCommand.h
         src/Document/Command/InsertImageCommand/InsertImageCommand.cpp
         src/Document/Command/InsertImageCommand/InsertImageCommand.h
+        src/Document/Command/ResizeImageCommand/ResizeImageCommand.cpp
+        src/Document/Command/ResizeImageCommand/ResizeImageCommand.h
 )
 
 set(TEST_SOURCE_FILES
@@ -54,6 +56,7 @@ set(TEST_SOURCE_FILES
         src/Document/History/History.cpp
         src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.cpp
         src/Document/Command/InsertImageCommand/InsertImageCommand.cpp
+        src/Document/Command/ResizeImageCommand/ResizeImageCommand.cpp
         src/Document/Command/SetTitleCommand/SetTitleCommand.cpp
         src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.cpp
         src/Document/Command/DeleteItemCommand/DeleteItemCommand.cpp

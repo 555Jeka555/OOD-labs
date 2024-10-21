@@ -26,6 +26,7 @@ public:
     // под автоматически сгенерированным именем
     virtual void InsertImage(const std::string& path, int width, int height,
                                    std::optional<size_t> position = std::nullopt) = 0;
+    virtual void ResizeImage(int width, int height, std::optional<size_t> position) = 0;
     // Возвращает количество элементов в документе
     virtual size_t GetItemsCount()const = 0;
     // Доступ к элементам изображения

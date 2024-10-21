@@ -5,6 +5,7 @@
 #include "../src/Document/Command/SetTitleCommand/SetTitleCommand.h"
 #include "../src/Document/Command/SaveCommand/SaveCommand.h"
 #include "../src/Document/Command/InsertImageCommand/InsertImageCommand.h"
+#include "../src/Document/Command/ResizeImageCommand/ResizeImageCommand.h"
 
 const std::string IMAGE_PATH = "test/1.png";
 
@@ -100,6 +101,25 @@ public:
         DoUnexecute();
     }
 };
+
+class ResizeImageCommandTestable : public ResizeImageCommand {
+public:
+    ResizeImageCommandTestable(
+            std::vector<DocumentItem>& documentItems,
+            std::optional<size_t> position,
+            int newWidth,
+            int newHeight)
+            : ResizeImageCommand(documentItems, newWidth, newHeight, position) {}
+
+    void TestDoExecute() {
+        DoExecute();
+    }
+
+    void TestDoUnexecute() {
+        DoUnexecute();
+    }
+};
+
 
 TEST(InsertParagraphCommandTest, InsertAtEndSuccess) {
     std::vector<DocumentItem> documentItems;
@@ -364,13 +384,16 @@ TEST(SetTitleCommandTest, DoExecuteWithSameTitleSuccess) {
     EXPECT_EQ(title, "Same Title");
 }
 
-TEST(SaveCommandTest, DoExecuteCreatesHtmlFile) {
+TEST(SaveCommandTest, DoExecuteCreatesHtmlFileWithImagesSuccess) {
     std::vector<DocumentItem> documentItems;
     std::string title = "Test Document";
-    std::string filePath = "test_output.html";
+    std::string filePath = "test_output_with_images.html";
 
     documentItems.emplace_back(std::make_shared<Paragraph>("Paragraph 1"));
     documentItems.emplace_back(std::make_shared<Paragraph>("Paragraph 2"));
+
+    std::string imagePath = IMAGE_PATH;
+    documentItems.emplace_back(std::make_shared<Image>(imagePath, 100, 200));
 
     SaveCommandTestable command(documentItems, filePath, title);
 
@@ -403,6 +426,9 @@ TEST(SaveCommandTest, DoExecuteCreatesHtmlFile) {
 
     std::getline(inFile, line);
     EXPECT_EQ(line, "<p>Paragraph 2</p>");
+
+    std::getline(inFile, line);
+    EXPECT_EQ(line, "<img src=\"images/1.png\" alt=\"1.png\" width=\"100\" height=\"200\" />");
 
     std::getline(inFile, line);
     EXPECT_EQ(line, "</body>");
@@ -481,7 +507,7 @@ TEST(InsertImageCommandTests, UnexecuteRemovesLastInsertedSuccess) {
     ASSERT_EQ(documentItems.size(), 0);
 }
 
-TEST(InsertImageCommandTests, UnexecuteRemovesInsertedAtPosition) {
+TEST(InsertImageCommandTests, UnexecuteRemovesInsertedAtPositionSuccess) {
     std::vector<DocumentItem> documentItems;
     std::string imagePath = IMAGE_PATH;
     int width = 100;
@@ -495,6 +521,76 @@ TEST(InsertImageCommandTests, UnexecuteRemovesInsertedAtPosition) {
 
     command.TestDoUnexecute();
     ASSERT_EQ(documentItems.size(), 0);
+}
+
+TEST(InsertImageCommandTests, ExecuteThrowsOnNonExistentImageError) {
+    std::vector<DocumentItem> documentItems;
+    std::string nonExistentImagePath = "1/" + IMAGE_PATH;
+    int width = 100;
+    int height = 200;
+
+    InsertImageCommandTestable command(documentItems, nonExistentImagePath, width, height, std::nullopt);
+
+    EXPECT_THROW(command.TestDoExecute(), std::invalid_argument);
+    EXPECT_TRUE(!std::filesystem::exists(nonExistentImagePath));
+}
+
+TEST(ResizeImageCommandTests, ExecuteResizesImageSuccess) {
+    std::vector<DocumentItem> documentItems;
+    auto image = std::make_shared<Image>(IMAGE_PATH, 100, 200);
+    documentItems.emplace_back(image);
+
+    ResizeImageCommandTestable command(documentItems, 0, 150, 300);
+
+    EXPECT_NO_THROW(command.TestDoExecute());
+
+    ASSERT_EQ(image->GetHeight(), 300);
+    ASSERT_EQ(image->GetWidth(), 150);
+}
+
+TEST(ResizeImageCommandTests, ExecuteThrowsOnInvalidPositionError) {
+    std::vector<DocumentItem> documentItems;
+    auto image = std::make_shared<Image>(IMAGE_PATH, 100, 200);
+    documentItems.emplace_back(image);
+
+    ResizeImageCommandTestable command(documentItems, 1, 300, 150);
+
+    EXPECT_THROW(command.TestDoExecute(), std::invalid_argument);
+}
+
+TEST(ResizeImageCommandTests, ExecuteThrowsWhenNoImageAtPositionError) {
+    std::vector<DocumentItem> documentItems;
+
+    ResizeImageCommandTestable command(documentItems, 0, 150, 300);
+
+    EXPECT_THROW(command.TestDoExecute(), std::invalid_argument);
+}
+
+TEST(ResizeImageCommandTests, UnexecuteResizesBackToOriginalSizeSuccess) {
+    std::vector<DocumentItem> documentItems;
+    auto image = std::make_shared<Image>(IMAGE_PATH, 100, 200);
+    documentItems.emplace_back(image);
+
+    ResizeImageCommandTestable command(documentItems, 0, 150, 300);
+
+    command.TestDoExecute();
+    ASSERT_EQ(image->GetWidth(), 150);
+    ASSERT_EQ(image->GetHeight(), 300);
+
+    command.TestDoUnexecute();
+
+    ASSERT_EQ(image->GetWidth(), 100);
+    ASSERT_EQ(image->GetHeight(), 200);
+}
+
+TEST(ResizeImageCommandTests, UnexecuteThrowsOnInvalidPositionError) {
+    std::vector<DocumentItem> documentItems;
+    auto image = std::make_shared<Image>(IMAGE_PATH, 100, 200);
+    documentItems.emplace_back(image);
+
+    ResizeImageCommandTestable command(documentItems, 1, 150, 300);
+
+    EXPECT_THROW(command.TestDoUnexecute(), std::invalid_argument);
 }
 
 GTEST_API_ int main(int argc, char **argv) {

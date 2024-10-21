@@ -10,6 +10,7 @@
 #include "../Command/DeleteItemCommand/DeleteItemCommand.h"
 #include "../Command/SaveCommand/SaveCommand.h"
 #include "../Command/InsertImageCommand/InsertImageCommand.h"
+#include "../Command/ResizeImageCommand/ResizeImageCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument
@@ -22,7 +23,9 @@ public:
 
     void InsertImage(const std::string& path, int width, int height,
                                                 std::optional<size_t> position = std::nullopt) override;
-    
+
+    void ResizeImage(int width, int height, std::optional<size_t> position) override;
+
     [[nodiscard]] size_t GetItemsCount()const override;
     
     [[nodiscard]] ConstDocumentItem GetItem(size_t index)const override;

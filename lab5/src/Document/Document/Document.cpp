@@ -78,3 +78,8 @@ void Document::ReplaceText(const std::string &newText, std::optional<size_t> pos
 {
     m_history.AddAndExecuteCommand(std::make_unique<ReplaceTextCommand>(m_documentItems, newText, position));
 }
+
+void Document::ResizeImage(int width, int height, std::optional<size_t> position)
+{
+    m_history.AddAndExecuteCommand(std::make_unique<ResizeImageCommand>(m_documentItems, width, height, position));
+}
