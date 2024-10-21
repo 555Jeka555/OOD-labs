@@ -24,6 +24,7 @@ protected:
     void DoUnexecute() override;
 
 private:
+    const std::string IMAGES_DIR = "iamges";
     const std::vector<DocumentItem>& m_documentItems;
     std::string m_path;
     std::string m_title;

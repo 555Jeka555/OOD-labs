@@ -5,10 +5,18 @@ void Document::InsertParagraph(const std::string &text, std::optional<size_t> po
     m_history.AddAndExecuteCommand(std::make_unique<InsertParagraphCommand>(m_documentItems, text, position));
 }
 
-std::shared_ptr<IImage>
+void
 Document::InsertImage(const std::string &path, int width, int height, std::optional<size_t> position)
 {
-    return nullptr;
+    m_history.AddAndExecuteCommand(
+            std::make_unique<InsertImageCommand>(
+                    m_documentItems,
+                    path,
+                    width,
+                    height,
+                    position
+                    )
+            );
 }
 
 size_t Document::GetItemsCount() const

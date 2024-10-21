@@ -8,7 +8,7 @@
 class CommandHandler
 {
 public:
-    CommandHandler(Menu & menu, Document & document)
+    CommandHandler(Menu & menu, IDocument & document)
         : m_menu(menu), m_document(document)
     {
         m_menu.AddItem("Help", "Help", [this](std::istream&) { m_menu.ShowInstructions(); });
@@ -19,12 +19,13 @@ public:
         AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
         AddMenuItem("Undo", "Undo command", &CommandHandler::Undo);
         AddMenuItem("Redo", "Redo undone command", &CommandHandler::Redo);
-        AddMenuItem("Save", "Save to html", &CommandHandler::Save);
+        AddMenuItem("Save", "Save save.html", &CommandHandler::Save);
+        AddMenuItem(InsertImageCommand::name, "InsertImage end 100 200 C:\\Volgatech\\3course\\OOD-labs\\lab5\\1.png", &CommandHandler::InsertImage);
     }
 
 private:
     Menu & m_menu;
-    Document & m_document;
+    IDocument & m_document;
 
     typedef void (CommandHandler::*MenuHandler)(std::istream & in);
     void AddMenuItem(const std::string & shortcut, const std::string & description, MenuHandler handler)
@@ -159,6 +160,46 @@ private:
         in >> path;
 
         m_document.Save(path);
+    }
+
+    void InsertImage(std::istream & in)
+    {
+        std::string path;
+        std::string widthStr;
+        std::string heightStr;
+        std::string positionStr;
+
+        in >> positionStr >> widthStr >> heightStr >> path;
+
+        int width, height;
+        try
+        {
+            width = std::stoi(widthStr);
+            height = std::stoi(heightStr);
+        }
+        catch (...)
+        {
+            throw std::invalid_argument("Invalid width or height");
+        }
+
+        std::optional<size_t> position;
+        if (positionStr == "end")
+        {
+            position = std::nullopt;
+        }
+        else
+        {
+            try
+            {
+                position = std::stoi(positionStr);
+            }
+            catch (...)
+            {
+                throw std::invalid_argument("Invalid type position");
+            }
+        }
+
+        m_document.InsertImage(path, width, height, position);
     }
 };
 

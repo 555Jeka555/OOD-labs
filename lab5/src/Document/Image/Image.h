@@ -6,8 +6,8 @@
 class Image : public IImage
 {
 public:
-    Image(std::string & path, int width, int height)
-    : m_path(std::move(path)), m_width(width), m_height(height) {}
+    Image(const std::string & path, int width, int height)
+    : m_path(path), m_width(width), m_height(height) {}
 
     [[nodiscard]] std::string GetPath()const override
     {

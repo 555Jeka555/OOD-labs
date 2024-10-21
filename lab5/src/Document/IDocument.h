@@ -24,7 +24,7 @@ public:
     // Параметр path задает путь к вставляемому изображению
     // При вставке изображение должно копироваться в подкаталог images
     // под автоматически сгенерированным именем
-    virtual std::shared_ptr<IImage> InsertImage(const std::string& path, int width, int height,
+    virtual void InsertImage(const std::string& path, int width, int height,
                                    std::optional<size_t> position = std::nullopt) = 0;
     // Возвращает количество элементов в документе
     virtual size_t GetItemsCount()const = 0;

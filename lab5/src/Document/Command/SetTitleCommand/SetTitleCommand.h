@@ -10,7 +10,7 @@ class SetTitleCommand : public AbstractCommand
 public:
     static constexpr std::string name = "SetTitle";
 
-    SetTitleCommand(std::string & title, std::string newTitle) : m_title(title), m_newTitle(std::move(newTitle)) {}
+    SetTitleCommand(std::string & title, const std::string& newTitle) : m_title(title), m_newTitle(newTitle) {}
 
 protected:
     void DoExecute() override;

@@ -8,9 +8,9 @@
 class InsertParagraphCommandTestable : public InsertParagraphCommand {
 public:
     InsertParagraphCommandTestable(std::vector<DocumentItem>& documentItems,
-                                   std::string text,
+                                   const std::string& text,
                                    std::optional<size_t> position)
-            : InsertParagraphCommand(documentItems, std::move(text), position) {}
+            : InsertParagraphCommand(documentItems, text, position) {}
 
     void TestDoExecute() {
         DoExecute();
@@ -24,9 +24,9 @@ public:
 class ReplaceTextCommandTestable : public ReplaceTextCommand {
 public:
     ReplaceTextCommandTestable(std::vector<DocumentItem>& documentItems,
-                               std::string newText,
+                               const std::string& newText,
                                std::optional<size_t> position)
-            : ReplaceTextCommand(documentItems, std::move(newText), position) {}
+            : ReplaceTextCommand(documentItems, newText, position) {}
 
     void TestDoExecute() {
         DoExecute();
@@ -42,7 +42,6 @@ public:
     DeleteItemCommandTestable(std::vector<DocumentItem>& documentItems, size_t position)
             : DeleteItemCommand(documentItems, position) {}
 
-    // Public methods for calling protected methods
     void TestDoExecute() {
         DoExecute();
     }
@@ -54,10 +53,9 @@ public:
 
 class SetTitleCommandTestable : public SetTitleCommand {
 public:
-    SetTitleCommandTestable(std::string& title, std::string newTitle)
-            : SetTitleCommand(title, std::move(newTitle)) {}
+    SetTitleCommandTestable(std::string& title, const std::string& newTitle)
+            : SetTitleCommand(title, newTitle) {}
 
-    // Public methods to call the protected methods
     void TestDoExecute() {
         DoExecute();
     }

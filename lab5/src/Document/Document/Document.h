@@ -9,6 +9,7 @@
 #include "../Command/ReplaceTextCommand/ReplaceTextCommand.h"
 #include "../Command/DeleteItemCommand/DeleteItemCommand.h"
 #include "../Command/SaveCommand/SaveCommand.h"
+#include "../Command/InsertImageCommand/InsertImageCommand.h"
 #include "../DocumentItem.h"
 
 class Document : public IDocument
@@ -19,7 +20,7 @@ public:
 
     void ReplaceText(const std::string& newText, std::optional<size_t> position) override;
 
-    std::shared_ptr<IImage> InsertImage(const std::string& path, int width, int height,
+    void InsertImage(const std::string& path, int width, int height,
                                                 std::optional<size_t> position = std::nullopt) override;
     
     [[nodiscard]] size_t GetItemsCount()const override;

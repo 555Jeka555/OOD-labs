@@ -43,6 +43,8 @@ set(SOURCE_FILES
         src/Document/Command/DeleteItemCommand/DeleteItemCommand.h
         src/Document/Command/SaveCommand/SaveCommand.cpp
         src/Document/Command/SaveCommand/SaveCommand.h
+        src/Document/Command/InsertImageCommand/InsertImageCommand.cpp
+        src/Document/Command/InsertImageCommand/InsertImageCommand.h
 )
 
 set(TEST_SOURCE_FILES
