@@ -47,6 +47,8 @@ set(SOURCE_FILES
         src/Document/Command/InsertImageCommand/InsertImageCommand.h
         src/Document/Command/ResizeImageCommand/ResizeImageCommand.cpp
         src/Document/Command/ResizeImageCommand/ResizeImageCommand.h
+        src/Document/Command/MacroCommand/MacroCommand.cpp
+        src/Document/Command/MacroCommand/MacroCommand.h
 )
 
 set(TEST_SOURCE_FILES
