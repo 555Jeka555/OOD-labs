@@ -30,8 +30,11 @@ void SaveCommand::DoExecute()
             std::string imageFileName = std::filesystem::path(imagePath).filename().string();
             std::string destinationPath = (imagesDir / imageFileName).string();
 
-            std::filesystem::copy(imagePath, destinationPath,
-                                  std::filesystem::copy_options::overwrite_existing);
+            if (!std::filesystem::exists(destinationPath))
+            {
+                std::filesystem::copy(imagePath, destinationPath,
+                                      std::filesystem::copy_options::overwrite_existing);
+            }
 
             int imageWidth = image->GetWidth();
             int imageHeight = image->GetHeight();
