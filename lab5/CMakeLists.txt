@@ -65,6 +65,7 @@ set(TEST_SOURCE_FILES
         src/Document/Command/SaveCommand/SaveCommand.cpp
         src/Document/Command/MacroCommand/MacroCommand.cpp
         src/Menu/Menu.cpp
+        src/Document/History/History.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

@@ -744,6 +744,44 @@ TEST(DocumentTests, RedoRestoresLastActionSuccess)
     EXPECT_EQ(document.GetItemsCount(), countAfterUndo + 1);
 }
 
+TEST(HistoryTests, InitialStateSucess)
+{
+    History history;
+    EXPECT_FALSE(history.CanUndo());
+    EXPECT_FALSE(history.CanRedo());
+}
+
+TEST(HistoryTests, AddCommandAndUndoSucess)
+{
+    History history;
+    std::string title = "Original Title";
+    std::string newTitle = "New Title";
+    history.AddAndExecuteCommand(std::move(std::move(std::make_unique<SetTitleCommand>(title, newTitle))));
+
+    EXPECT_TRUE(history.CanUndo());
+    EXPECT_FALSE(history.CanRedo());
+
+    history.Undo();
+    EXPECT_FALSE(history.CanUndo());
+    EXPECT_TRUE(history.CanRedo());
+}
+
+TEST(HistoryTests, UndoAndRedoSucess)
+{
+    History history;
+    std::string title = "Original Title";
+    std::string newTitle = "New Title";
+    history.AddAndExecuteCommand(std::move(std::make_unique<SetTitleCommand>(title, newTitle)));
+
+    history.Undo();
+    EXPECT_FALSE(history.CanUndo());
+    EXPECT_TRUE(history.CanRedo());
+
+    history.Redo();
+    EXPECT_TRUE(history.CanUndo());
+    EXPECT_FALSE(history.CanRedo());
+}
+
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;
     testing::InitGoogleTest(&argc, argv);
