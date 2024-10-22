@@ -63,6 +63,8 @@ set(TEST_SOURCE_FILES
         src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.cpp
         src/Document/Command/DeleteItemCommand/DeleteItemCommand.cpp
         src/Document/Command/SaveCommand/SaveCommand.cpp
+        src/Document/Command/MacroCommand/MacroCommand.cpp
+        src/Menu/Menu.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

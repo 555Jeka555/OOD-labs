@@ -24,6 +24,8 @@ public:
 
     void AddCurrentMacroMenuItem();
 
+    int GetItemsCount();
+
 private:
     bool ExecuteCommand(const std::string & command);
 
@@ -39,9 +41,8 @@ private:
         std::string description;
         Command command;
     };
-    std::vector<Item> m_items;
+    std::vector<Item> m_items = {};
     bool m_exit = false;
-    std::vector<std::shared_ptr<MacroCommand>> m_macros;
     std::shared_ptr<MacroCommand> m_currentMacro = nullptr;
 };
 

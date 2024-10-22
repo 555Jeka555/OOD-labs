@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <sstream>
 #include "../src/Document/Command/InsertParagraphCommand/InsertParagraphCommand.h"
 #include "../src/Document/Command/ReplaceTextCommand/ReplaceTextCommand.h"
 #include "../src/Document/Command/DeleteItemCommand/DeleteItemCommand.h"
@@ -6,6 +7,10 @@
 #include "../src/Document/Command/SaveCommand/SaveCommand.h"
 #include "../src/Document/Command/InsertImageCommand/InsertImageCommand.h"
 #include "../src/Document/Command/ResizeImageCommand/ResizeImageCommand.h"
+#include "../src/Document/Command/MacroCommand/MacroCommand.h"
+#include "../src/Document/IDocument.h"
+#include "../src/Menu/Menu.h"
+#include "../src/Document/Document/Document.h"
 
 const std::string IMAGE_PATH = "test/1.png";
 
@@ -120,6 +125,19 @@ public:
     }
 };
 
+class MacroCommandTestable : public MacroCommand {
+public:
+    MacroCommandTestable(const std::string & name, const std::string & description)
+            : MacroCommand(name, description) {}
+
+    void TestDoExecute() {
+        DoExecute();
+    }
+
+    void TestDoUnexecute() {
+        DoUnexecute();
+    }
+};
 
 TEST(InsertParagraphCommandTest, InsertAtEndSuccess) {
     std::vector<DocumentItem> documentItems;
@@ -591,6 +609,139 @@ TEST(ResizeImageCommandTests, UnexecuteThrowsOnInvalidPositionError) {
     ResizeImageCommandTestable command(documentItems, 1, 150, 300);
 
     EXPECT_THROW(command.TestDoUnexecute(), std::invalid_argument);
+}
+
+TEST(MacroCommandTests, ExecuteRunsAllCommandsInOrderSuccess)
+{
+    int counter = 0;
+
+    MacroCommandTestable macro("Test Macro", "This is a test macro");
+
+    macro.AddCommand([&counter]() { counter += 1; });
+    macro.AddCommand([&counter]() { counter *= 2; });
+
+    macro.TestDoExecute();
+
+    ASSERT_EQ(counter, 2);
+}
+
+TEST(MenuTests, AddItemIncreasesItemCountSuccess)
+{
+    Menu menu;
+    menu.AddItem("TestCommand", "This is a test command", [](std::istream&) {});
+
+    ASSERT_EQ(menu.GetItemsCount(), 1);
+}
+
+TEST(MenuTests, ExecuteCommandCallsCorrectFunctionSuccess)
+{
+    std::ostringstream output;
+    std::streambuf* originalCoutBuffer = std::cout.rdbuf(output.rdbuf());
+
+    Menu menu;
+
+    bool called = false;
+
+    menu.AddItem("TestCommand", "This is a test command", [&called](std::istream&) {
+        called = true;
+    });
+
+    std::istringstream input("\n");
+    std::streambuf* originalCinBuffer = std::cin.rdbuf(input.rdbuf());
+    menu.Run();
+    std::cin.rdbuf(originalCinBuffer);
+    menu.Exit();
+
+    std::cout.rdbuf(originalCoutBuffer);
+    EXPECT_EQ(output.str(), "Commands list:\n  TestCommand: This is a test command\n>");
+}
+
+TEST(DocumentTests, InsertParagraphIncreasesItemCountSuccess)
+{
+    Document document;
+    size_t initialCount = document.GetItemsCount();
+    document.InsertParagraph("Test paragraph");
+
+    EXPECT_EQ(document.GetItemsCount(), initialCount + 1);
+}
+
+TEST(DocumentTests, ReplaceTextUpdatesCorrectlySuccess)
+{
+    Document document;
+    document.InsertParagraph("Original text");
+    document.ReplaceText("Updated text", 0);
+
+    EXPECT_EQ(document.GetItem(0).GetParagraph()->GetText(), "Updated text");
+}
+
+TEST(DocumentTests, InsertImageIncreasesItemCountSuccess)
+{
+    Document document;
+    size_t initialCount = document.GetItemsCount();
+    document.InsertImage(IMAGE_PATH, 100, 200);
+
+    EXPECT_EQ(document.GetItemsCount(), initialCount + 1);
+}
+
+TEST(DocumentTests, DeleteItemDecreasesItemCountSuccess)
+{
+    Document document;
+    document.InsertParagraph("First paragraph");
+    document.InsertParagraph("Second paragraph");
+
+    size_t initialCount = document.GetItemsCount();
+    document.DeleteItem(0);
+
+    EXPECT_EQ(document.GetItemsCount(), initialCount - 1);
+}
+
+TEST(DocumentTests, GetTitleReturnsCorrectTitleSuccess)
+{
+    Document document;
+    document.SetTitle("Test Title");
+
+    EXPECT_EQ(document.GetTitle(), "Test Title");
+}
+
+TEST(DocumentTests, CanUndoReturnsTrueAfterActionSuccess)
+{
+    Document document;
+    document.InsertParagraph("A paragraph");
+
+    EXPECT_TRUE(document.CanUndo());
+}
+
+TEST(DocumentTests, UndoRevertsLastActionSuccess)
+{
+    Document document;
+    document.InsertParagraph("A paragraph");
+    size_t countAfterInsert = document.GetItemsCount();
+
+    document.Undo();
+
+    EXPECT_EQ(document.GetItemsCount(), countAfterInsert - 1);
+}
+
+TEST(DocumentTests, CanRedoReturnsTrueAfterUndoSuccess)
+{
+    Document document;
+    document.InsertParagraph("A paragraph");
+    document.Undo();
+
+    EXPECT_TRUE(document.CanRedo());
+}
+
+TEST(DocumentTests, RedoRestoresLastActionSuccess)
+{
+    Document document;
+    document.InsertParagraph("A paragraph");
+    document.Undo();
+
+    size_t countAfterUndo = document.GetItemsCount();
+
+    document.Redo();
+
+    EXPECT_EQ(document.GetItemsCount(), countAfterUndo + 1);
 }
 
 GTEST_API_ int main(int argc, char **argv) {

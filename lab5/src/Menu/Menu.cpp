@@ -72,7 +72,7 @@ void Menu::AddCommandToCurrentMacro(std::function<void()> command)
 
 void Menu::AddCurrentMacroMenuItem()
 {
-    if (m_currentMacro != nullptr)
+    if (Menu::IsRecordMacro())
     {
         std::shared_ptr<MacroCommand> copyMacro = m_currentMacro;
 
@@ -82,4 +82,9 @@ void Menu::AddCurrentMacroMenuItem()
 
         m_currentMacro = nullptr;
     }
+}
+
+int Menu::GetItemsCount()
+{
+    return static_cast<int>(m_items.size());
 }
