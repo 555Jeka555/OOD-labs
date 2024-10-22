@@ -63,6 +63,7 @@ void InsertImageCommand::CopyImage()
             }
 
             std::filesystem::copy(imagePath, target);
+            m_tmpPath = target.string();
             std::cout << "Image copied to: " << (imagesDir / imageFileName).string() << std::endl;
         }
         catch (const std::exception& e)
@@ -73,5 +74,13 @@ void InsertImageCommand::CopyImage()
     else
     {
         throw std::invalid_argument("Error: Image does not exist at path: " + imagePath.string());
+    }
+}
+
+void InsertImageCommand::DeleteFileIfExists()
+{
+    if (!m_tmpPath.empty() && std::filesystem::exists(m_tmpPath))
+    {
+        std::filesystem::remove(m_tmpPath);
     }
 }

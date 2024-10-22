@@ -24,6 +24,10 @@ public:
             ) : m_documentItems(documentItems), m_path(path), m_width(width), m_height(height), m_position(position)
             {}
 
+    ~InsertImageCommand() override
+    {
+        InsertImageCommand::DeleteFileIfExists();
+    }
 protected:
     void DoExecute() override;
     void DoUnexecute() override;
@@ -32,11 +36,14 @@ private:
     std::string TMP_DIR_PATH = "tmp";
     std::vector<DocumentItem>& m_documentItems;
     std::string m_path;
+    std::string m_tmpPath;
     int m_width;
     int m_height;
     std::optional<size_t> m_position;
 
     void CopyImage();
+
+    void DeleteFileIfExists();
 };
 
 
