@@ -10,13 +10,18 @@
 class MacroCommand : public AbstractCommand
 {
 public:
-    MacroCommand(const std::string & name) : m_name(name) {}
+    MacroCommand(const std::string & name, const std::string & description) : m_name(name), m_description(description) {}
 
     void AddCommand(std::function<void()> command);
 
     [[nodiscard]] std::string GetName() const
     {
         return m_name;
+    }
+
+    [[nodiscard]] std::string GetDescription() const
+    {
+        return m_description;
     }
 protected:
     void DoExecute() override;
@@ -25,6 +30,7 @@ protected:
 private:
     std::vector<std::function<void()>> m_commands;
     std::string m_name;
+    std::string m_description;
 };
 
 

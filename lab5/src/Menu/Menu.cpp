@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include <sstream>
+#include <utility>
 
 void Menu::AddItem(const std::string & shortcut, const std::string & description, const Command & command)
 {
@@ -52,4 +53,33 @@ bool Menu::ExecuteCommand(const std::string & command)
         std::cout << "Unknown command\n";
     }
     return !m_exit;
+}
+
+bool Menu::IsRecordMacro() const
+{
+    return m_currentMacro != nullptr;
+}
+
+void Menu::SetCurrentMacro(std::shared_ptr<MacroCommand> currentMacro)
+{
+    m_currentMacro = std::move(currentMacro);
+}
+
+void Menu::AddCommandToCurrentMacro(std::function<void()> command)
+{
+    m_currentMacro->AddCommand(command);
+}
+
+void Menu::AddCurrentMacroMenuItem()
+{
+    if (m_currentMacro != nullptr)
+    {
+        std::shared_ptr<MacroCommand> copyMacro = m_currentMacro;
+
+        AddItem(copyMacro->GetName(), copyMacro->GetDescription(), [copyMacro](std::istream&) {
+            copyMacro->Execute();
+        });
+
+        m_currentMacro = nullptr;
+    }
 }

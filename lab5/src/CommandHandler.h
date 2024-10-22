@@ -4,7 +4,6 @@
 #include <sstream>
 #include "Menu/Menu.h"
 #include "Document/IDocument.h"
-#include "Document/Command/MacroCommand/MacroCommand.h"
 
 class CommandHandler
 {
@@ -13,16 +12,15 @@ public:
         : m_menu(menu), m_document(document)
     {
         m_menu.AddItem("Help", "Help", [this](std::istream&) { m_menu.ShowInstructions(); });
-        AddMenuItem("BeginMacro", "BeginMacro Macro", &CommandHandler::BeginMacro);
+        AddMenuItem("BeginMacro", "BeginMacro Macro Description", &CommandHandler::BeginMacro);
         AddMenuItem("EndMacro", "EndMacro", &CommandHandler::EndMacro);
-        AddMenuItem("ExecuteMacro", "ExecuteMacro Macro", &CommandHandler::ExecuteMacro);
         AddMenuItem(InsertParagraphCommand::name, "InsertParagraph end aaa", &CommandHandler::InsertParagraph);
         AddMenuItem("List", "Show document", &CommandHandler::List);
         AddMenuItem(SetTitleCommand::name, "Set title", &CommandHandler::SetTitle);
-        AddMenuItem(ReplaceTextCommand::name, "Replace text", &CommandHandler::ReplaceText);
-        AddMenuItem(DeleteItemCommand::name, "Delete item", &CommandHandler::DeleteItem);
+        AddMenuItem(ReplaceTextCommand::name, "ReplaceText 0 text", &CommandHandler::ReplaceText);
+        AddMenuItem(DeleteItemCommand::name, "DeleteItem 0", &CommandHandler::DeleteItem);
         AddMenuItem("Undo", "Undo command", &CommandHandler::Undo);
-        AddMenuItem("Redo", "Redo undone command", &CommandHandler::Redo);
+        AddMenuItem("Redo", "Redo command", &CommandHandler::Redo);
         AddMenuItem("Save", "Save save.html", &CommandHandler::Save);
         AddMenuItem(InsertImageCommand::name, "InsertImage end 100 200 C:\\Volgatech\\3course\\OOD-labs\\lab5\\1.png", &CommandHandler::InsertImage);
         AddMenuItem(ResizeImageCommand::name, "ResizeImage 0 400 500", &CommandHandler::ResizeImage);
@@ -31,9 +29,6 @@ public:
 private:
     Menu & m_menu;
     IDocument & m_document;
-    bool m_isRecordMacro = false;
-    std::vector<MacroCommand> m_macros;
-    MacroCommand m_currentMacro = MacroCommand("");
 
     typedef void (CommandHandler::*MenuHandler)(std::istream & in);
     void AddMenuItem(const std::string & shortcut, const std::string & description, MenuHandler handler)
@@ -44,49 +39,32 @@ private:
     void BeginMacro(std::istream &in)
     {
         std::string nameMacro;
+        std::string descMacro;
 
-        in >> nameMacro;
+        in >> nameMacro >> descMacro;
 
-        if (m_isRecordMacro) {
+        if (m_menu.IsRecordMacro()) {
             throw std::invalid_argument("Already recording a macro.");
         }
 
-        m_currentMacro = MacroCommand(nameMacro);
+        m_menu.SetCurrentMacro(std::make_shared<MacroCommand>(nameMacro, descMacro));
         std::cout << "Recording a new macro " << nameMacro << "..." << std::endl;
-        m_isRecordMacro = true;
     }
 
     void EndMacro(std::istream &)
     {
-        if (!m_isRecordMacro) {
+        if (!m_menu.IsRecordMacro()) {
             throw std::invalid_argument("No macro is currently being recorded.");
         }
 
-        m_macros.push_back(std::move(m_currentMacro));
-        std::cout << "Macro " << m_currentMacro.GetName() << " saved.\n";
-        m_isRecordMacro = false;
-    }
-
-    void ExecuteMacro(std::istream &in)
-    {
-        std::string macroName;
-        in >> macroName;
-
-        auto it = std::find_if(m_macros.begin(), m_macros.end(),
-                               [&macroName](const MacroCommand& macro) { return macro.GetName() == macroName; });
-
-        if (it != m_macros.end()) {
-            it->Execute();
-            std::cout << "Executed macro: " << macroName << "\n";
-        } else {
-            throw std::invalid_argument("Macro not found.");
-        }
+        m_menu.AddCurrentMacroMenuItem();
+        std::cout << "Macro saved" << std::endl;
     }
 
     void RecordCommand(std::function<void()> command) {
-        if (m_isRecordMacro)
+        if (m_menu.IsRecordMacro())
         {
-            m_currentMacro.AddCommand(command);
+            m_menu.AddCommandToCurrentMacro(command);
         }
     }
 
@@ -106,7 +84,7 @@ private:
             auto image = documentItem.GetImage();
             if (image != nullptr)
             {
-                std::cout<< (i + 1) << ". Image: " << image->GetWidth() << " " << image->GetHeight() << " " << image->GetPath() << "\n";
+                std::cout << (i + 1) << ". Image: " << image->GetWidth() << " " << image->GetHeight() << " " << image->GetPath() << "\n";
             }
         }
     }
@@ -135,11 +113,11 @@ private:
             }
         }
 
-        if (m_isRecordMacro)
+        if (m_menu.IsRecordMacro())
         {
             RecordCommand([this, text, position]() {
                 m_document.InsertParagraph(text, position);
-                std::cout << "Inserted Paragraph.\n";
+                std::cout << "Inserted Paragraph" << std::endl;
             });
         }
         else
@@ -154,7 +132,17 @@ private:
 
         in >> title;
 
-        m_document.SetTitle(title);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, title]() {
+                m_document.SetTitle(title);
+                std::cout << "Set Title" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.SetTitle(title);
+        }
     }
 
     void ReplaceText(std::istream & in)
@@ -174,7 +162,17 @@ private:
             throw std::invalid_argument("Invalid type position");
         }
 
-        m_document.ReplaceText(newText, position);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, newText, position]() {
+                m_document.ReplaceText(newText, position);
+                std::cout << "Replace Text" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.ReplaceText(newText, position);
+        }
     }
 
     void DeleteItem(std::istream & in)
@@ -193,14 +191,34 @@ private:
             throw std::invalid_argument("Invalid type position");
         }
 
-        m_document.DeleteItem(position);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, position]() {
+                m_document.DeleteItem(position);
+                std::cout << "Delete Item" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.DeleteItem(position);
+        }
     }
 
     void Undo(std::istream &)
     {
         if (m_document.CanUndo())
         {
-            m_document.Undo();
+            if (m_menu.IsRecordMacro())
+            {
+                RecordCommand([this]() {
+                    m_document.Undo();
+                    std::cout << "Undo" << std::endl;
+                });
+            }
+            else
+            {
+                m_document.Undo();
+            }
         }
         else
         {
@@ -212,7 +230,17 @@ private:
     {
         if (m_document.CanRedo())
         {
-            m_document.Redo();
+            if (m_menu.IsRecordMacro())
+            {
+                RecordCommand([this]() {
+                    m_document.Redo();
+                    std::cout << "Redo" << std::endl;
+                });
+            }
+            else
+            {
+                m_document.Redo();
+            }
         }
         else
         {
@@ -226,7 +254,17 @@ private:
 
         in >> path;
 
-        m_document.Save(path);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, path]() {
+                m_document.Save(path);
+                std::cout << "Save" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.Save(path);
+        }
     }
 
     void InsertImage(std::istream & in)
@@ -266,7 +304,17 @@ private:
             }
         }
 
-        m_document.InsertImage(path, width, height, position);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, path, width, height, position]() {
+                m_document.InsertImage(path, width, height, position);
+                std::cout << "InsertImage" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.InsertImage(path, width, height, position);
+        }
     }
 
     void ResizeImage(std::istream & in)
@@ -305,7 +353,17 @@ private:
             }
         }
 
-        m_document.ResizeImage(width, height, position);
+        if (m_menu.IsRecordMacro())
+        {
+            RecordCommand([this, width, height, position]() {
+                m_document.ResizeImage(width, height, position);
+                std::cout << "ResizeImage" << std::endl;
+            });
+        }
+        else
+        {
+            m_document.ResizeImage(width, height, position);
+        }
     }
 };
 

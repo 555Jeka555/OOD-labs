@@ -2,7 +2,8 @@
 
 void MacroCommand::DoExecute()
 {
-    for (const auto& command : m_commands) {
+    for (const auto& command : m_commands)
+    {
         command();
     }
 }
@@ -11,6 +12,7 @@ void MacroCommand::DoUnexecute()
 {
 }
 
-void MacroCommand::AddCommand(std::function<void()> command) {
+void MacroCommand::AddCommand(std::function<void()> command)
+{
     m_commands.push_back(command);
 }
