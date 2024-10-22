@@ -12,7 +12,7 @@ void MacroCommand::DoUnexecute()
 {
 }
 
-void MacroCommand::AddCommand(std::function<void()> command)
+void MacroCommand::AddCommand(const std::function<void()>& command)
 {
     m_commands.push_back(command);
 }

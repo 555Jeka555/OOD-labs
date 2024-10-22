@@ -12,7 +12,7 @@ class MacroCommand : public AbstractCommand
 public:
     MacroCommand(const std::string & name, const std::string & description) : m_name(name), m_description(description) {}
 
-    void AddCommand(std::function<void()> command);
+    void AddCommand(const std::function<void()>& command);
 
     [[nodiscard]] std::string GetName() const
     {

@@ -20,7 +20,7 @@ public:
 
     void SetCurrentMacro(std::shared_ptr<MacroCommand> currentMacro);
 
-    void AddCommandToCurrentMacro(std::function<void()> command);
+    void AddCommandToCurrentMacro(const std::function<void()>& command);
 
     void AddCurrentMacroMenuItem();
 
@@ -43,6 +43,8 @@ private:
     };
     std::vector<Item> m_items = {};
     bool m_exit = false;
+    std::vector<std::shared_ptr<MacroCommand>> m_macros;
+    std::vector<std::shared_ptr<MacroCommand>> m_macrosToMacro;
     std::shared_ptr<MacroCommand> m_currentMacro = nullptr;
 };
 
