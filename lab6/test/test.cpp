@@ -10,10 +10,22 @@
 namespace mgl = modern_graphics_lib;
 namespace gl = graphics_lib;
 
-std::string DrawWithoutAdapter(const std::vector<mgl::Point>& points)
+mgl::RGBAColor ConvertColorHEXToRGBAColor(uint32_t rgbColor)
+{
+    float a = ((rgbColor >> 24) & 0xFF) / 255.0f;
+    float r = ((rgbColor >> 16) & 0xFF) / 255.0f;
+    float g = ((rgbColor >> 8) & 0xFF) / 255.0f;
+    float b = (rgbColor & 0xFF) / 255.0f;
+
+    mgl::RGBAColor color = {r, g, b, a};
+    return color;
+}
+
+std::string DrawWithoutAdapter(const std::vector<mgl::Point>& points, uint32_t color)
 {
     std::stringstream strm;
     mgl::ModernGraphicsRenderer renderer(strm);
+    auto rgbaColor = ConvertColorHEXToRGBAColor(color);
 
     const auto first = points.begin();
     renderer.BeginDraw();
@@ -22,11 +34,11 @@ std::string DrawWithoutAdapter(const std::vector<mgl::Point>& points)
     {
         if (it + 1 != points.end())
         {
-            renderer.DrawLine(*it, *(it + 1));
+            renderer.DrawLine(*it, *(it + 1), rgbaColor);
         }
         else
         {
-            renderer.DrawLine(*it, *first);
+            renderer.DrawLine(*it, *first, rgbaColor);
         }
     }
 
@@ -35,8 +47,9 @@ std::string DrawWithoutAdapter(const std::vector<mgl::Point>& points)
     return strm.str();
 }
 
-void DrawWithAdapter(mgl::ModernGraphicsRenderer& renderer, graphics_lib::ICanvas& adapter, const std::vector<mgl::Point>& points)
+void DrawWithAdapter(mgl::ModernGraphicsRenderer& renderer, graphics_lib::ICanvas& adapter, const std::vector<mgl::Point>& points, uint32_t color)
 {
+    adapter.SetColor(color);
     renderer.BeginDraw();
 
     auto first = points.begin();
@@ -51,23 +64,23 @@ void DrawWithAdapter(mgl::ModernGraphicsRenderer& renderer, graphics_lib::ICanva
     renderer.EndDraw();
 }
 
-std::string DrawWithObjectAdapter(const std::vector<mgl::Point>& points)
+std::string DrawWithObjectAdapter(const std::vector<mgl::Point>& points, uint32_t color)
 {
     std::stringstream strm;
     mgl::ModernGraphicsRenderer renderer(strm);
     app::ModernGraphicsAdapter adapter(renderer);
 
-    DrawWithAdapter(renderer, adapter, points);
+    DrawWithAdapter(renderer, adapter, points, color);
 
     return strm.str();
 }
 
-std::string DrawShapeWithClassAdapter(const std::vector<mgl::Point>& points)
+std::string DrawShapeWithClassAdapter(const std::vector<mgl::Point>& points, uint32_t color)
 {
     std::stringstream strm;
     app::ModernGraphicsClassAdapter adapter(strm);
 
-    DrawWithAdapter(adapter, adapter, points);
+    DrawWithAdapter(adapter, adapter, points, color);
 
     return strm.str();
 }
@@ -86,13 +99,15 @@ TEST(TriangleTest, DrawWithObjectAdapter)
 {
     auto triangle =
             {
-                mgl::Point(10, 15),
-                mgl::Point(100, 200),
-                mgl::Point(150, 250),
+                    mgl::Point(10, 15),
+                    mgl::Point(100, 200),
+                    mgl::Point(150, 250),
             };
 
-    const auto originalShape = DrawWithoutAdapter(triangle);
-    const auto withAdapterShape = DrawWithObjectAdapter(triangle);
+    uint32_t color = 0xFF5733FF;
+
+    const auto originalShape = DrawWithoutAdapter(triangle, color);
+    const auto withAdapterShape = DrawWithObjectAdapter(triangle, color);
 
     EXPECT_EQ(originalShape, withAdapterShape);
 }
@@ -113,17 +128,18 @@ TEST(TriangleTest, DrawWithClassAdapter)
 {
     auto triangle =
             {
-                mgl::Point(10, 15),
-                mgl::Point(100, 200),
-                mgl::Point(150, 250),
+                    mgl::Point(10, 15),
+                    mgl::Point(100, 200),
+                    mgl::Point(150, 250),
             };
 
-    const auto originalShape = DrawWithoutAdapter(triangle);
-    const auto withAdapterShape = DrawShapeWithClassAdapter(triangle);
+    uint32_t color = 0xFF5733FF;
+
+    const auto originalShape = DrawWithoutAdapter(triangle, color);
+    const auto withAdapterShape = DrawShapeWithClassAdapter(triangle, color);
 
     EXPECT_EQ(originalShape, withAdapterShape);
 }
-
 
 GTEST_API_ int main(int argc, char **argv) {
     std::cout << "Running tests" << std::endl;

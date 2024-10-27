@@ -21,14 +21,20 @@ namespace modern_graphics_lib
         int y;
     };
 
+    class RGBAColor
+    {
+    public:
+        RGBAColor(float r, float g, float b, float a):r(r), g(g), b(b), a(a){}
+        float r, g, b, a;
+    };
+
 // Класс для современного рисования графики
     class ModernGraphicsRenderer
     {
     public:
-        ModernGraphicsRenderer(ostream& strm)
-                : m_out(strm)
-        {
-        }
+        explicit ModernGraphicsRenderer(ostream& strm)
+            : m_out(strm)
+        {}
 
         ~ModernGraphicsRenderer()
         {
@@ -50,13 +56,16 @@ namespace modern_graphics_lib
         }
 
         // Выполняет рисование линии
-        void DrawLine(const Point& start, const Point& end)
+        void DrawLine(const Point& start, const Point& end, const RGBAColor& color)
         {
             if (!m_drawing)
             {
-                throw logic_error("DrawLine is allowed between BeginDraw()/EndDraw() only");
+                throw std::logic_error("DrawLine is allowed between BeginDraw()/EndDraw() only");
             }
-            m_out << std::format(R"(  <line fromX="{}" fromY="{}" toX="{}" toY="{}"/>)", start.x, start.y, end.x, end.y) << endl;
+
+            m_out << std::format(R"(  <line fromX="{}" fromY="{}" toX="{}" toY="{}">)", start.x, start.y, end.x, end.y) << std::endl;
+            m_out << std::format(R"(    <color r="{}" g="{}" b="{}" a="{}" />)", color.r, color.g, color.b, color.a) << std::endl;
+            m_out << R"(  </line>)" << std::endl;
         }
 
         // Этот метод должен быть вызван в конце рисования

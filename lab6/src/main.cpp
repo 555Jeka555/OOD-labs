@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <format>
 
 #include "graphics_lib.h"
 #include "modern_graphics_lib.h"
@@ -34,7 +33,7 @@ namespace app
     void PaintPictureOnModernGraphicsRenderer()
     {
         modern_graphics_lib::ModernGraphicsRenderer renderer(cout);
-        ModernGraphicsAdapter modernGraphicsAdapter(renderer);
+        app::ModernGraphicsAdapter modernGraphicsAdapter(renderer);
         shape_drawing_lib::CanvasPainter painter(modernGraphicsAdapter);
 
         renderer.BeginDraw();
