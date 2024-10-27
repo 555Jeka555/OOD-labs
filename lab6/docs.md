@@ -1,4 +1,48 @@
 ```mermaid
+    ITarget <.. Client : "Use"
+    ITarget <|.. Adapter
+    Adapter o-- Adaptee
+
+    class Client {
+
+    }
+
+    class ITarget {
+        + Request()
+    }
+
+    class Adapter {
+        + Request()
+    }
+
+    class Adaptee {
+        + SpecificRequest()
+    }
+```
+
+```mermaid
+    ITarget <.. Client : "Use"
+    ITarget <|.. Adapter
+    Adaptee <|.. Adapter
+
+    class Client {
+
+    }
+
+    class ITarget {
+        + Request()
+    }
+
+    class Adapter {
+        + Request()
+    }
+
+    class Adaptee {
+        + SpecificRequest()
+    }
+```
+
+```mermaid
 classDiagram
     ICanvas <|.. Canvas
 
