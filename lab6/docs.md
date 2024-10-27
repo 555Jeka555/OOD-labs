@@ -117,23 +117,23 @@ classDiagram
 
     ICanvas <|.. ModernGraphicsAdapter
     ModernGraphicsAdapter o-- ModernGraphicsRenderer
-    ModernGraphicsAdapter *-- Point
+    ModernGraphicsAdapter *-- modern_graphics_lib.Point
 
     ICanvas <|.. ModernGraphicsClassAdapter
     ModernGraphicsClassAdapter <|-- ModernGraphicsRenderer
-    ModernGraphicsClassAdapter *-- Point
+    ModernGraphicsClassAdapter *-- modern_graphics_lib.Point
     namespace app {
         class ModernGraphicsAdapter {
             + MoveTo(x int, y int)
             + LineTo(x int, y int)
-            - m_startPoint Point
+            - m_startPoint modern_graphics_lib.Point
             - m_renderer ModernGraphicsRenderer
         }
 
         class ModernGraphicsClassAdapter {
             + MoveTo(x int, y int)
             + LineTo(x int, y int)
-            - m_startPoint Point
+            - m_startPoint modern_graphics_lib.Point
             - m_renderer ModernGraphicsRenderer
         }
     }
