@@ -36,8 +36,7 @@ namespace app {
 
             DrawLine(m_start, end, m_color);
 
-            m_start.x = end.x;
-            m_start.y = end.y;
+            m_start = end;
         }
 
     private:

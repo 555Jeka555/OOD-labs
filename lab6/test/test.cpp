@@ -91,11 +91,11 @@ TEST(ObjectAdapterTest, InterfaceImplementation)
     mgl::ModernGraphicsRenderer renderer(strm);
     app::ModernGraphicsAdapter adapter(renderer);
 
-    auto canvas = dynamic_cast<graphics_lib::ICanvas*>(&adapter);
+    graphics_lib::ICanvas* canvas = dynamic_cast<graphics_lib::ICanvas*>(&adapter);
     ASSERT_NE(canvas, nullptr);
 }
 
-TEST(TriangleTest, DrawWithObjectAdapter)
+TEST(ObjectAdapterTest, DrawWithObjectAdapter)
 {
     auto triangle =
             {
@@ -117,14 +117,14 @@ TEST(ClassAdapterTest, InterfaceImplementation)
     std::stringstream strm;
     app::ModernGraphicsClassAdapter adapter(strm);
 
-    auto* canvas = dynamic_cast<graphics_lib::ICanvas*>(&adapter);
+    graphics_lib::ICanvas* canvas = dynamic_cast<graphics_lib::ICanvas*>(&adapter);
     ASSERT_NE(canvas, nullptr);
 
-    auto* renderer = dynamic_cast<mgl::ModernGraphicsRenderer*>(&adapter);
+    mgl::ModernGraphicsRenderer* renderer = dynamic_cast<mgl::ModernGraphicsRenderer*>(&adapter);
     ASSERT_NE(renderer, nullptr);
 }
 
-TEST(TriangleTest, DrawWithClassAdapter)
+TEST(ClassAdapterTest, DrawWithClassAdapter)
 {
     auto triangle =
             {
