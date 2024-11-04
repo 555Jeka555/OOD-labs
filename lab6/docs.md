@@ -133,7 +133,7 @@ classDiagram
     ModernGraphicsAdapter *-- RGBAColor
 
     ICanvas <|.. ModernGraphicsClassAdapter
-    ModernGraphicsClassAdapter <|-- ModernGraphicsRenderer
+    ModernGraphicsRenderer <|-- ModernGraphicsClassAdapter 
     ModernGraphicsClassAdapter *-- modern_graphics_lib.Point
     ModernGraphicsClassAdapter *-- RGBAColor
     namespace app {
