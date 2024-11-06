@@ -164,7 +164,7 @@ namespace version1
     class Slide : public ISlide
     {
     public:
-        explicit Slide(const GroupShape& shapes)
+        explicit Slide(const std::shared_ptr<GroupShape>& shapes)
             :   m_background(0xFFFFFFFF),
                 m_shapes(shapes)
         {
@@ -182,22 +182,22 @@ namespace version1
 
         [[nodiscard]] IShapes & GetShapes() override
         {
-            return m_shapes;
+            return *m_shapes;
         }
 
         size_t GetShapesCount() const
         {
-            return m_shapes.GetShapesCount();
+            return m_shapes->GetShapesCount();
         }
 
         std::shared_ptr<IShape> GetShapeAtIndex(size_t index)
         {
-            return m_shapes.GetShapeAtIndex(index);
+            return m_shapes->GetShapeAtIndex(index);
         }
 
         void RemoveShapeAtIndex(size_t index)
         {
-            m_shapes.RemoveShapeAtIndex(index);
+            m_shapes->RemoveShapeAtIndex(index);
         }
 
         RGBAColor GetBackgroundColor() const
@@ -212,18 +212,11 @@ namespace version1
 
         void Draw(gfx::ICanvas & canvas) const override
         {
-            for (size_t i = 0; i < GetShapesCount(); ++i)
-            {
-                auto shape = m_shapes.GetShapeAtIndex(i);
-                if (shape)
-                {
-                    shape->Draw(canvas);
-                }
-            }
+            m_shapes->Draw(canvas);
         }
 
     private:
-        GroupShape m_shapes;
+        std::shared_ptr<GroupShape> m_shapes;
         RGBAColor m_background;
     };
 
@@ -364,19 +357,25 @@ namespace version1
         void CreateSlide(std::istream & inputData)
         {
             std::string line;
-
-            auto firstGroup = GroupShape();
-
+            auto firstGroup = std::make_shared<GroupShape>();
+            std::vector<std::shared_ptr<GroupShape>> groupStack;
+            groupStack.push_back(firstGroup);
             int i = 0;
+
             while (getline(inputData, line))
             {
+                if (IsStartOrEndCreateGroup(line, groupStack, i))
+                {
+                    continue;
+                }
+
                 auto shape = m_shapeFactory.CreateShape(line);
                 if (shape)
                 {
-                    firstGroup.InsertShape(shape, i);
-                    i++;
+                    groupStack.back()->InsertShape(shape, groupStack.back()->GetShapesCount());
                 }
             }
+
             m_currentSlide = std::make_unique<Slide>(firstGroup);
         }
 
@@ -387,6 +386,32 @@ namespace version1
                 m_currentSlide->Draw(canvas);
             }
         }
+
+        static bool IsStartOrEndCreateGroup(
+                const std::string & line,
+                std::vector<std::shared_ptr<GroupShape>>& groupStack,
+                int & i)
+        {
+            if (line == GroupShape::typeStart)
+            {
+                auto newGroup = std::make_shared<GroupShape>();
+                groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup), groupStack.back()->GetShapesCount());
+                groupStack.push_back(newGroup);
+                return true;
+            }
+
+            if (line == GroupShape::typeEnd)
+            {
+                if (groupStack.size() > 1)
+                {
+                    groupStack.pop_back();
+                }
+                return true;
+            }
+
+            return false;
+        }
+
 
     private:
         IShapeFactory & m_shapeFactory;

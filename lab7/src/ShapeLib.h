@@ -87,7 +87,7 @@ class IShapes
 {
 public:
     virtual size_t GetShapesCount()const = 0;
-    virtual void InsertShape(std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) = 0;
+    virtual void InsertShape(const std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) = 0;
     virtual std::shared_ptr<IShape> GetShapeAtIndex(size_t index) const = 0;
     virtual void RemoveShapeAtIndex(size_t index) = 0;
 
@@ -105,7 +105,8 @@ typedef std::function<void(gfx::ICanvas & canvas, const IShape & shape)> Drawing
 class GroupShape : public IGroupShape
 {
 public:
-    constexpr static std::string type = "group";
+    constexpr static std::string typeStart = "group_start";
+    constexpr static std::string typeEnd = "group_end";
 
     GroupShape()
             : m_outlineStyle(0xFFFFFFFF),
@@ -154,14 +155,23 @@ public:
     }
 
     void Draw(gfx::ICanvas &canvas) const override
-    {}
+    {
+        for (size_t i = 0; i < GetShapesCount(); ++i)
+        {
+            auto shape = GetShapeAtIndex(i);
+            if (shape)
+            {
+                shape->Draw(canvas);
+            }
+        }
+    }
 
     size_t GetShapesCount()const override
     {
         return m_shapes.size();
     }
 
-    void InsertShape(std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) override
+    void InsertShape(const std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) override
     {
         m_shapes.insert({position, shape});
     }

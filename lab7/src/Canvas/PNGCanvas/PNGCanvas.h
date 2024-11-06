@@ -60,13 +60,11 @@ namespace gfx
         void DrawPolygon(const std::vector<std::pair<double, double>>& vertices) override
         {
             if (vertices.size() < 3) {
-                return; // Не рисуем, если меньше 3 точек
+                return;
             }
 
-            // Заливаем внутреннюю область многоугольника
             FillPolygon(vertices);
 
-            // Рисуем контур многоугольника
             for (size_t i = 0; i < vertices.size(); ++i)
             {
                 size_t nextIndex = (i + 1) % vertices.size(); // Следующая вершина (замыкание)
@@ -113,10 +111,8 @@ namespace gfx
                 vertices.emplace_back(newX, newY);
             }
 
-            // Заливаем эллипс
             FillPolygon(vertices);
 
-            // Рисуем контур эллипса
             for (size_t i = 0; i < vertices.size() - 1; ++i)
             {
                 DrawLine(vertices[i].first, vertices[i].second, vertices[i + 1].first, vertices[i + 1].second);
