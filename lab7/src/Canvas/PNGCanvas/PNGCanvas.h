@@ -59,16 +59,20 @@ namespace gfx
 
         void DrawPolygon(const std::vector<std::pair<double, double>>& vertices) override
         {
-            for (size_t i = 0; i < vertices.size(); ++i)
-            {
-                auto from = vertices[i];
-                auto to = vertices[(i + 1) % vertices.size()]; // Замыкание на первую вершину
-                DrawLine(from.first, from.second, to.first, to.second);
+            if (vertices.size() < 3) {
+                return; // Не рисуем, если меньше 3 точек
             }
 
+            // Заливаем внутреннюю область многоугольника
             FillPolygon(vertices);
-        }
 
+            // Рисуем контур многоугольника
+            for (size_t i = 0; i < vertices.size(); ++i)
+            {
+                size_t nextIndex = (i + 1) % vertices.size(); // Следующая вершина (замыкание)
+                DrawLine(vertices[i].first, vertices[i].second, vertices[nextIndex].first, vertices[nextIndex].second);
+            }
+        }
 
         void DrawLine(double fromX, double fromY, double toX, double toY)
         {
@@ -95,29 +99,30 @@ namespace gfx
             }
         }
 
-        void DrawEllipse(double cx, double cy, double rx, double ry) override
+        void DrawEllipse(double cx, double cy, double rx, double ry)
         {
             int segments = 100;
             double angleStep = 2 * M_PI / segments;
 
-            double prevX = cx + rx;
-            double prevY = cy;
-
             std::vector<std::pair<double, double>> vertices;
-
             for (int i = 0; i <= segments; ++i)
             {
                 double angle = i * angleStep;
                 double newX = cx + rx * cos(angle);
                 double newY = cy + ry * sin(angle);
                 vertices.emplace_back(newX, newY);
-                DrawLine(prevX, prevY, newX, newY);
-                prevX = newX;
-                prevY = newY;
             }
 
-//            FillPolygon(vertices);
+            // Заливаем эллипс
+            FillPolygon(vertices);
+
+            // Рисуем контур эллипса
+            for (size_t i = 0; i < vertices.size() - 1; ++i)
+            {
+                DrawLine(vertices[i].first, vertices[i].second, vertices[i + 1].first, vertices[i + 1].second);
+            }
         }
+
 
         void SaveToFile(const std::string& filename);
 
@@ -141,6 +146,7 @@ namespace gfx
 
         void FillPolygon(const std::vector<std::pair<double, double>>& vertices)
         {
+            // Определяем границы многоугольника
             double minX = vertices[0].first;
             double maxX = vertices[0].first;
             double minY = vertices[0].second;
@@ -154,33 +160,33 @@ namespace gfx
                 if (vertex.second > maxY) maxY = vertex.second;
             }
 
+            // Обход всех точек в границах многоугольника
             for (int y = static_cast<int>(minY); y <= static_cast<int>(maxY); ++y)
             {
-                bool inside = false;
-                for (size_t i = 0; i < vertices.size(); ++i)
+                for (int x = static_cast<int>(minX); x <= static_cast<int>(maxX); ++x)
                 {
-                    const auto& v1 = vertices[i];
-                    const auto& v2 = vertices[(i + 1) % vertices.size()];
-
-                    for (int x = static_cast<int>(minX); x <= static_cast<int>(maxX); ++x)
+                    // Проверяем, находится ли точка внутри многоугольника
+                    bool inside = false;
+                    for (size_t i = 0, j = vertices.size() - 1; i < vertices.size(); j = i++)
                     {
+                        const auto& v1 = vertices[i];
+                        const auto& v2 = vertices[j];
+
                         if (((v1.second > y) != (v2.second > y)) &&
-                            (x <= (v2.first - v1.first) * (y - v1.second) / (v2.second - v1.second) + v1.first))
+                            (x < (v2.first - v1.first) * (y - v1.second) / (v2.second - v1.second) + v1.first))
                         {
                             inside = !inside;
                         }
                     }
-                }
 
-                if (inside)
-                {
-                    for (int x = static_cast<int>(minX); x <= static_cast<int>(maxX); ++x)
+                    if (inside)
                     {
                         PutPixel(x, y, m_currentFillColor);
                     }
                 }
             }
         }
+
     };
 }
 

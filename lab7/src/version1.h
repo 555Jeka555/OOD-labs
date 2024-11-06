@@ -151,6 +151,8 @@ namespace version1
                     {m_point3.x, m_point3.y}
             };
 
+            canvas.DrawPolygon(vertices);
+
             canvas.EndFill();
         }
     private:
