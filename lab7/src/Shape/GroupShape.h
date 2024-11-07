@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include "IGroupShape.h"
 #include "Style/Style.h"
-#include "Style/ProxyStyle.h"
+#include "Style/GroupStyle.h"
 
 class GroupShape : public IGroupShape
 {
@@ -114,8 +114,8 @@ public:
 
 private:
     std::unordered_map<size_t , std::shared_ptr<IShape>> m_shapes;
-    std::unique_ptr<ProxyStyle> m_outlineStyle = std::make_unique<ProxyStyle>(true, m_shapes);
-    std::unique_ptr<ProxyStyle> m_fillStyle = std::make_unique<ProxyStyle>(false, m_shapes);
+    std::unique_ptr<GroupStyle> m_outlineStyle = std::make_unique<GroupStyle>(true, m_shapes);
+    std::unique_ptr<GroupStyle> m_fillStyle = std::make_unique<GroupStyle>(false, m_shapes);
 };
 
 #endif //LAB7_GROUPSHAPE_H

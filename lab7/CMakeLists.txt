@@ -37,7 +37,7 @@ set(SOURCE_FILES
         src/Slide/Slide.h
         src/Slide/SlideService.h
         src/CommonTypes.h
-        src/Shape/Style/ProxyStyle.h
+        src/Shape/Style/GroupStyle.h
 )
 
 set(TEST_SOURCE_FILES

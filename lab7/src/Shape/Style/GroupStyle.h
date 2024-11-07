@@ -1,5 +1,5 @@
-#ifndef LAB7_PROXYSTYLE_H
-#define LAB7_PROXYSTYLE_H
+#ifndef LAB7_GROUPSTYLE_H
+#define LAB7_GROUPSTYLE_H
 
 #include <memory>
 #include <vector>
@@ -7,10 +7,10 @@
 #include "IStyle.h"
 #include "../IShape.h"
 
-class ProxyStyle : public IStyle
+class GroupStyle : public IStyle
 {
 public:
-    ProxyStyle(const bool isOutline, std::unordered_map<size_t , std::shared_ptr<IShape>> &shapes)
+    GroupStyle(const bool isOutline, std::unordered_map<size_t , std::shared_ptr<IShape>> &shapes)
             : m_isOutline(isOutline)
             , m_shapes(shapes)
     {
@@ -106,4 +106,4 @@ private:
     std::optional<RGBAColor> m_color;
 };
 
-#endif //LAB7_PROXYSTYLE_H
+#endif //LAB7_GROUPSTYLE_H
