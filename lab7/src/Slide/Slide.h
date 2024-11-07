@@ -6,48 +6,62 @@
 
 class Slide : public ISlide {
 public:
-    explicit Slide(const std::shared_ptr<GroupShape> &shapes)
-            : m_background(0xFFFFFFFF),
-              m_shapes(shapes) {
+    explicit Slide(double width, double height, const std::shared_ptr<GroupShape> &shapes)
+        :   m_background(0xFFFFFFFF),
+            m_width(width),
+            m_height(height),
+            m_shapes(shapes)
+    {
     }
 
-    double GetWidth() const override {
-        return 800;
+    double GetWidth() const override
+    {
+        return m_width;
     }
 
-    double GetHeight() const override {
-        return 600;
+    double GetHeight() const override
+    {
+        return m_height;
     }
 
-    [[nodiscard]] IShapes &GetShapes() override {
+    [[nodiscard]] IShapes &GetShapes() override
+    {
         return *m_shapes;
     }
 
-    size_t GetShapesCount() const {
+    size_t GetShapesCount() const
+    {
         return m_shapes->GetShapesCount();
     }
 
-    std::shared_ptr<IShape> GetShapeAtIndex(size_t index) {
+    std::shared_ptr<IShape> GetShapeAtIndex(size_t index)
+    {
         return m_shapes->GetShapeAtIndex(index);
     }
 
-    void RemoveShapeAtIndex(size_t index) {
+    void RemoveShapeAtIndex(size_t index)
+    {
         m_shapes->RemoveShapeAtIndex(index);
     }
 
-    RGBAColor GetBackgroundColor() const {
+    RGBAColor GetBackgroundColor() const
+    {
         return m_background;
     }
 
-    void SetBackgroundColor(RGBAColor color) {
+    void SetBackgroundColor(RGBAColor color)
+    {
         m_background = color;
     }
 
-    void Draw(gfx::ICanvas &canvas) const override {
+    void Draw(gfx::ICanvas &canvas) const override
+    {
         m_shapes->Draw(canvas);
     }
 
 private:
+    double m_width;
+    double m_height;
     std::shared_ptr<GroupShape> m_shapes;
     RGBAColor m_background;
 };

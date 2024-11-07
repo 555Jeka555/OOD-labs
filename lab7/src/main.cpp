@@ -63,11 +63,11 @@ int main(int argc, char* argv[])
                 return 0;
             }
 
-            client.HandleCommand(fileInput, canvas);
+            client.HandleCommand(fileInput, canvas, CANVAS_WIDTH, CANVAS_HEIGHT);
         }
         else
         {
-            client.HandleCommand(std::cin, canvas);
+            client.HandleCommand(std::cin, canvas, CANVAS_WIDTH, CANVAS_HEIGHT);
         }
 
         canvas.SaveToFile(PICTURE_OUTPUT_NAME);

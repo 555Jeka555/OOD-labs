@@ -21,6 +21,6 @@ namespace gfx
 
     void gfx::PNGCanvas::SaveToFile(const std::string& filename)
     {
-        stbi_write_png(filename.c_str(), width, height, 4, pixels.data(), width * 4);
+        stbi_write_png(filename.c_str(), m_width, m_height, 4, pixels.data(), m_width * 4);
     }
 }

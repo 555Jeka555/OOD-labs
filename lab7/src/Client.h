@@ -11,9 +11,9 @@ public:
         : m_slideService(slideService)
     {}
 
-    void HandleCommand(std::istream & inputData, gfx::ICanvas & canvas)
+    void HandleCommand(std::istream & inputData, gfx::ICanvas & canvas, double width, double height)
     {
-        m_slideService.CreateSlide(inputData);
+        m_slideService.CreateSlide(inputData, width, height);
 
         m_slideService.DrawSlide(canvas);
     }

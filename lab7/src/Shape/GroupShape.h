@@ -19,12 +19,43 @@ public:
 
     RectD GetFrame() const override
     {
-        return m_frame;
+        if (m_shapes.empty())
+        {
+            return {0, 0, 0, 0};
+        }
+
+        double left = std::numeric_limits<double>::max();
+        double top = std::numeric_limits<double>::max();
+        double right = std::numeric_limits<double>::lowest();
+        double bottom = std::numeric_limits<double>::lowest();
+
+        for (const auto &pair: m_shapes)
+        {
+            RectD frame = pair.second->GetFrame();
+            left = std::min(left, frame.left);
+            top = std::min(top, frame.top);
+            right = std::max(right, frame.left + frame.width);
+            bottom = std::max(bottom, frame.top + frame.height);
+        }
+
+        return {left, top, right - left, bottom - top};
     }
 
     void SetFrame(const RectD & rect) override
     {
-        m_frame = rect;
+        auto [left, top, width, height] = GetFrame();
+        const double scaleX = rect.width / width;
+        const double scaleY = rect.height / height;
+
+        for (const auto &pair: m_shapes)
+        {
+            const RectD shapeFrame = pair.second->GetFrame();
+            const double newLeft = rect.left + (shapeFrame.left - left) * scaleX;
+            const double newTop = rect.top + (shapeFrame.top - top) * scaleY;
+            const double newWidth = shapeFrame.width * scaleX;
+            const double newHeight = shapeFrame.height * scaleY;
+            pair.second->SetFrame({newLeft, newTop, newWidth, newHeight});
+        }
     }
 
     IStyle & GetOutlineStyle() override
@@ -76,11 +107,14 @@ public:
 
     void RemoveShapeAtIndex(size_t index) override
     {
+        auto it = m_shapes.find(index);
+        if (it != m_shapes.end()) {
+            m_shapes.erase(it);
+        }
     }
 
 private:
     std::unordered_map<size_t , std::shared_ptr<IShape>> m_shapes;
-    RectD m_frame{};
     Style m_outlineStyle;
     Style m_fillStyle;
 };

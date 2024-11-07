@@ -34,12 +34,22 @@ namespace gfx
     {
     public:
         PNGCanvas(int w, int h)
-            :   width(w),
-                height(h),
+            :   m_width(w),
+                m_height(h),
                 m_currentLineColor({255, 255, 255, 255}),
                 m_currentFillColor({255, 255, 255, 255})
         {
-            pixels.resize(width * height * 4, 255);
+            pixels.resize(m_width * m_height * 4, 255);
+        }
+
+        void SetWidth(double width) override
+        {
+            m_width = width;
+        }
+        
+        void SetHeight(double height) override
+        {
+            m_height = height;
         }
 
         void SetLineColor(uint32_t color) override
@@ -123,16 +133,16 @@ namespace gfx
         void SaveToFile(const std::string& filename);
 
     private:
-        int width, height;
+        int m_width, m_height;
         Color m_currentLineColor{};
         Color m_currentFillColor{};
         std::vector<uint8_t> pixels;
 
         void PutPixel(int x, int y, Color color)
         {
-            if (x >= 0 && x < width && y >= 0 && y < height)
+            if (x >= 0 && x < m_width && y >= 0 && y < m_height)
             {
-                int index = 4 * (y * width + x);
+                int index = 4 * (y * m_width + x);
                 pixels[index] = color.r;
                 pixels[index + 1] = color.g;
                 pixels[index + 2] = color.b;
