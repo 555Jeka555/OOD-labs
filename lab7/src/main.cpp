@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Canvas/PNGCanvas/PNGCanvas.h"
 #include "Client.h"
-#include "version1.h"
+#include "ShapeFactory/ShapeFactory.h"
 
 const std::string COMMAND_INPUT_ARGS = "cin";
 const std::string PICTURE_OUTPUT_NAME = "output.png";
@@ -48,8 +48,8 @@ int main(int argc, char* argv[])
         Args args = ParseArgs(argc, argv);
 
         gfx::PNGCanvas canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-        version1::ShapeFactory shapeFactory;
-        version1::SlideService slideService(shapeFactory);
+        ShapeFactory shapeFactory;
+        SlideService slideService(shapeFactory);
         Client client(slideService);
 
         if (args.inputFileName != COMMAND_INPUT_ARGS)

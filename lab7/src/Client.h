@@ -2,12 +2,12 @@
 #define LAB4_CLIENT_H
 
 #include "Canvas/ICanvas.h"
-#include "version1.h"
+#include "Slide/SlideService.h"
 
 class Client
 {
 public:
-    explicit Client(version1::SlideService & slideService)
+    explicit Client(SlideService & slideService)
         : m_slideService(slideService)
     {}
 
@@ -19,7 +19,7 @@ public:
     }
 
 private:
-    version1::SlideService & m_slideService;
+    SlideService & m_slideService;
 };
 
 #endif //LAB4_CLIENT_H

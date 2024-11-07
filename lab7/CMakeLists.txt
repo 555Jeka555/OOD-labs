@@ -20,9 +20,23 @@ set(SOURCE_FILES
         src/Canvas/PNGCanvas/stb_image_write.h
         src/Canvas/PNGCanvas/stb_truetype.h
         src/Client.h
-        src/ShapeLib.h
-        src/version1.h
         src/CommonTypes.h
+        src/ShapeFactory/IShapeFactory.h
+        src/ShapeFactory/ShapeFactory.h
+        src/Shape/Triangle.h
+        src/Shape/Rectangle.h
+        src/Shape/Ellipse.h
+        src/Shape/Shape.h
+        src/Shape/Style/IStyle.h
+        src/Shape/Style/Style.h
+        src/Shape/IShape.h
+        src/IDrawable.h
+        src/Shape/IGroupShape.h
+        src/Shape/GroupShape.h
+        src/Shape/IShapes.h
+        src/Slide/ISlide.h
+        src/Slide/Slide.h
+        src/Slide/SlideService.h
 )
 
 set(TEST_SOURCE_FILES
