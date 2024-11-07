@@ -35,9 +35,7 @@ class Style : public IStyle
 public:
     explicit Style(optional<RGBAColor> color)
         :   m_color(color)
-    {
-        m_enabled = true;
-    }
+    {}
 
     [[nodiscard]] optional<bool> IsEnabled() const override
     {
@@ -68,7 +66,7 @@ class IGroupShape;
 class IShape : public IDrawable
 {
 public:
-    virtual RectD GetFrame() = 0;
+    virtual RectD GetFrame()const = 0;
     virtual void SetFrame(const RectD & rect) = 0;
 
     virtual IStyle & GetOutlineStyle() = 0;
@@ -114,7 +112,7 @@ public:
     {
     }
 
-    RectD GetFrame() override
+    RectD GetFrame() const override
     {
         return m_frame;
     }

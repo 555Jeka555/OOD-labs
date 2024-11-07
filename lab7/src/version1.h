@@ -9,49 +9,48 @@
 #include <utility>
 #include "ShapeLib.h"
 
-namespace version1
-{
-    class Point
-    {
+namespace version1 {
+    class Point {
     public:
         double x = 0;
         double y = 0;
     };
 
-    class Shape : public IShape
-    {
+    class Shape : public IShape {
     public:
-        Shape(Style outlineStyle, Style fillStyle)
-            : m_outlineStyle(std::move(outlineStyle)), m_fillStyle(std::move(fillStyle)) {}
+        Shape(const RectD &frame,
+              std::unique_ptr<IStyle> outlineStyle,
+              std::unique_ptr<IStyle> fillStyle
+        )
+            :    m_frame(frame),
+                m_outlineStyle(std::move(outlineStyle)),
+                m_fillStyle(std::move(fillStyle))
+        {
+        }
 
-        RectD GetFrame() override
+        RectD GetFrame() const override
         {
             return m_frame;
         }
 
-        void SetFrame(const RectD & rect) override
-        {
+        void SetFrame(const RectD &rect) override {
             m_frame = rect;
         }
 
-        IStyle & GetOutlineStyle() override
-        {
-            return m_outlineStyle;
+        IStyle &GetOutlineStyle() override {
+            return *m_outlineStyle;
         }
 
-        const IStyle & GetOutlineStyle() const override
-        {
-            return m_outlineStyle;
+        const IStyle &GetOutlineStyle() const override {
+            return *m_outlineStyle;
         }
 
-        IStyle & GetFillStyle() override
-        {
-            return m_fillStyle;
+        IStyle &GetFillStyle() override {
+            return *m_fillStyle;
         }
 
-        const IStyle & GetFillStyle() const override
-        {
-            return m_fillStyle;
+        const IStyle &GetFillStyle() const override {
+            return *m_fillStyle;
         }
 
         std::shared_ptr<IGroupShape> GetGroup() override
@@ -66,152 +65,180 @@ namespace version1
 
     private:
         RectD m_frame{};
-        Style m_outlineStyle;
-        Style m_fillStyle;
+        std::unique_ptr<IStyle> m_outlineStyle;
+        std::unique_ptr<IStyle> m_fillStyle;
     };
 
-    class Rectangle : public Shape
-    {
+    class Rectangle : public Shape {
     public:
         constexpr static std::string type = "rectangle";
 
-        Rectangle(Style outlineStyle, Style fillStyle, Point leftTop, double width, double height)
-            :   Shape(std::move(outlineStyle), std::move(fillStyle)),
-                m_leftTop(leftTop),
-                m_width(width),
-                m_height(height)
-            {}
-
-        void Draw(gfx::ICanvas & canvas) const final override
+        Rectangle(
+                const RectD &frame,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        ): Shape(frame, std::move(outlineStyle), std::move(fillStyle))
         {
-            canvas.SetLineColor(OptionalToUint32(GetOutlineStyle().GetColor()));
-            canvas.BeginFill(OptionalToUint32(GetFillStyle().GetColor()));
+        }
 
-            std::vector<std::pair<double, double>> vertices = {
-                    {m_leftTop.x, m_leftTop.y},
-                    {m_leftTop.x + m_width, m_leftTop.y},
-                    {m_leftTop.x + m_width, m_leftTop.y + m_height},
-                    {m_leftTop.x, m_leftTop.y + m_height}
+        void Draw(gfx::ICanvas &canvas) const final override {
+            const IStyle &outlineStyle = GetOutlineStyle();
+            const IStyle &fillStyle = GetFillStyle();
+
+            if (fillStyle.IsEnabled() && fillStyle.GetColor().has_value())
+            {
+                canvas.BeginFill(fillStyle.GetColor().value());
+            }
+
+            if (outlineStyle.IsEnabled() && outlineStyle.GetColor().has_value())
+            {
+                canvas.SetLineColor(outlineStyle.GetColor().value());
+            }
+            else
+            {
+                canvas.SetLineColor({});
+            }
+
+            auto [left, top, width, height] = GetFrame();
+
+            const std::vector<std::pair<double, double>> vertices = {
+                    {left, top},
+                    {left + width, top},
+                    {left + width, top + height},
+                    {left, top + height}
             };
-
             canvas.DrawPolygon(vertices);
 
             canvas.EndFill();
         }
-
-    private:
-        Point m_leftTop;
-        double m_width;
-        double m_height;
     };
 
-    class Ellipse : public Shape
-    {
+    class Ellipse : public Shape {
     public:
         constexpr static std::string type = "ellipse";
 
-        Ellipse(Style outlineStyle, Style fillStyle, Point center, double radiusX, double radiusY)
-            : Shape(std::move(outlineStyle), std::move(fillStyle)), m_center(center), m_radiusX(radiusX), m_radiusY(radiusY) {}
-
-        void Draw(gfx::ICanvas & canvas) const final override
+        Ellipse(const RectD &frame,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        )
+            : Shape(frame, std::move(outlineStyle), std::move(fillStyle))
         {
-            canvas.SetLineColor(OptionalToUint32(GetOutlineStyle().GetColor()));
-            canvas.BeginFill(OptionalToUint32(GetFillStyle().GetColor()));
+        }
 
-            canvas.DrawEllipse(m_center.x, m_center.y, m_radiusX, m_radiusY);
+        void Draw(gfx::ICanvas &canvas) const override
+        {
+            const IStyle &outlineStyle = GetOutlineStyle();
+            const IStyle &fillStyle = GetFillStyle();
+
+            if (fillStyle.IsEnabled() && fillStyle.GetColor().has_value())
+            {
+                canvas.BeginFill(fillStyle.GetColor().value());
+            }
+
+            if (outlineStyle.IsEnabled() && outlineStyle.GetColor().has_value())
+            {
+                canvas.SetLineColor(outlineStyle.GetColor().value());
+            }
+            else
+            {
+                canvas.SetLineColor(0xFFFFFFFF);
+            }
+
+            auto frame = GetFrame();
+            double cx = frame.left + frame.width / 2;
+            const double cy = frame.top + frame.height / 2;
+            const double rx = frame.width / 2;
+            const double ry = frame.height / 2;
+            canvas.DrawEllipse(cx, cy, rx, ry);
 
             canvas.EndFill();
         }
-
-    private:
-        Point m_center;
-        double m_radiusX, m_radiusY;
     };
 
-    class Triangle : public Shape
-    {
+    class Triangle : public Shape {
     public:
         constexpr static std::string type = "triangle";
 
-        Triangle(Style outlineStyle, Style fillStyle, Point point1, Point point2, Point point3)
-            :   Shape(std::move(outlineStyle), std::move(fillStyle)),
-                m_point1(point1),
-                m_point2(point2),
-                m_point3(point3)
-                {}
-
-        void Draw(gfx::ICanvas & canvas) const final
+        Triangle(const RectD &frame,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        )
+            : Shape(frame, std::move(outlineStyle), std::move(fillStyle))
         {
-            canvas.SetLineColor(OptionalToUint32(GetOutlineStyle().GetColor()));
-            canvas.BeginFill(OptionalToUint32(GetFillStyle().GetColor()));
+        }
 
-            std::vector<std::pair<double, double>> vertices = {
-                    {m_point1.x, m_point1.y},
-                    {m_point2.x, m_point2.y},
-                    {m_point3.x, m_point3.y}
+        void Draw(gfx::ICanvas &canvas) const final {
+            const IStyle &outlineStyle = GetOutlineStyle();
+            const IStyle &fillStyle = GetFillStyle();
+
+            if (fillStyle.IsEnabled() && fillStyle.GetColor().has_value())
+            {
+                canvas.BeginFill(fillStyle.GetColor().value());
+            }
+
+            if (outlineStyle.IsEnabled() && outlineStyle.GetColor().has_value())
+            {
+                canvas.SetLineColor(outlineStyle.GetColor().value());
+            }
+            else
+            {
+                canvas.SetLineColor({});
+            }
+
+            const auto [left, top, width, height] = GetFrame();
+
+            const std::vector<std::pair<double, double>> vertices = {
+                    {left + width / 2, top},
+                    {left, top + height},
+                    {left + width, top + height}
             };
 
             canvas.DrawPolygon(vertices);
 
             canvas.EndFill();
         }
-    private:
-        Point m_point1;
-        Point m_point2;
-        Point m_point3;
     };
 
-    class Slide : public ISlide
-    {
+    class Slide : public ISlide {
     public:
-        explicit Slide(const std::shared_ptr<GroupShape>& shapes)
-            :   m_background(0xFFFFFFFF),
-                m_shapes(shapes)
-        {
+        explicit Slide(const std::shared_ptr<GroupShape> &shapes)
+                : m_background(0xFFFFFFFF),
+                  m_shapes(shapes) {
         }
 
-        double GetWidth() const override
-        {
+        double GetWidth() const override {
             return 800;
         }
 
-        double GetHeight() const override
-        {
+        double GetHeight() const override {
             return 600;
         }
 
-        [[nodiscard]] IShapes & GetShapes() override
-        {
+        [[nodiscard]] IShapes &GetShapes() override {
             return *m_shapes;
         }
 
-        size_t GetShapesCount() const
-        {
+        size_t GetShapesCount() const {
             return m_shapes->GetShapesCount();
         }
 
-        std::shared_ptr<IShape> GetShapeAtIndex(size_t index)
-        {
+        std::shared_ptr<IShape> GetShapeAtIndex(size_t index) {
             return m_shapes->GetShapeAtIndex(index);
         }
 
-        void RemoveShapeAtIndex(size_t index)
-        {
+        void RemoveShapeAtIndex(size_t index) {
             m_shapes->RemoveShapeAtIndex(index);
         }
 
-        RGBAColor GetBackgroundColor() const
-        {
+        RGBAColor GetBackgroundColor() const {
             return m_background;
         }
 
-        void SetBackgroundColor(RGBAColor color)
-        {
+        void SetBackgroundColor(RGBAColor color) {
             m_background = color;
         }
 
-        void Draw(gfx::ICanvas & canvas) const override
-        {
+        void Draw(gfx::ICanvas &canvas) const override {
             m_shapes->Draw(canvas);
         }
 
@@ -220,47 +247,23 @@ namespace version1
         RGBAColor m_background;
     };
 
-    class ShapeFactory : public IShapeFactory
-    {
+    class ShapeFactory : public IShapeFactory {
     public:
-        std::shared_ptr<IShape> CreateShape(const std::string & description) override
-        {
+        std::shared_ptr<IShape> CreateShape(const std::string &description) override {
             std::istringstream iss(description);
 
             std::string shapeType;
             iss >> shapeType;
 
-            std::string colorOutlineStr;
-            uint32_t colorOutline;
-            iss >> colorOutlineStr;
-            if (colorOutlineStr[0] == '#') {
-                colorOutlineStr.erase(0, 1);
-                std::stringstream ss;
-                ss << std::hex << colorOutlineStr;
-                ss >> colorOutline;
-            }
+            auto outlineStyle = ParseStyle(iss);
+            auto fillStyle = ParseStyle(iss);
 
-            std::string colorFillStr;
-            uint32_t colorFill;
-            iss >> colorFillStr;
-            if (colorFillStr[0] == '#') {
-                colorFillStr.erase(0, 1);
-                std::stringstream ss;
-                ss << std::hex << colorFillStr;
-                ss >> colorFill;
-            }
-
-            if (shapeType == Triangle::type)
-            {
-                return ShapeFactory::CreateTriangle(colorOutline, colorFill, iss);
-            }
-            else if (shapeType == Ellipse::type)
-            {
-                return ShapeFactory::CreateEllipse(colorOutline, colorFill, iss);
-            }
-            else if (shapeType == Rectangle::type)
-            {
-                return ShapeFactory::CreateRectangle(colorOutline, colorFill, iss);
+            if (shapeType == Triangle::type) {
+                return ShapeFactory::CreateTriangle(iss, std::move(outlineStyle), std::move(fillStyle));
+            } else if (shapeType == Ellipse::type) {
+                return ShapeFactory::CreateEllipse(iss, std::move(outlineStyle), std::move(fillStyle));
+            } else if (shapeType == Rectangle::type) {
+                return ShapeFactory::CreateRectangle(iss, std::move(outlineStyle), std::move(fillStyle));
             }
 
             throw std::invalid_argument("Unknown shape type");
@@ -268,110 +271,107 @@ namespace version1
 
     private:
         static std::shared_ptr<Triangle> CreateTriangle(
-                uint32_t colorOutline,
-                uint32_t colorFill,
-                std::istringstream& iss
-                )
-        {
-            std::string pointX1Str;
-            std::string pointY1Str;
-            std::string pointX2Str;
-            std::string pointY2Str;
-            std::string pointX3Str;
-            std::string pointY3Str;
+                std::istringstream &iss,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        ) {
+            const auto rect = ParseRect(iss);
 
-            iss >> pointX1Str >> pointY1Str >> pointX2Str >> pointY2Str >> pointX3Str >> pointY3Str;
-
-            Point point1(std::stod(pointX1Str), std::stod(pointY1Str));
-            Point point2(std::stod(pointX2Str), std::stod(pointY2Str));
-            Point point3(std::stod(pointX3Str), std::stod(pointY3Str));
-
-            Style outlineStyle = Style(colorOutline);
-            Style fillStyle = Style(colorFill);
-
-            return std::make_shared<Triangle>(outlineStyle, fillStyle, point1, point2, point3);
+            return std::make_unique<Triangle>(rect, std::move(outlineStyle), std::move(fillStyle));
         }
 
         static std::shared_ptr<Ellipse> CreateEllipse(
-                uint32_t colorOutline,
-                uint32_t colorFill,
-                std::istringstream& iss
-                )
-        {
-            std::string centerX1Str;
-            std::string centerY1Str;
-            std::string horizontalRadiusStr;
-            std::string verticalRadiusStr;
+                std::istringstream &iss,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        ) {
+            const auto rect = ParseRect(iss);
 
-            iss >> centerX1Str >> centerY1Str >> horizontalRadiusStr >> verticalRadiusStr;
-
-            Point center(std::stod(centerX1Str), std::stod(centerY1Str));
-
-            Style outlineStyle = Style(colorOutline);
-            Style fillStyle = Style(colorFill);
-
-            return std::make_shared<Ellipse>(
-                    outlineStyle,
-                    fillStyle,
-                    center,
-                    std::stod(horizontalRadiusStr),
-                    std::stod(verticalRadiusStr)
-            );
+            return std::make_unique<Ellipse>(rect, std::move(outlineStyle), std::move(fillStyle));
         }
 
         static std::shared_ptr<Rectangle> CreateRectangle(
-                uint32_t colorOutline,
-                uint32_t colorFill,
-                std::istringstream& iss
-                )
+                std::istringstream &iss,
+                std::unique_ptr<IStyle> outlineStyle,
+                std::unique_ptr<IStyle> fillStyle
+        ) {
+            const auto rect = ParseRect(iss);
+
+            return std::make_unique<Rectangle>(rect, std::move(outlineStyle), std::move(fillStyle));
+
+        }
+
+        static std::unique_ptr<IStyle> ParseStyle(std::istringstream &iss)
         {
-            std::string leftTopX1Str;
-            std::string leftTopY1Str;
-            std::string widthStr;
-            std::string heightStr;
+            std::string colorStr;
+            RGBAColor color;
 
-            iss >> leftTopX1Str >> leftTopY1Str >> widthStr >> heightStr;
+            if (!(iss >> colorStr) || !ParseColor(colorStr, color))
+            {
+                return std::make_unique<Style>(std::nullopt);
+            }
 
-            Point leftTop(std::stod(leftTopX1Str), std::stod(leftTopY1Str));
+            auto style = std::make_unique<Style>(color);
+            style->Enable(true);
 
-            Style outlineStyle = Style(colorOutline);
-            Style fillStyle = Style(colorFill);
+            return style;
+        }
 
-            return std::make_shared<Rectangle>(
-                    outlineStyle,
-                    fillStyle,
-                    leftTop,
-                    std::stod(widthStr),
-                    std::stod(heightStr)
-            );
+
+        static bool ParseColor(std::string colorStr, RGBAColor &color)
+        {
+            if (colorStr.size() != 7 || colorStr[0] != '#')
+            {
+                return false;
+            }
+            std::stringstream ss;
+            ss << std::hex << colorStr.append("FF").substr(1);
+
+            if (!(ss >> color))
+            {
+                return false;
+            }
+
+            return ss.eof();
+        }
+
+        static RectD ParseRect(std::istringstream & iss)
+        {
+            double left, top, width, height;
+
+            if (!(iss >> left >> top >> width >> height))
+            {
+                throw std::invalid_argument("Invalid rect parameters");
+            }
+
+            if (width < 0 || height < 0)
+            {
+                throw std::invalid_argument("Width and height must be non-negative");
+            }
+
+            return {left, top, width, height};
         }
     };
 
-    class SlideService
-    {
+    class SlideService {
     public:
-        explicit SlideService(IShapeFactory& shapeFactory)
-            :   m_shapeFactory(shapeFactory)
-        {}
+        explicit SlideService(IShapeFactory &shapeFactory)
+                : m_shapeFactory(shapeFactory) {}
 
-        void CreateSlide(std::istream & inputData)
-        {
+        void CreateSlide(std::istream &inputData) {
             std::string line;
             auto firstGroup = std::make_shared<GroupShape>();
             std::vector<std::shared_ptr<GroupShape>> groupStack;
             groupStack.push_back(firstGroup);
             int i = 0;
 
-            while (getline(inputData, line))
-            {
-                if (IsStartOrEndCreateGroup(line, groupStack, i))
-                {
+            while (getline(inputData, line)) {
+                if (IsStartOrEndCreateGroup(line, groupStack, i)) {
                     continue;
                 }
 
                 auto shape = m_shapeFactory.CreateShape(line);
-                if (shape)
-                {
+                if (shape) {
                     groupStack.back()->InsertShape(shape, groupStack.back()->GetShapesCount());
                 }
             }
@@ -379,31 +379,26 @@ namespace version1
             m_currentSlide = std::make_unique<Slide>(firstGroup);
         }
 
-        void DrawSlide(gfx::ICanvas & canvas)
-        {
-            if (m_currentSlide != nullptr)
-            {
+        void DrawSlide(gfx::ICanvas &canvas) {
+            if (m_currentSlide != nullptr) {
                 m_currentSlide->Draw(canvas);
             }
         }
 
         static bool IsStartOrEndCreateGroup(
-                const std::string & line,
-                std::vector<std::shared_ptr<GroupShape>>& groupStack,
-                int & i)
-        {
-            if (line == GroupShape::typeStart)
-            {
+                const std::string &line,
+                std::vector<std::shared_ptr<GroupShape>> &groupStack,
+                int &i) {
+            if (line == GroupShape::typeStart) {
                 auto newGroup = std::make_shared<GroupShape>();
-                groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup), groupStack.back()->GetShapesCount());
+                groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup),
+                                               groupStack.back()->GetShapesCount());
                 groupStack.push_back(newGroup);
                 return true;
             }
 
-            if (line == GroupShape::typeEnd)
-            {
-                if (groupStack.size() > 1)
-                {
+            if (line == GroupShape::typeEnd) {
+                if (groupStack.size() > 1) {
                     groupStack.pop_back();
                 }
                 return true;
@@ -414,7 +409,7 @@ namespace version1
 
 
     private:
-        IShapeFactory & m_shapeFactory;
+        IShapeFactory &m_shapeFactory;
         std::unique_ptr<ISlide> m_currentSlide;
     };
 }
