@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <memory>
 #include "../src/Shape/GroupShape.h"
 #include "../src/Shape/Rectangle.h"

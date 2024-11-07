@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "IGroupShape.h"
 #include "Style/Style.h"
+#include "Style/ProxyStyle.h"
 
 class GroupShape : public IGroupShape
 {
@@ -12,8 +13,6 @@ public:
     constexpr static std::string typeEnd = "group_end";
 
     GroupShape()
-            : m_outlineStyle(0xFFFFFFFF),
-              m_fillStyle(0xFFFFFFFF)
     {
     }
 
@@ -60,22 +59,22 @@ public:
 
     IStyle & GetOutlineStyle() override
     {
-        return m_outlineStyle;
+        return *m_outlineStyle;
     }
 
     const IStyle & GetOutlineStyle() const override
     {
-        return m_outlineStyle;
+        return *m_outlineStyle;
     }
 
     IStyle & GetFillStyle() override
     {
-        return m_fillStyle;
+        return *m_fillStyle;
     }
 
     const IStyle & GetFillStyle() const override
     {
-        return m_fillStyle;
+        return *m_fillStyle;
     }
 
     void Draw(gfx::ICanvas &canvas) const override
@@ -115,8 +114,8 @@ public:
 
 private:
     std::unordered_map<size_t , std::shared_ptr<IShape>> m_shapes;
-    Style m_outlineStyle;
-    Style m_fillStyle;
+    std::unique_ptr<ProxyStyle> m_outlineStyle = std::make_unique<ProxyStyle>(true, m_shapes);
+    std::unique_ptr<ProxyStyle> m_fillStyle = std::make_unique<ProxyStyle>(false, m_shapes);
 };
 
 #endif //LAB7_GROUPSHAPE_H

@@ -29,31 +29,6 @@ public:
         return *m_shapes;
     }
 
-    [[nodiscard]] size_t GetShapesCount() const
-    {
-        return m_shapes->GetShapesCount();
-    }
-
-    std::shared_ptr<IShape> GetShapeAtIndex(size_t index)
-    {
-        return m_shapes->GetShapeAtIndex(index);
-    }
-
-    void RemoveShapeAtIndex(size_t index)
-    {
-        m_shapes->RemoveShapeAtIndex(index);
-    }
-
-    [[nodiscard]] RGBAColor GetBackgroundColor() const
-    {
-        return m_background;
-    }
-
-    void SetBackgroundColor(RGBAColor color)
-    {
-        m_background = color;
-    }
-
     void Draw(gfx::ICanvas &canvas) const override
     {
         m_shapes->Draw(canvas);
