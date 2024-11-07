@@ -83,6 +83,30 @@ TEST_F(GroupShapeTest, GetShapeAtIndex) {
     EXPECT_NE(retrievedShape, nullptr);
 }
 
+TEST_F(GroupShapeTest, SetRect) {
+    auto rectangle1 = std::make_shared<Rectangle>(
+            RectD{100, 100, 200, 200},
+            std::make_unique<Style>(0xFF0000FF),
+            std::make_unique<Style>(0x00FF00FF)
+    );
+
+    auto rectangle2 = std::make_shared<Rectangle>(
+            RectD{150, 150, 100, 100},
+            std::make_unique<Style>(0x00FF00FF),
+            std::make_unique<Style>(0x0000FFFF)
+    );
+
+    groupShape->InsertShape(rectangle1);
+    groupShape->InsertShape(rectangle2);
+
+    RectD expectedFrame = {100, 100, 200, 200};
+    AssertFrame(groupShape->GetFrame(), expectedFrame);
+
+    RectD newFrame = {20, 20, 20, 20};
+    groupShape->SetFrame(newFrame);
+    AssertFrame(groupShape->GetFrame(), newFrame);
+}
+
 TEST_F(GroupShapeTest, GetShapesCountEmpty) {
     EXPECT_EQ(groupShape->GetShapesCount(), 0);
 }
