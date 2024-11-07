@@ -1,8 +1,17 @@
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <memory>
 #include "../src/Shape/GroupShape.h"
 #include "../src/Shape/Rectangle.h"
 #include "../src/Shape/Triangle.h"
+
+void AssertFrame(RectD actualFrame, RectD expectedFrame)
+{
+    EXPECT_EQ(actualFrame.top, expectedFrame.top);
+    EXPECT_EQ(actualFrame.width, expectedFrame.width);
+    EXPECT_EQ(actualFrame.height, expectedFrame.height);
+    EXPECT_EQ(actualFrame.left, expectedFrame.left);
+}
 
 class GroupShapeTest : public ::testing::Test {
 protected:
@@ -58,10 +67,7 @@ TEST_F(GroupShapeTest, GetFrame) {
 
     RectD expectedFrame = {100, 100, 200, 200};
     auto actualFrame = groupShape->GetFrame();
-    EXPECT_EQ(actualFrame.top, expectedFrame.top);
-    EXPECT_EQ(actualFrame.width, expectedFrame.width);
-    EXPECT_EQ(actualFrame.height, expectedFrame.height);
-    EXPECT_EQ(actualFrame.left, expectedFrame.left);
+    AssertFrame(actualFrame, expectedFrame);
 }
 
 TEST_F(GroupShapeTest, GetShapeAtIndex) {
