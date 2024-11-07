@@ -14,12 +14,12 @@ public:
     {
     }
 
-    double GetWidth() const override
+    [[nodiscard]] double GetWidth() const override
     {
         return m_width;
     }
 
-    double GetHeight() const override
+    [[nodiscard]] double GetHeight() const override
     {
         return m_height;
     }
@@ -29,7 +29,7 @@ public:
         return *m_shapes;
     }
 
-    size_t GetShapesCount() const
+    [[nodiscard]] size_t GetShapesCount() const
     {
         return m_shapes->GetShapesCount();
     }
@@ -44,7 +44,7 @@ public:
         m_shapes->RemoveShapeAtIndex(index);
     }
 
-    RGBAColor GetBackgroundColor() const
+    [[nodiscard]] RGBAColor GetBackgroundColor() const
     {
         return m_background;
     }

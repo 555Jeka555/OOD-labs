@@ -15,7 +15,7 @@ public:
     {
     }
 
-    RectD GetFrame() const override
+    [[nodiscard]] RectD GetFrame() const override
     {
         return m_frame;
     }

@@ -20,7 +20,6 @@ set(SOURCE_FILES
         src/Canvas/PNGCanvas/stb_image_write.h
         src/Canvas/PNGCanvas/stb_truetype.h
         src/Client.h
-        src/CommonTypes.h
         src/ShapeFactory/IShapeFactory.h
         src/ShapeFactory/ShapeFactory.h
         src/Shape/Triangle.h
@@ -37,6 +36,7 @@ set(SOURCE_FILES
         src/Slide/ISlide.h
         src/Slide/Slide.h
         src/Slide/SlideService.h
+        src/CommonTypes.h
 )
 
 set(TEST_SOURCE_FILES

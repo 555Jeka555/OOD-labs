@@ -7,12 +7,12 @@
 class ISlide : public IDrawable
 {
 public:
-    virtual double GetWidth()const = 0;
-    virtual double GetHeight()const = 0;
+    [[nodiscard]] virtual double GetWidth()const = 0;
+    [[nodiscard]] virtual double GetHeight()const = 0;
 
     [[nodiscard]] virtual IShapes & GetShapes() = 0;
 
-    virtual ~ISlide() = default;
+    ~ISlide() override = default;
 };
 
 

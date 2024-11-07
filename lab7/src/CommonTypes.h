@@ -1,7 +1,5 @@
-#pragma once
-
-#include <optional>
-#include <cstdint>
+#ifndef LAB7_COMMONTYPES_H
+#define LAB7_COMMONTYPES_H
 
 template <typename T>
 struct Rect
@@ -15,10 +13,4 @@ struct Rect
 typedef Rect<double> RectD;
 typedef uint32_t RGBAColor;
 
-uint32_t OptionalToUint32(const std::optional<RGBAColor>& optionalColor)
-{
-    if (optionalColor.has_value()) {
-        return optionalColor.value();
-    }
-    return 0xFFFFFFFF;
-}
+#endif //LAB7_COMMONTYPES_H
