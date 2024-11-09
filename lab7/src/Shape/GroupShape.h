@@ -14,6 +14,7 @@ public:
 
     GroupShape()
     {
+
     }
 
     RectD GetFrame() const override
@@ -99,6 +100,8 @@ public:
     void InsertShape(const std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) override
     {
         m_shapes.insert({position, shape});
+        m_fillStyle->InsertStyle(shape->GetFillStyle(), position);
+        m_outlineStyle->InsertStyle(shape->GetOutlineStyle(), position);
     }
 
     std::shared_ptr<IShape> GetShapeAtIndex(size_t index) const override
@@ -111,13 +114,15 @@ public:
         auto it = m_shapes.find(index);
         if (it != m_shapes.end()) {
             m_shapes.erase(it);
+            m_fillStyle->RemoveShapeAtIndex(index);
+            m_outlineStyle->RemoveShapeAtIndex(index);
         }
     }
 
 private:
-    std::unordered_map<size_t , std::shared_ptr<IShape>> m_shapes;
-    std::unique_ptr<GroupStyle> m_outlineStyle = std::make_unique<GroupStyle>(true, m_shapes);
-    std::unique_ptr<GroupStyle> m_fillStyle = std::make_unique<GroupStyle>(false, m_shapes);
+    std::unordered_map<size_t, std::shared_ptr<IShape>> m_shapes;
+    std::unique_ptr<IGroupStyle> m_outlineStyle = std::make_unique<GroupStyle>();
+    std::unique_ptr<IGroupStyle> m_fillStyle = std::make_unique<GroupStyle>();
 };
 
 #endif //LAB7_GROUPSHAPE_H
