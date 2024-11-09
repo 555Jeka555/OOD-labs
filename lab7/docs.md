@@ -22,7 +22,7 @@ classDiagram
 
     IShapeFactory <|.. ShapeFactory
     IShape <.. IShapeFactory : "Create"
-    IStyle <.. IShapeFactory : "Create"
+    Style <.. IShapeFactory : "Create"
     RectD <.. IShapeFactory : "Create"
 
     IDrawable <|.. Shape
@@ -32,8 +32,14 @@ classDiagram
     Shape <|.. IGroupShape
     IShapes <|.. IGroupShape
     IGroupShape <|.. GroupShape
-    IShape <-- GroupShape : "Use"
-    
+    GroupShape o-- Shape
+    GroupShape *-- IGroupStyle
+
+    IStyle <|.. Style
+    IStyle <|.. GroupStyle
+    IStyle <|.. IGroupStyle
+    IStyles <|.. IGroupStyle
+    IGroupStyle <|.. GroupStyle
 
     IStyle o-- Shape
     RectD o-- Shape
@@ -46,7 +52,6 @@ classDiagram
     RectD o-- Rectangle
     RectD o-- Ellipse
     RectD o-- Triangle
-    IStyle o-- GroupShape
     IStyle o-- Rectangle
     IStyle o-- Ellipse
     IStyle o-- Triangle
@@ -109,6 +114,41 @@ classDiagram
         }
     }
 
+    namespace StyleNamespace {
+        class IStyles {
+            + InsertStyle(IStyle & style, size_t position = std::numeric_limits<size_t>::max())*
+            + RemoveStyleAtIndex(size_t index) *
+        }
+
+        class IGroupStyle {
+
+        }
+
+        class IStyle {
+            + IsEnabled() optional<bool>*
+            + Enable(bool enable)*
+            + GetColor() optional<RGBAColor>*
+            + SetColor(RGBAColor color)*
+        }
+
+        class Style {
+            + IsEnabled() optional<bool>
+            + Enable(bool enable)
+            + GetColor() optional<RGBAColor>
+            + SetColor(RGBAColor color)
+        }
+
+        class GroupStyle {
+            + IsEnabled() optional<bool>
+            + Enable(bool enable)
+            + GetColor() optional<RGBAColor>
+            + SetColor(RGBAColor color)
+
+            - bool m_enabled
+            - RGBAColor m_color
+        }
+    }
+
     namespace ShapeNamespace {
         class RectD {
             + T left
@@ -119,13 +159,6 @@ classDiagram
 
         class IDrawable {
             + Draw(ICanvas canvas)
-        }
-
-        class IStyle {
-            + IsEnabled() optional<bool>*
-            + Enable(bool enable)*
-            + GetColor() optional<RGBAColor>*
-            + SetColor(RGBAColor color)*
         }
 
         class IShape {
@@ -174,41 +207,16 @@ classDiagram
 
         class Rectangle {
             + string type = "rectangle"$
-
-            - Point m_leftTop
-            - double m_width
-            - double m_height
-
             + Draw(ICanvas canvas)
         }
 
         class Ellipse {
             + string type = "ellipse"$
-
-            - Point m_center
-            - double m_horizotalRadius
-            - double m_verticalRadius
-
             + Draw(ICanvas canvas)
         }
 
         class Triangle {
             + string type = "triangle"$
-
-            - Point m_point1
-            - Point m_point2
-            - Point m_point3      
-
-            + Draw(ICanvas canvas, Color color)
-        }
-
-        class RegularPolygon {
-            + string type = "regularPolygon"$
-
-            - Point m_center
-            - int m_pointsCount
-            - double m_radius  
-
             + Draw(ICanvas canvas, Color color)
         }
     }
