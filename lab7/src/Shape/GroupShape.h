@@ -114,8 +114,8 @@ public:
         auto it = m_shapes.find(index);
         if (it != m_shapes.end()) {
             m_shapes.erase(it);
-            m_fillStyle->RemoveShapeAtIndex(index);
-            m_outlineStyle->RemoveShapeAtIndex(index);
+            m_fillStyle->RemoveStyleAtIndex(index);
+            m_outlineStyle->RemoveStyleAtIndex(index);
         }
     }
 

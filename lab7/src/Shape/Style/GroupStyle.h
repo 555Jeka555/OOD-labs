@@ -19,7 +19,7 @@ public:
         m_styles.insert({position, style});
     }
 
-    void RemoveShapeAtIndex(size_t index) override
+    void RemoveStyleAtIndex(size_t index) override
     {
         auto it = m_styles.find(index);
         if (it != m_styles.end()) {
