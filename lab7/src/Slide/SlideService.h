@@ -39,8 +39,6 @@ public:
     {
         if (m_currentSlide != nullptr)
         {
-            canvas.SetWidth(m_currentSlide->GetWidth());
-            canvas.SetHeight(m_currentSlide->GetHeight());
             m_currentSlide->Draw(canvas);
         }
     }
@@ -53,8 +51,7 @@ public:
         if (line == GroupShape::typeStart)
         {
             auto newGroup = std::make_shared<GroupShape>();
-            groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup),
-                                           groupStack.back()->GetShapesCount());
+
             groupStack.push_back(newGroup);
             return true;
         }
@@ -63,6 +60,13 @@ public:
         {
             if (groupStack.size() > 1)
             {
+                // TODO Написать тест для пустых групп
+                auto newGroup = groupStack.back();
+                if (newGroup->GetShapesCount() > 0)
+                {
+                    groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup),
+                                                   groupStack.back()->GetShapesCount());
+                }
                 groupStack.pop_back();
             }
             return true;

@@ -77,7 +77,7 @@ namespace gfx
 
             for (size_t i = 0; i < vertices.size(); ++i)
             {
-                size_t nextIndex = (i + 1) % vertices.size(); // Следующая вершина (замыкание)
+                size_t nextIndex = (i + 1) % vertices.size();
                 DrawLine(vertices[i].first, vertices[i].second, vertices[nextIndex].first, vertices[nextIndex].second);
             }
         }

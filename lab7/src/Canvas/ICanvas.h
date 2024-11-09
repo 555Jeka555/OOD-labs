@@ -9,9 +9,7 @@ namespace gfx
     class ICanvas
     {
     public:
-        virtual void SetWidth(double width) = 0;
-        virtual void SetHeight(double height) = 0;
-
+        // TODO убрать Setы
         virtual void SetLineColor(uint32_t color) = 0;
 
         virtual void BeginFill(uint32_t color) = 0;

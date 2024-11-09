@@ -77,7 +77,6 @@ private:
         return style;
     }
 
-
     static bool ParseColor(std::string colorStr, RGBAColor &color)
     {
         if (colorStr.size() != 7 || colorStr[0] != '#')

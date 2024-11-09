@@ -7,7 +7,6 @@
 
 namespace gfx
 {
-    // TODO без абсолютных
     gfx::Color StringToColor(uint32_t color) {
         gfx::Color result{};
 

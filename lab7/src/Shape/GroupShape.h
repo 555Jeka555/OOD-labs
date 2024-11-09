@@ -20,6 +20,7 @@ public:
     {
         if (m_shapes.empty())
         {
+            // TODO nullopt для пустых грпп либо запретить пустые группы
             return {0, 0, 0, 0};
         }
 
@@ -62,6 +63,7 @@ public:
         return *m_outlineStyle;
     }
 
+    // TODO добавить в реализацию команд
     const IStyle & GetOutlineStyle() const override
     {
         return *m_outlineStyle;
