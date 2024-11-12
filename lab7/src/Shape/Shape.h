@@ -9,9 +9,9 @@ public:
           std::unique_ptr<IStyle> outlineStyle,
           std::unique_ptr<IStyle> fillStyle
     )
-            :    m_frame(frame),
-                 m_outlineStyle(std::move(outlineStyle)),
-                 m_fillStyle(std::move(fillStyle))
+        :    m_frame(frame),
+             m_outlineStyle(std::move(outlineStyle)),
+             m_fillStyle(std::move(fillStyle))
     {
     }
 

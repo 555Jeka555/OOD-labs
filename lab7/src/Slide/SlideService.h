@@ -43,15 +43,20 @@ public:
         }
     }
 
+private:
+    IShapeFactory &m_shapeFactory;
+    std::unique_ptr<ISlide> m_currentSlide;
+
     static bool IsStartOrEndCreateGroup(
             const std::string &line,
             std::vector<std::shared_ptr<GroupShape>> &groupStack
-            )
+    )
     {
         if (line == GroupShape::typeStart)
         {
             auto newGroup = std::make_shared<GroupShape>();
-
+            groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup),
+                                           groupStack.back()->GetShapesCount());
             groupStack.push_back(newGroup);
             return true;
         }
@@ -60,12 +65,11 @@ public:
         {
             if (groupStack.size() > 1)
             {
-                // TODO Написать тест для пустых групп
-                auto newGroup = groupStack.back();
-                if (newGroup->GetShapesCount() > 0)
+                if (groupStack.back()->GetShapesCount() == 0)
                 {
-                    groupStack.back()->InsertShape(std::static_pointer_cast<IShape>(newGroup),
-                                                   groupStack.back()->GetShapesCount());
+                    groupStack.pop_back();
+                    size_t lastEmptyGroupIndex = groupStack.back()->GetShapesCount() - 1;
+                    groupStack.back()->RemoveShapeAtIndex(lastEmptyGroupIndex);
                 }
                 groupStack.pop_back();
             }
@@ -74,11 +78,6 @@ public:
 
         return false;
     }
-
-
-private:
-    IShapeFactory &m_shapeFactory;
-    std::unique_ptr<ISlide> m_currentSlide;
 };
 
 #endif //LAB7_SLIDESERVICE_H

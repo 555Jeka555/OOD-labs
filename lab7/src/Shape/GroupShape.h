@@ -64,7 +64,6 @@ public:
         return *m_outlineStyle;
     }
 
-    // TODO добавить в реализацию команд
     const IStyle & GetOutlineStyle() const override
     {
         return *m_outlineStyle;

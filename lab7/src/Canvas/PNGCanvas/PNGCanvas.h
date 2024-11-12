@@ -42,16 +42,6 @@ namespace gfx
             pixels.resize(m_width * m_height * 4, 255);
         }
 
-        void SetWidth(double width) override
-        {
-            m_width = width;
-        }
-        
-        void SetHeight(double height) override
-        {
-            m_height = height;
-        }
-
         void SetLineColor(uint32_t color) override
         {
             m_currentLineColor = StringToColor(color);

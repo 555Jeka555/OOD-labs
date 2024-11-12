@@ -20,11 +20,6 @@ classDiagram
     IShapes <.. ISlide : "Use"
     Slide o-- GroupShape
 
-    IShapeFactory <|.. ShapeFactory
-    IShape <.. IShapeFactory : "Create"
-    Style <.. IShapeFactory : "Create"
-    RectD <.. IShapeFactory : "Create"
-
     IDrawable <|.. Shape
 
     IShape <|.. Shape
@@ -32,29 +27,25 @@ classDiagram
     Shape <|.. IGroupShape
     IShapes <|.. IGroupShape
     IGroupShape <|.. GroupShape
-    GroupShape o-- Shape
+    GroupShape o-- IShape
     GroupShape *-- IGroupStyle
 
     IStyle <|.. Style
-    IStyle <|.. GroupStyle
+    GroupStyle o-- IStyle
     IStyle <|.. IGroupStyle
     IStyles <|.. IGroupStyle
     IGroupStyle <|.. GroupStyle
 
-    IStyle o-- Shape
-    RectD o-- Shape
+    Shape *-- IStyle
+    Shape o-- RectD 
     Shape <|.. Rectangle
     Shape <|.. Ellipse
     Shape <|.. Triangle
 
-    RectD <.. ShapeFactory : "Use"
-    RectD o-- GroupShape
-    RectD o-- Rectangle
-    RectD o-- Ellipse
-    RectD o-- Triangle
-    IStyle o-- Rectangle
-    IStyle o-- Ellipse
-    IStyle o-- Triangle
+    IShapeFactory <|.. ShapeFactory
+    Shape <.. ShapeFactory : "Create"
+    Style <.. ShapeFactory : "Create"
+    RectD <.. ShapeFactory : "Create"
 
     class Client {
         + HandleCommand(istream inputData, ICanvas canvas)
@@ -136,6 +127,9 @@ classDiagram
             + Enable(bool enable)
             + GetColor() optional<RGBAColor>
             + SetColor(RGBAColor color)
+
+            - optional bool  m_enabled
+            - optional RGBAColor m_color
         }
 
         class GroupStyle {
@@ -146,6 +140,7 @@ classDiagram
 
             - bool m_enabled
             - RGBAColor m_color
+            - unordered_map size_t IStyle m_styles
         }
     }
 
@@ -169,11 +164,14 @@ classDiagram
         }
 
         class Shape {
-            + GetFrame() RectD*
-            + SetFrame(RectD rect)*
-            + GetOutlineStyle() IStyle*
-            + GetFillStyle() IStyle*
-            + GetGroup() IGroupShape*
+            + GetFrame() RectD
+            + SetFrame(RectD rect)
+            + GetOutlineStyle() IStyle
+            + GetFillStyle() IStyle
+
+            - RectD m_frame
+            - IStyle m_outlineStyle
+            - IStyle m_fillStyle
         }
 
         class IShapes {
@@ -195,14 +193,11 @@ classDiagram
             + GetShapesCount() size_t
             + GetShapeAtIndex(size_t index) Shape
             + AddShape(Shape shape, size_t position)
-            + RemoveShape(size_t index)*
-        }
-
-        class Shape {
-            - RGBAColor m_color
-
-            + Draw(ICanvas canvas)
-            + GetColor() Color 
+            + RemoveShape(size_t index)
+            
+            - unordered_map size_t, IShape m_shapes
+            - IGroupStyle m_outlineStyle
+            - IGroupStyle m_fillStyle
         }
 
         class Rectangle {
