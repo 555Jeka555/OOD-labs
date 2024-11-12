@@ -20,10 +20,9 @@ classDiagram
     IShapes <.. ISlide : "Use"
     Slide o-- GroupShape
 
-    IDrawable <|.. Shape
-
+    IDrawable <|.. IShape
     IShape <|.. Shape
-
+    
     Shape <|.. IGroupShape
     IShapes <|.. IGroupShape
     IGroupShape <|.. GroupShape
