@@ -35,7 +35,7 @@ public:
             canvas.SetLineColor({});
         }
 
-        auto [left, top, width, height] = GetFrame();
+        auto [left, top, width, height] = GetFrame().value();
 
         const std::vector<std::pair<double, double>> vertices = {
                 {left, top},

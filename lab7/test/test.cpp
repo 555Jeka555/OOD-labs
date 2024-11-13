@@ -6,8 +6,6 @@
 #include "../src/Shape/Rectangle.h"
 #include "../src/Shape/Triangle.h"
 #include "../src/Slide/SlideService.h"
-#include "../src/Slide/Slide.h"
-#include "../src/ShapeFactory/ShapeFactory.h"
 
 void AssertFrame(RectD actualFrame, RectD expectedFrame)
 {
@@ -16,6 +14,7 @@ void AssertFrame(RectD actualFrame, RectD expectedFrame)
     EXPECT_EQ(actualFrame.height, expectedFrame.height);
     EXPECT_EQ(actualFrame.left, expectedFrame.left);
 }
+
 
 class GroupShapeTest : public ::testing::Test {
 protected:
@@ -70,7 +69,7 @@ TEST_F(GroupShapeTest, GetFrame) {
     groupShape->InsertShape(rectangle2);
 
     RectD expectedFrame = {100, 100, 200, 200};
-    auto actualFrame = groupShape->GetFrame();
+    auto actualFrame = groupShape->GetFrame().value();
     AssertFrame(actualFrame, expectedFrame);
 }
 
@@ -105,11 +104,26 @@ TEST_F(GroupShapeTest, SetRect) {
     groupShape->InsertShape(rectangle2);
 
     RectD expectedFrame = {100, 100, 200, 200};
-    AssertFrame(groupShape->GetFrame(), expectedFrame);
+    AssertFrame(groupShape->GetFrame().value(), expectedFrame);
 
     RectD newFrame = {20, 20, 20, 20};
     groupShape->SetFrame(newFrame);
-    AssertFrame(groupShape->GetFrame(), newFrame);
+    AssertFrame(groupShape->GetFrame().value(), newFrame);
+}
+
+TEST_F(GroupShapeTest, SetRectWithEmptyGroup) {
+    auto rectangle = std::make_shared<Rectangle>(
+            RectD{100, 100, 200, 200},
+            std::make_unique<Style>(0xFF0000FF),
+            std::make_unique<Style>(0x00FF00FF)
+    );
+    auto groupShape2 = std::make_shared<GroupShape>();
+
+    groupShape->InsertShape(rectangle);
+    groupShape->InsertShape(groupShape2);
+
+    RectD expectedFrame = {100, 100, 200, 200};
+    AssertFrame(groupShape->GetFrame().value(), expectedFrame);
 }
 
 TEST_F(GroupShapeTest, AddShapeAndGroupShape)

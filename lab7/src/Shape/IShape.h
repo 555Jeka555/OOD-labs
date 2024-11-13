@@ -2,6 +2,7 @@
 #define LAB7_ISHAPE_H
 
 #include <memory>
+#include <optional>
 #include "../CommonTypes.h"
 #include "../IDrawable.h"
 #include "Style/IStyle.h"
@@ -13,8 +14,8 @@ class IGroupShape;
 class IShape : public IDrawable
 {
 public:
-    virtual RectD GetFrame()const = 0;
-    virtual void SetFrame(const RectD & rect) = 0;
+    virtual std::optional<RectD> GetFrame()const = 0;
+    virtual void SetFrame(const std::optional<RectD> & rect) = 0;
 
     virtual IStyle & GetOutlineStyle() = 0;
     virtual const IStyle & GetOutlineStyle()const = 0;

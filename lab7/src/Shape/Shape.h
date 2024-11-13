@@ -1,6 +1,7 @@
 #ifndef LAB7_SHAPE_H
 #define LAB7_SHAPE_H
 
+#include <optional>
 #include "IShape.h"
 
 class Shape : public IShape {
@@ -15,12 +16,12 @@ public:
     {
     }
 
-    [[nodiscard]] RectD GetFrame() const override
+    [[nodiscard]] std::optional<RectD> GetFrame() const override
     {
         return m_frame;
     }
 
-    void SetFrame(const RectD &rect) override {
+    void SetFrame(const std::optional<RectD> &rect) override {
         m_frame = rect;
     }
 
@@ -51,7 +52,7 @@ public:
     }
 
 private:
-    RectD m_frame{};
+    std::optional<RectD> m_frame{};
     std::unique_ptr<IStyle> m_outlineStyle;
     std::unique_ptr<IStyle> m_fillStyle;
 };

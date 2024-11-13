@@ -17,12 +17,12 @@ public:
 
     }
 
-    RectD GetFrame() const override
+    [[nodiscard]] std::optional<RectD> GetFrame() const override
     {
         if (m_shapes.empty())
         {
             // TODO nullopt так как можно удалть из
-            return {0, 0, 0, 0};
+            return std::nullopt;
         }
 
         double left = std::numeric_limits<double>::max();
@@ -32,30 +32,45 @@ public:
 
         for (const auto &pair: m_shapes)
         {
-            RectD frame = pair.second->GetFrame();
-            left = std::min(left, frame.left);
-            top = std::min(top, frame.top);
-            right = std::max(right, frame.left + frame.width);
-            bottom = std::max(bottom, frame.top + frame.height);
+            std::optional<RectD> frame = pair.second->GetFrame().value();
+            if (frame == std::nullopt)
+            {
+                continue;
+            }
+
+            left = std::min(left, frame.value().left);
+            top = std::min(top, frame.value().top);
+            right = std::max(right, frame.value().left + frame.value().width);
+            bottom = std::max(bottom, frame.value().top + frame.value().height);
         }
 
-        return {left, top, right - left, bottom - top};
+        return std::optional<RectD>({left, top, right - left, bottom - top});
     }
 
-    void SetFrame(const RectD & rect) override
+    void SetFrame(const std::optional<RectD> & rect) override
     {
-        auto [left, top, width, height] = GetFrame();
-        const double scaleX = rect.width / width;
-        const double scaleY = rect.height / height;
+        if (rect == std::nullopt)
+        {
+            return;
+        }
+
+        auto [left, top, width, height] = GetFrame().value();
+        const double scaleX = rect.value().width / width;
+        const double scaleY = rect.value().height / height;
 
         for (const auto &pair: m_shapes)
         {
-            const RectD shapeFrame = pair.second->GetFrame();
-            const double newLeft = rect.left + (shapeFrame.left - left) * scaleX;
-            const double newTop = rect.top + (shapeFrame.top - top) * scaleY;
-            const double newWidth = shapeFrame.width * scaleX;
-            const double newHeight = shapeFrame.height * scaleY;
-            pair.second->SetFrame({newLeft, newTop, newWidth, newHeight});
+            std::optional<RectD> shapeFrame = pair.second->GetFrame().value();
+            if (shapeFrame == std::nullopt)
+            {
+                continue;
+            }
+
+            const double newLeft = rect.value().left + (shapeFrame.value().left - left) * scaleX;
+            const double newTop = rect.value().top + (shapeFrame.value().top - top) * scaleY;
+            const double newWidth = shapeFrame.value().width * scaleX;
+            const double newHeight = shapeFrame.value().height * scaleY;
+            pair.second->SetFrame(std::optional<RectD>({newLeft, newTop, newWidth, newHeight}));
         }
     }
 

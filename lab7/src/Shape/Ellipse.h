@@ -36,7 +36,7 @@ public:
             canvas.SetLineColor(0xFFFFFFFF);
         }
 
-        auto frame = GetFrame();
+        auto frame = GetFrame().value();
         double cx = frame.left + frame.width / 2;
         const double cy = frame.top + frame.height / 2;
         const double rx = frame.width / 2;
