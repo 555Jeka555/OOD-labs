@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include <optional>
+#include "../src/Shape/IShape.h"
 #include "../src/Shape/GroupShape.h"
 #include "../src/Shape/Rectangle.h"
 #include "../src/Shape/Triangle.h"

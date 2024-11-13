@@ -4,6 +4,7 @@
 #include <map>
 #include "Style/Style.h"
 #include "Style/GroupStyle.h"
+#include "IShape.h"
 
 class GroupShape : public IGroupShape, public std::enable_shared_from_this<GroupShape>
 {
