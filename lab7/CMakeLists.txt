@@ -30,7 +30,6 @@ set(SOURCE_FILES
         src/Shape/Style/Style.h
         src/Shape/IShape.h
         src/IDrawable.h
-        src/Shape/IGroupShape.h
         src/Shape/GroupShape.h
         src/Shape/IShapes.h
         src/Slide/ISlide.h

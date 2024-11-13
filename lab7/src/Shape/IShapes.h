@@ -6,6 +6,8 @@
 #include <limits>
 #include "IShape.h"
 
+class IShape;
+
 class IShapes
 {
 public:

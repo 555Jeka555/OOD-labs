@@ -2,7 +2,6 @@
 #define LAB7_GROUPSHAPE_H
 
 #include <map>
-#include "IGroupShape.h"
 #include "Style/Style.h"
 #include "Style/GroupStyle.h"
 

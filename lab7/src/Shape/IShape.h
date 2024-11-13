@@ -5,7 +5,7 @@
 #include "../CommonTypes.h"
 #include "../IDrawable.h"
 #include "Style/IStyle.h"
-#include "IGroupShape.h"
+#include "IShapes.h"
 
 class IGroupShape;
 
@@ -26,6 +26,12 @@ public:
     virtual std::shared_ptr<const IGroupShape> GetGroup() const = 0;
 
     virtual ~IShape() = default;
+};
+
+class IGroupShape : public IShape, public IShapes
+{
+public:
+    virtual ~IGroupShape() = default;
 };
 
 #endif //LAB7_ISHAPE_H
