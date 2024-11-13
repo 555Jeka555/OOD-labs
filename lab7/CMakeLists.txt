@@ -39,7 +39,7 @@ set(SOURCE_FILES
         src/CommonTypes.h
         src/Shape/Style/GroupStyle.h
         src/Shape/Style/IStyles.h
-        src/Shape/Style/IGroupSytle.h
+        src/Shape/Style/IGroupStyle.h
 )
 
 set(TEST_SOURCE_FILES

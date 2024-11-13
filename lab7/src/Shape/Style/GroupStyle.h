@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "IStyle.h"
-#include "IGroupSytle.h"
+#include "IGroupStyle.h"
 
 class GroupStyle : public IGroupStyle
 {

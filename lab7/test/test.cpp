@@ -222,6 +222,66 @@ TEST_F(GroupShapeTest, SetStyleGroupShape)
     EXPECT_EQ(expectedFillStyleColor, groupShape->GetFillStyle().GetColor());
 }
 
+TEST_F(GroupShapeTest, SetStyleShapeINGroupShape)
+{
+    RGBAColor expectedOutlineStyleColor = 0xFF0000FF;
+    RGBAColor expectedFillStyleColor = 0xFF0000FF;
+    auto rect = RectD{0, 0, 100, 100};
+    auto groupShape2 = std::make_shared<GroupShape>();
+    auto rectangle = std::make_shared<Rectangle>(
+            rect,
+            std::make_unique<Style>(expectedOutlineStyleColor),
+            std::make_unique<Style>(expectedFillStyleColor)
+    );
+    auto triangle = std::make_shared<Triangle>(
+            RectD{200, 200, 100, 100},
+            std::make_unique<Style>(expectedOutlineStyleColor),
+            std::make_unique<Style>(expectedFillStyleColor)
+    );
+
+    groupShape2->InsertShape(rectangle, 0);
+    groupShape2->InsertShape(triangle, 1);
+    groupShape->InsertShape(groupShape2, 0);
+
+    EXPECT_EQ(expectedOutlineStyleColor, groupShape->GetOutlineStyle().GetColor());
+    EXPECT_EQ(expectedFillStyleColor, groupShape->GetFillStyle().GetColor());
+
+    RGBAColor newExpectedOutlineStyleColor = 0xFFF000FF;
+    RGBAColor newExpectedFillStyleColor = 0xFFF000FF;
+    rectangle->GetOutlineStyle().SetColor(newExpectedOutlineStyleColor);
+    rectangle->GetFillStyle().SetColor(newExpectedFillStyleColor);
+
+    auto outlineStyleColor = groupShape->GetOutlineStyle().GetColor();
+    bool isOutlineStyleColorNullopt = false;
+    if (outlineStyleColor == std::nullopt)
+    {
+        isOutlineStyleColorNullopt = true;
+    }
+    auto fillStyleColor = groupShape->GetFillStyle().GetColor();
+    bool isFillStyleColorNullopt = false;
+    if (fillStyleColor == std::nullopt)
+    {
+        isFillStyleColorNullopt = true;
+    }
+    EXPECT_TRUE(isOutlineStyleColorNullopt);
+    EXPECT_TRUE(isFillStyleColorNullopt);
+
+    outlineStyleColor = groupShape2->GetOutlineStyle().GetColor();
+    isOutlineStyleColorNullopt = false;
+    if (outlineStyleColor == std::nullopt)
+    {
+        isOutlineStyleColorNullopt = true;
+    }
+    fillStyleColor = groupShape2->GetFillStyle().GetColor();
+    isFillStyleColorNullopt = false;
+    if (fillStyleColor == std::nullopt)
+    {
+        isFillStyleColorNullopt = true;
+    }
+    EXPECT_TRUE(isOutlineStyleColorNullopt);
+    EXPECT_TRUE(isFillStyleColorNullopt);
+}
+
 TEST_F(GroupShapeTest, GetShapesCountEmpty) {
     EXPECT_EQ(groupShape->GetShapesCount(), 0);
 }
