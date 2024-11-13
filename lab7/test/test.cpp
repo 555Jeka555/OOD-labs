@@ -222,7 +222,7 @@ TEST_F(GroupShapeTest, SetStyleGroupShape)
     EXPECT_EQ(expectedFillStyleColor, groupShape->GetFillStyle().GetColor());
 }
 
-TEST_F(GroupShapeTest, SetStyleShapeINGroupShape)
+TEST_F(GroupShapeTest, SetStyleShapeInGroupShape)
 {
     RGBAColor expectedOutlineStyleColor = 0xFF0000FF;
     RGBAColor expectedFillStyleColor = 0xFF0000FF;
@@ -280,6 +280,48 @@ TEST_F(GroupShapeTest, SetStyleShapeINGroupShape)
     }
     EXPECT_TRUE(isOutlineStyleColorNullopt);
     EXPECT_TRUE(isFillStyleColorNullopt);
+}
+
+TEST_F(GroupShapeTest, RemoveShapeWithStyleInGroupShape)
+{
+    RGBAColor expectedOutlineStyleColor = 0xFF0000FF;
+    RGBAColor expectedFillStyleColor = 0xFFFFF0FF;
+    auto rect = RectD{0, 0, 100, 100};
+    auto rectangle = std::make_shared<Rectangle>(
+            rect,
+            std::make_unique<Style>(expectedOutlineStyleColor),
+            std::make_unique<Style>(expectedFillStyleColor)
+    );
+    auto triangle = std::make_shared<Triangle>(
+            RectD{200, 200, 100, 100},
+            std::make_unique<Style>(0xFFF000FF),
+            std::make_unique<Style>(0xFFFF00FF)
+    );
+
+    groupShape->InsertShape(rectangle, 0);
+    groupShape->InsertShape(triangle, 1);
+
+    auto outlineStyleColor = groupShape->GetOutlineStyle().GetColor();
+    bool isOutlineStyleColorNullopt = false;
+    if (outlineStyleColor == std::nullopt)
+    {
+        isOutlineStyleColorNullopt = true;
+    }
+    auto fillStyleColor = groupShape->GetFillStyle().GetColor();
+    bool isFillStyleColorNullopt = false;
+    if (fillStyleColor == std::nullopt)
+    {
+        isFillStyleColorNullopt = true;
+    }
+    EXPECT_TRUE(isOutlineStyleColorNullopt);
+    EXPECT_TRUE(isFillStyleColorNullopt);
+    EXPECT_EQ(groupShape->GetShapesCount(), 2);
+
+    groupShape->RemoveShapeAtIndex(1);
+
+    EXPECT_EQ(groupShape->GetShapesCount(), 1);
+    EXPECT_EQ(expectedOutlineStyleColor, groupShape->GetOutlineStyle().GetColor());
+    EXPECT_EQ(expectedFillStyleColor, groupShape->GetFillStyle().GetColor());
 }
 
 TEST_F(GroupShapeTest, GetShapesCountEmpty) {

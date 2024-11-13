@@ -96,7 +96,7 @@ public:
 private:
     std::optional<bool> m_enabled;
     std::optional<RGBAColor> m_color;
-    std::unordered_map<size_t, IStyle &> m_styles;
+    std::map<size_t, IStyle &> m_styles;
 };
 
 #endif //LAB7_GROUPSTYLE_H

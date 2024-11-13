@@ -6,6 +6,7 @@
 #include "../IDrawable.h"
 #include "Style/IStyle.h"
 
+// TODO unbale_shared_from_this
 class IShape : public IDrawable
 {
 public:

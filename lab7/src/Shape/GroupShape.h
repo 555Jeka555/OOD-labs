@@ -1,7 +1,7 @@
 #ifndef LAB7_GROUPSHAPE_H
 #define LAB7_GROUPSHAPE_H
 
-#include <unordered_map>
+#include <map>
 #include "IGroupShape.h"
 #include "Style/Style.h"
 #include "Style/GroupStyle.h"
@@ -21,7 +21,7 @@ public:
     {
         if (m_shapes.empty())
         {
-            // TODO nullopt для пустых грпп либо запретить пустые группы
+            // TODO nullopt так как можно удалть из
             return {0, 0, 0, 0};
         }
 
@@ -81,12 +81,11 @@ public:
 
     void Draw(gfx::ICanvas &canvas) const override
     {
-        for (size_t i = 0; i < GetShapesCount(); ++i)
+        for (const auto &pair: m_shapes)
         {
-            auto shape = GetShapeAtIndex(i);
-            if (shape)
+            if (pair.second)
             {
-                shape->Draw(canvas);
+                pair.second->Draw(canvas);
             }
         }
     }
@@ -119,7 +118,7 @@ public:
     }
 
 private:
-    std::unordered_map<size_t, std::shared_ptr<IShape>> m_shapes;
+    std::map<size_t, std::shared_ptr<IShape>> m_shapes;
     std::unique_ptr<IGroupStyle> m_outlineStyle = std::make_unique<GroupStyle>();
     std::unique_ptr<IGroupStyle> m_fillStyle = std::make_unique<GroupStyle>();
 };
