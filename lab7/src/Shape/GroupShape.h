@@ -6,7 +6,7 @@
 #include "Style/Style.h"
 #include "Style/GroupStyle.h"
 
-class GroupShape : public IGroupShape
+class GroupShape : public IGroupShape, public std::enable_shared_from_this<GroupShape>
 {
 public:
     constexpr static std::string typeStart = "group_start";
@@ -115,6 +115,16 @@ public:
             m_fillStyle->RemoveStyleAtIndex(index);
             m_outlineStyle->RemoveStyleAtIndex(index);
         }
+    }
+
+    std::shared_ptr<IGroupShape> GetGroup() override
+    {
+        return shared_from_this();
+    }
+
+    std::shared_ptr<const IGroupShape> GetGroup() const override
+    {
+        return shared_from_this();
     }
 
 private:

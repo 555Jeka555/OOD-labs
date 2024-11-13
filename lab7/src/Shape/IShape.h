@@ -5,6 +5,9 @@
 #include "../CommonTypes.h"
 #include "../IDrawable.h"
 #include "Style/IStyle.h"
+#include "IGroupShape.h"
+
+class IGroupShape;
 
 // TODO unbale_shared_from_this
 class IShape : public IDrawable
@@ -18,6 +21,9 @@ public:
 
     virtual IStyle & GetFillStyle() = 0;
     virtual const IStyle & GetFillStyle()const = 0;
+
+    virtual std::shared_ptr<IGroupShape> GetGroup() = 0;
+    virtual std::shared_ptr<const IGroupShape> GetGroup() const = 0;
 
     virtual ~IShape() = default;
 };

@@ -40,6 +40,16 @@ public:
         return *m_fillStyle;
     }
 
+    std::shared_ptr<IGroupShape> GetGroup() override
+    {
+        return nullptr;
+    }
+
+    std::shared_ptr<const IGroupShape> GetGroup() const override
+    {
+        return nullptr;
+    }
+
 private:
     RectD m_frame{};
     std::unique_ptr<IStyle> m_outlineStyle;

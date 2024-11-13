@@ -324,6 +324,29 @@ TEST_F(GroupShapeTest, RemoveShapeWithStyleInGroupShape)
     EXPECT_EQ(expectedFillStyleColor, groupShape->GetFillStyle().GetColor());
 }
 
+TEST_F(GroupShapeTest, GetGroup) {
+    auto rect = RectD{0, 0, 100, 100};
+    auto rectangle = std::make_shared<Rectangle>(
+            rect,
+            std::make_unique<Style>(0xFF0000FF),
+            std::make_unique<Style>(0x00FF00FF)
+    );
+
+    bool isNullptrFromShape;
+    if (!rectangle->GetGroup())
+    {
+        isNullptrFromShape = true;
+    }
+    EXPECT_TRUE(isNullptrFromShape);
+
+    bool isNotNullptrFromShape;
+    if (groupShape->GetGroup())
+    {
+        isNotNullptrFromShape = true;
+    }
+    EXPECT_TRUE(isNotNullptrFromShape);
+}
+
 TEST_F(GroupShapeTest, GetShapesCountEmpty) {
     EXPECT_EQ(groupShape->GetShapesCount(), 0);
 }
