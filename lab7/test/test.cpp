@@ -119,10 +119,18 @@ TEST_F(GroupShapeTest, SetRectWithEmptyGroup) {
     );
     auto groupShape2 = std::make_shared<GroupShape>();
 
-    groupShape->InsertShape(rectangle);
-    groupShape->InsertShape(groupShape2);
+
+
+    groupShape->InsertShape(rectangle, 0);
+    groupShape->InsertShape(groupShape2, 1);
 
     RectD expectedFrame = {100, 100, 200, 200};
+    bool isNotNullopt;
+    if (groupShape->GetFrame() != std::nullopt)
+    {
+        isNotNullopt = true;
+    }
+    EXPECT_TRUE(isNotNullopt);
     AssertFrame(groupShape->GetFrame().value(), expectedFrame);
 }
 

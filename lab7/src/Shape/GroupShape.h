@@ -22,7 +22,7 @@ public:
         if (m_shapes.empty())
         {
             // TODO nullopt так как можно удалть из
-            return std::nullopt;
+            return std::nullopt; //  std::optional<RectD>({0, 0, 0, 0});
         }
 
         double left = std::numeric_limits<double>::max();
@@ -32,7 +32,7 @@ public:
 
         for (const auto &pair: m_shapes)
         {
-            std::optional<RectD> frame = pair.second->GetFrame().value();
+            std::optional<RectD> frame = pair.second->GetFrame();
             if (frame == std::nullopt)
             {
                 continue;
@@ -60,7 +60,7 @@ public:
 
         for (const auto &pair: m_shapes)
         {
-            std::optional<RectD> shapeFrame = pair.second->GetFrame().value();
+            std::optional<RectD> shapeFrame = pair.second->GetFrame();
             if (shapeFrame == std::nullopt)
             {
                 continue;
