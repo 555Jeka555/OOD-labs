@@ -17,13 +17,12 @@ classDiagram
 
     IDrawable <|.. ISlide
     ISlide <|.. Slide
-    IShapes <.. ISlide : "Use"
-    Slide o-- GroupShape
+    Slide o-- IShapes
 
     IDrawable <|.. IShape
     IShape <|.. Shape
-    
-    Shape <|.. IGroupShape
+
+    IShape <|.. IGroupShape
     IShapes <|.. IGroupShape
     IGroupShape <|.. GroupShape
     GroupShape o-- IShape

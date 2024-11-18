@@ -119,8 +119,6 @@ TEST_F(GroupShapeTest, SetRectWithEmptyGroup) {
     );
     auto groupShape2 = std::make_shared<GroupShape>();
 
-
-
     groupShape->InsertShape(rectangle, 0);
     groupShape->InsertShape(groupShape2, 1);
 
@@ -363,7 +361,7 @@ TEST_F(GroupShapeTest, GetGroup) {
     EXPECT_TRUE(isNullptrFromShape);
 
     bool isNotNullptrFromShape;
-    if (groupShape->GetGroup())
+    if (groupShape->GetGroup() == groupShape)
     {
         isNotNullptrFromShape = true;
     }

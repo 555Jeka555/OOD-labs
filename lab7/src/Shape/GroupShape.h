@@ -47,7 +47,7 @@ public:
         return std::optional<RectD>({left, top, right - left, bottom - top});
     }
 
-    void SetFrame(const std::optional<RectD> & rect) override
+    void SetFrame(const std::optional<RectD> & rect) override  // пусть не опшион
     {
         if (rect == std::nullopt)
         {
