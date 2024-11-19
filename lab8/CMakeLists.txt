@@ -24,6 +24,13 @@ set(SOURCE_FILES
         src/WithState/State/SoldOutState.h
         src/WithState/State/NoQuarterState.h
         src/WithState/GumballMachine.h
+        src/MultiGumballMachine/MultiGumballMachine.h
+        src/MultiGumballMachine/IMultiGumballMachine.h
+        src/MultiGumballMachine/State/HasQuarterState.h
+        src/MultiGumballMachine/State/IState.h
+        src/MultiGumballMachine/State/NoQuarterState.h
+        src/MultiGumballMachine/State/SoldOutState.h
+        src/MultiGumballMachine/State/SoldState.h
 )
 
 set(TEST_SOURCE_FILES
