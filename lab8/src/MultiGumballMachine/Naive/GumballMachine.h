@@ -51,7 +51,7 @@ namespace multiNaive {
         void EjectQuarter() {
             using namespace std;
             if (m_quarter > 0) {
-                cout << "All quarters returned\n";
+                cout << "Return all quarters\n";
                 m_quarter = 0;
                 m_state = State::NoQuarter;
             } else {

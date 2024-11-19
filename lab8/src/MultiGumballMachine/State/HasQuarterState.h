@@ -28,7 +28,6 @@ namespace multiGumballMachine
 
         void EjectQuarter() override
         {
-            std::cout << "All quarters returned\n";
             m_gumballMachine.ReturnAllQuarters();
             m_gumballMachine.SetNoQuarterState();
         }

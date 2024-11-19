@@ -68,17 +68,19 @@ Machine is {}
         {
             if (m_count != 0)
             {
+                std::cout << "A gumball comes rolling out the slot...\n";
+
                 --m_count;
                 --m_quarter;
             }
         }
 
-        unsigned GetQuarterCount() const override
+        [[nodiscard]] unsigned GetQuarterCount() const override
         {
             return m_quarter;
         }
 
-        unsigned GetMaxQuarterCount() const override
+        [[nodiscard]] unsigned GetMaxQuarterCount() const override
         {
             return MAX_QUARTER;
         }
@@ -90,6 +92,8 @@ Machine is {}
 
         void ReturnAllQuarters() override
         {
+            std::cout << "Return all quarters\n";
+
             m_quarter = 0;
         }
 

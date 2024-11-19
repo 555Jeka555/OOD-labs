@@ -374,7 +374,7 @@ TEST_F(NaiveMultiGumballMachineTest, EjectQuarter_NoQuarterState) {
 TEST_F(NaiveMultiGumballMachineTest, EjectQuarter_HasQuarterState) {
     gumballMachine.InsertQuarter();
     gumballMachine.EjectQuarter();
-    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nAll quarters returned\n");
+    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nReturn all quarters\n");
 }
 
 TEST_F(NaiveMultiGumballMachineTest, TurnCrank_NoQuarterState) {
@@ -528,7 +528,7 @@ TEST_F(MultiGumballMachine, EjectQuarter_NoQuarterState) {
 TEST_F(MultiGumballMachine, EjectQuarter_HasQuarterState) {
     gumballMachine.InsertQuarter();
     gumballMachine.EjectQuarter();
-    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nAll quarters returned\n");
+    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nReturn all quarters\n");
 }
 
 TEST_F(MultiGumballMachine, TurnCrank_NoQuarterState) {
@@ -540,7 +540,7 @@ TEST_F(MultiGumballMachine, TurnCrank_NoQuarterState) {
 TEST_F(MultiGumballMachine, TurnCrank_HasQuarterState) {
     gumballMachine.InsertQuarter();
     gumballMachine.TurnCrank();
-    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nYou turned...\n");
+    EXPECT_EQ(testOutput.str(), "You inserted a quarter\nYou turned...\nA gumball comes rolling out the slot...\n");
 }
 
 TEST_F(MultiGumballMachine, TurnCrank_SoldOutAfterDispense) {
@@ -550,7 +550,7 @@ TEST_F(MultiGumballMachine, TurnCrank_SoldOutAfterDispense) {
         gumballMachine.InsertQuarter();
         gumballMachine.TurnCrank();
         expectedString += "You inserted a quarter\n";
-        expectedString += "You turned...\n";
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
     expectedString += "Oops, out of gumballs\n";
     gumballMachine.TurnCrank();
@@ -567,7 +567,7 @@ TEST_F(MultiGumballMachine, SoldOutState_InsertQuarter) {
         gumballMachine.InsertQuarter();
         gumballMachine.TurnCrank();
         expectedString += "You inserted a quarter\n";
-        expectedString += "You turned...\n";
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
     expectedString += "Oops, out of gumballs\n";
     gumballMachine.InsertQuarter();
@@ -583,7 +583,7 @@ TEST_F(MultiGumballMachine, SoldOutState_EjectQuarter) {
         gumballMachine.InsertQuarter();
         gumballMachine.TurnCrank();
         expectedString += "You inserted a quarter\n";
-        expectedString += "You turned...\n";
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
     expectedString += "Oops, out of gumballs\n";
     gumballMachine.EjectQuarter();
