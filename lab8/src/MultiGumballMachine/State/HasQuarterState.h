@@ -34,7 +34,7 @@ namespace multiGumballMachine
 
         void TurnCrank() override
         {
-            if (m_gumballMachine.GetQuarterCount() == 0)
+            if (m_gumballMachine.GetQuarterCount() <= 0)
             {
                 std::cout << "No quarters left.\n";
                 m_gumballMachine.SetNoQuarterState();

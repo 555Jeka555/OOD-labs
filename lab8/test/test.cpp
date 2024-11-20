@@ -18,6 +18,21 @@ public:
     MOCK_METHOD(void, SetHasQuarterState, (), (override));
 };
 
+class MockMultiGumballMachine : public multiGumballMachine::IMultiGumballMachine {
+public:
+    MOCK_METHOD(void, ReleaseBall, (), (override));
+    MOCK_METHOD(unsigned, GetBallCount, (), (const, override));
+    MOCK_METHOD(unsigned, GetQuarterCount, (), (const, override));
+    MOCK_METHOD(unsigned, GetMaxQuarterCount, (), (const, override));
+    MOCK_METHOD(void, AddQuarter, (), (override));
+    MOCK_METHOD(void, AddBall, (unsigned numBalls), (override));
+    MOCK_METHOD(void, ReturnAllQuarters, (), (override));
+    MOCK_METHOD(void, SetSoldOutState, (), (override));
+    MOCK_METHOD(void, SetNoQuarterState, (), (override));
+    MOCK_METHOD(void, SetSoldState, (), (override));
+    MOCK_METHOD(void, SetHasQuarterState, (), (override));
+};
+
 class GumballMachineTest : public ::testing::Test
 {
 protected:
@@ -991,6 +1006,285 @@ TEST_F(MultiGumballMachine, ReturnQuartersAfterLastBall) {
     }
 
     EXPECT_EQ(gumballMachine.ToString().find("You can return your quarters now."), std::string::npos);
+}
+
+// Тесты состояний через MockGumballMachine
+// NoQuarterState
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_InsertQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, AddQuarter()).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, SetHasQuarterState()).Times(1);
+
+    state.InsertQuarter();
+    EXPECT_EQ(testOutput.str(), "You inserted a quarter\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_EjectQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    state.EjectQuarter();
+    EXPECT_EQ(testOutput.str(), "You haven't inserted a quarter\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_TurnCrank)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    state.TurnCrank();
+    EXPECT_EQ(testOutput.str(), "You turned but there's no quarter\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_Dispense)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    state.Dispense();
+    EXPECT_EQ(testOutput.str(), "You need to pay first\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_ToString)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    std::string actualString = state.ToString();
+    EXPECT_EQ(actualString, "waiting for quarter");
+}
+
+TEST_F(MultiGumballMachine, Mock_NoQuarterState_Refill)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+
+    state.Refill(1);
+    EXPECT_EQ(testOutput.str(), "Added gumball\n");
+}
+
+// HasQuarterState
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_InsertQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, GetMaxQuarterCount()).WillOnce(Return(5));
+    EXPECT_CALL(mockMultiGumballMachine, AddQuarter()).Times(1);
+
+    state.InsertQuarter();
+    EXPECT_EQ(testOutput.str(), "You inserted another quarter\n");
+
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(5));
+    EXPECT_CALL(mockMultiGumballMachine, GetMaxQuarterCount()).WillOnce(Return(5));
+
+    state.InsertQuarter();
+    EXPECT_EQ(testOutput.str(), "You inserted another quarter\nYou can't insert another quarter\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_EjectQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, ReturnAllQuarters).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
+
+    state.EjectQuarter();
+}
+
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_TurnCrank)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount).WillOnce(Return(0));
+    EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
+
+    state.TurnCrank();
+    EXPECT_EQ(testOutput.str(), "No quarters left.\n");
+
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, SetSoldState).Times(1);
+
+    state.TurnCrank();
+    EXPECT_EQ(testOutput.str(), "No quarters left.\nYou turned...\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_Dispense)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    state.Dispense();
+    EXPECT_EQ(testOutput.str(), "No gumball dispensed\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_ToString)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    std::string actualString = state.ToString();
+    EXPECT_EQ(actualString, "waiting for turn of crank");
+}
+
+TEST_F(MultiGumballMachine, Mock_HasQuarterState_Refill)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+
+    state.Refill(1);
+    EXPECT_EQ(testOutput.str(), "Added gumball\n");
+}
+
+// SoldState
+TEST_F(MultiGumballMachine, Mock_SoldState_InsertQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    state.InsertQuarter();
+    EXPECT_EQ(testOutput.str(), "Please wait, we're already giving you a gumball\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldState_EjectQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    state.EjectQuarter();
+    EXPECT_EQ(testOutput.str(), "Sorry you already turned the crank\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldState_TurnCrank)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    state.TurnCrank();
+    EXPECT_EQ(testOutput.str(), "Turning twice doesn't get you another gumball\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldState_Dispense)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, ReturnAllQuarters).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, SetSoldOutState).Times(1);
+    state.Dispense();
+    EXPECT_EQ(testOutput.str(), "Oops, out of gumballs\n");
+
+    EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(0));
+    EXPECT_CALL(mockMultiGumballMachine, SetSoldOutState).Times(1);
+    state.Dispense();
+
+    EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, SetHasQuarterState).Times(1);
+    state.Dispense();
+
+    EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(0));
+    EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
+    state.Dispense();
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldState_ToString)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    std::string actualString = state.ToString();
+    EXPECT_EQ(actualString, "delivering a gumball");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldState_Refill)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldState state = multiGumballMachine::SoldState(mockMultiGumballMachine);
+
+    state.Refill(1);
+    EXPECT_EQ(testOutput.str(), "Not added gumball when giving giving you a gumball\n");
+}
+
+// SoldOutState
+TEST_F(MultiGumballMachine, Mock_SoldOutState_InsertQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    state.InsertQuarter();
+    EXPECT_EQ(testOutput.str(), "You can't insert a quarter, the machine is sold out\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldOutState_EjectQuarter)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    state.EjectQuarter();
+    EXPECT_EQ(testOutput.str(), "You can't eject, you haven't inserted a quarter yet\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldOutState_TurnCrank)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    state.TurnCrank();
+    EXPECT_EQ(testOutput.str(), "You turned but there's no gumballs\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldOutState_Dispense)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    state.Dispense();
+    EXPECT_EQ(testOutput.str(), "No gumball dispensed\n");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldOutState_ToString)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    std::string actualString = state.ToString();
+    EXPECT_EQ(actualString, "sold out");
+}
+
+TEST_F(MultiGumballMachine, Mock_SoldOutState_Refill)
+{
+    MockMultiGumballMachine mockMultiGumballMachine;
+    multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
+
+    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
+    state.Refill(1);
+    EXPECT_EQ(testOutput.str(), "Added gumball\n");
+
+    EXPECT_CALL(mockMultiGumballMachine, AddBall(0)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
+    state.Refill(0);
 }
 
 GTEST_API_ int main(int argc, char **argv) {
