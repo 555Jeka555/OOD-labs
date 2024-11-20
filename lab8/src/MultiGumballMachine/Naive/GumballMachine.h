@@ -83,7 +83,7 @@ namespace multiNaive {
             using namespace std;
             switch (m_state) {
                 case State::SoldOut:
-                    m_count += numBalls;
+                    m_count = numBalls;
                     std::cout << "Added gumball\n";
                     if (m_count > 0)
                     {
@@ -91,11 +91,11 @@ namespace multiNaive {
                     }
                     break;
                 case State::NoQuarter:
-                    m_count += numBalls;
+                    m_count = numBalls;
                     std::cout << "Added gumball\n";
                     break;
                 case State::HasQuarter:
-                    m_count += numBalls;
+                    m_count = numBalls;
                     std::cout << "Added gumball\n";
                     break;
                 case State::Sold:
