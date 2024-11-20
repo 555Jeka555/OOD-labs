@@ -51,6 +51,11 @@ namespace multiGumballMachine
             }
         }
 
+        void Refill(unsigned numBalls) override
+        {
+            std::cout << "Not added gumball when giving giving you a gumball\n";
+        }
+
         [[nodiscard]] std::string ToString() const override
         {
             return "delivering a gumball";

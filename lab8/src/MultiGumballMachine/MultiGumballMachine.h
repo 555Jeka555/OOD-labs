@@ -58,6 +58,11 @@ Machine is {}
             );
         }
 
+        void Refill(unsigned numBalls)
+        {
+            m_state->Refill(numBalls);
+        }
+
     private:
         [[nodiscard]] unsigned GetBallCount() const override
         {
@@ -88,6 +93,11 @@ Machine is {}
         void AddQuarter() override
         {
             ++m_quarter;
+        }
+
+        void AddBall(unsigned numBalls) override
+        {
+            m_count += numBalls;
         }
 
         void ReturnAllQuarters() override

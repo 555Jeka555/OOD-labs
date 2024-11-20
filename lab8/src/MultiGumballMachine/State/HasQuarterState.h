@@ -37,7 +37,7 @@ namespace multiGumballMachine
             if (m_gumballMachine.GetQuarterCount() == 0)
             {
                 std::cout << "No quarters left.\n";
-                m_gumballMachine.SetSoldOutState();
+                m_gumballMachine.SetNoQuarterState();
             }
             else
             {
@@ -49,6 +49,12 @@ namespace multiGumballMachine
         void Dispense() override
         {
             std::cout << "No gumball dispensed\n";
+        }
+
+        void Refill(unsigned numBalls) override
+        {
+            std::cout << "Added gumball\n";
+            m_gumballMachine.AddBall(numBalls);
         }
 
         [[nodiscard]] std::string ToString() const override

@@ -78,9 +78,31 @@ namespace multiNaive {
             }
         }
 
-        void Refill(unsigned numBalls) {
-            m_count += numBalls;
-            m_state = (m_count > 0) ? State::NoQuarter : State::SoldOut;
+        void Refill(unsigned numBalls)
+        {
+            using namespace std;
+            switch (m_state) {
+                case State::SoldOut:
+                    m_count += numBalls;
+                    std::cout << "Added gumball\n";
+                    if (m_count > 0)
+                    {
+                        m_state = State::NoQuarter;
+                    }
+                    break;
+                case State::NoQuarter:
+                    m_count += numBalls;
+                    std::cout << "Added gumball\n";
+                    break;
+                case State::HasQuarter:
+                    m_count += numBalls;
+                    std::cout << "Added gumball\n";
+                    break;
+                case State::Sold:
+                    std::cout << "Not added gumball when giving giving you a gumball\n";
+                    break;
+            }
+
         }
 
         [[nodiscard]] std::string ToString() const {

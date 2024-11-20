@@ -596,6 +596,13 @@ TEST_F(NaiveMultiGumballMachineTest, TurnCrank_NoQuarterState) {
     EXPECT_EQ(testOutput.str(), "You turned but there's no quarter\n");
 }
 
+TEST_F(NaiveMultiGumballMachineTest, Refill_NoQuarterState) {
+    std::string expectedString;
+    gumballMachine.Refill(5);
+    expectedString += "Added gumball\n";
+    EXPECT_EQ(testOutput.str(), expectedString);
+}
+
 // Тесты для HasQuarterState
 TEST_F(NaiveMultiGumballMachineTest, TurnCrank_HasQuarterState) {
     gumballMachine.InsertQuarter();
@@ -616,6 +623,15 @@ TEST_F(NaiveMultiGumballMachineTest, TurnCrank_SoldOutAfterDispense) {
     gumballMachine.TurnCrank();
     expectedString += "You turned but there's no gumballs\n";
 
+    EXPECT_EQ(testOutput.str(), expectedString);
+}
+
+TEST_F(NaiveMultiGumballMachineTest, Refill_HasQuarterState) {
+    std::string expectedString;
+    gumballMachine.InsertQuarter();
+    expectedString += "You inserted a quarter\n";
+    gumballMachine.Refill(5);
+    expectedString += "Added gumball\n";
     EXPECT_EQ(testOutput.str(), expectedString);
 }
 
@@ -683,6 +699,30 @@ TEST_F(NaiveMultiGumballMachineTest, SoldOutState_EjectQuarter) {
     expectedString += "You can't eject, you haven't inserted a quarter yet\n";
 
     EXPECT_EQ(testOutput.str(), expectedString);
+}
+
+TEST_F(NaiveMultiGumballMachineTest, Refill_SoldOutState) {
+    std::string expectedString;
+
+    for (int i = 0; i < 5; ++i)
+    {
+        gumballMachine.InsertQuarter();
+        expectedString += "You inserted a quarter\n";
+        gumballMachine.TurnCrank();
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
+    }
+    gumballMachine.Refill(0);
+    expectedString += "Oops, out of gumballs\nReturn all quarters\nAdded gumball\n";
+    gumballMachine.TurnCrank();
+    expectedString += "You turned but there's no gumballs\n";
+    EXPECT_EQ(testOutput.str(), expectedString);
+
+    gumballMachine.Refill(1);
+    expectedString += "Added gumball\n";
+    gumballMachine.TurnCrank();
+    expectedString += "You turned but there's no quarter\n";
+    EXPECT_EQ(testOutput.str(), expectedString);
+
 }
 
 // Проверка на возврат всех монеток после последнего шарика
@@ -783,6 +823,13 @@ TEST_F(MultiGumballMachine, TurnCrank_NoQuarterState) {
     EXPECT_EQ(testOutput.str(), "You turned but there's no quarter\nYou need to pay first\n");
 }
 
+TEST_F(MultiGumballMachine, Refill_NoQuarterState) {
+    std::string expectedString;
+    gumballMachine.Refill(5);
+    expectedString += "Added gumball\n";
+    EXPECT_EQ(testOutput.str(), expectedString);
+}
+
 // Тесты для HasQuarterState
 TEST_F(MultiGumballMachine, TurnCrank_HasQuarterState) {
     gumballMachine.InsertQuarter();
@@ -803,6 +850,15 @@ TEST_F(MultiGumballMachine, TurnCrank_SoldOutAfterDispense) {
     gumballMachine.TurnCrank();
     expectedString += "You turned but there's no gumballs\nNo gumball dispensed\n";
 
+    EXPECT_EQ(testOutput.str(), expectedString);
+}
+
+TEST_F(MultiGumballMachine, Refill_HasQuarterState) {
+    std::string expectedString;
+    gumballMachine.InsertQuarter();
+    expectedString += "You inserted a quarter\n";
+    gumballMachine.Refill(5);
+    expectedString += "Added gumball\n";
     EXPECT_EQ(testOutput.str(), expectedString);
 }
 
@@ -868,6 +924,45 @@ TEST_F(MultiGumballMachine, SoldState_Dispense)
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
     expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+
+    EXPECT_EQ(testOutput.str(), expectedString);
+}
+
+TEST_F(MultiGumballMachine, Refill_SoldOutState) {
+    std::string expectedString;
+    expectedString += "You inserted a quarter\n";
+    for (int i = 0; i < 5; ++i)
+    {
+        gumballMachine.InsertQuarter();
+        if (i >= 1)
+        {
+            expectedString += "You inserted another quarter\n";
+        }
+    }
+    for (int i = 0; i < 2; ++i)
+    {
+        gumballMachine.TurnCrank();
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
+    }
+    for (int i = 0; i < 2; ++i)
+    {
+        gumballMachine.InsertQuarter();
+        expectedString += "You inserted another quarter\n";
+    }
+    for (int i = 0; i < 3; ++i)
+    {
+        gumballMachine.TurnCrank();
+        expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
+    }
+    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    gumballMachine.Refill(0);
+    expectedString += "Added gumball\n";
+    gumballMachine.TurnCrank();
+    expectedString += "You turned but there's no gumballs\nNo gumball dispensed\n";
+    gumballMachine.Refill(1);
+    expectedString += "Added gumball\n";
+    gumballMachine.TurnCrank();
+    expectedString += "You turned but there's no quarter\nYou need to pay first\n";
 
     EXPECT_EQ(testOutput.str(), expectedString);
 }

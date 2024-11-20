@@ -35,6 +35,12 @@ namespace multiGumballMachine
             std::cout << "You need to pay first\n";
         }
 
+        void Refill(unsigned numBalls) override
+        {
+            std::cout << "Added gumball\n";
+            m_gumballMachine.AddBall(numBalls);
+        }
+
         [[nodiscard]] std::string ToString() const override
         {
             return "waiting for quarter";
