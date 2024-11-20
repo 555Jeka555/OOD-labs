@@ -95,9 +95,9 @@ Machine is {}
             ++m_quarter;
         }
 
-        void AddBall(unsigned numBalls) override
+        void RefillBall(unsigned numBalls) override
         {
-            m_count += numBalls;
+            m_count = numBalls;
         }
 
         void ReturnAllQuarters() override

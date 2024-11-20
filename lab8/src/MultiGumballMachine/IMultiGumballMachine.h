@@ -11,7 +11,7 @@ namespace multiGumballMachine
         [[nodiscard]] virtual unsigned GetQuarterCount() const = 0;
         [[nodiscard]] virtual unsigned GetMaxQuarterCount() const = 0;
         virtual void AddQuarter() = 0;
-        virtual void AddBall(unsigned numBalls) = 0;
+        virtual void RefillBall(unsigned numBalls) = 0;
         virtual void ReturnAllQuarters() =0;
 
         virtual void SetSoldOutState() = 0;

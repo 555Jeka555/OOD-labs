@@ -54,7 +54,7 @@ namespace multiGumballMachine
         void Refill(unsigned numBalls) override
         {
             std::cout << "Added gumball\n";
-            m_gumballMachine.AddBall(numBalls);
+            m_gumballMachine.RefillBall(numBalls);
         }
 
         [[nodiscard]] std::string ToString() const override

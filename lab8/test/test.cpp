@@ -25,7 +25,7 @@ public:
     MOCK_METHOD(unsigned, GetQuarterCount, (), (const, override));
     MOCK_METHOD(unsigned, GetMaxQuarterCount, (), (const, override));
     MOCK_METHOD(void, AddQuarter, (), (override));
-    MOCK_METHOD(void, AddBall, (unsigned numBalls), (override));
+    MOCK_METHOD(void, RefillBall, (unsigned numBalls), (override));
     MOCK_METHOD(void, ReturnAllQuarters, (), (override));
     MOCK_METHOD(void, SetSoldOutState, (), (override));
     MOCK_METHOD(void, SetNoQuarterState, (), (override));
@@ -1063,7 +1063,7 @@ TEST_F(MultiGumballMachine, Mock_NoQuarterState_Refill)
     MockMultiGumballMachine mockMultiGumballMachine;
     multiGumballMachine::NoQuarterState state = multiGumballMachine::NoQuarterState(mockMultiGumballMachine);
 
-    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, RefillBall(1)).Times(1);
 
     state.Refill(1);
     EXPECT_EQ(testOutput.str(), "Added gumball\n");
@@ -1141,7 +1141,7 @@ TEST_F(MultiGumballMachine, Mock_HasQuarterState_Refill)
     MockMultiGumballMachine mockMultiGumballMachine;
     multiGumballMachine::HasQuarterState state = multiGumballMachine::HasQuarterState(mockMultiGumballMachine);
 
-    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, RefillBall(1)).Times(1);
 
     state.Refill(1);
     EXPECT_EQ(testOutput.str(), "Added gumball\n");
@@ -1276,12 +1276,12 @@ TEST_F(MultiGumballMachine, Mock_SoldOutState_Refill)
     MockMultiGumballMachine mockMultiGumballMachine;
     multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
 
-    EXPECT_CALL(mockMultiGumballMachine, AddBall(1)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, RefillBall(1)).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
     state.Refill(1);
     EXPECT_EQ(testOutput.str(), "Added gumball\n");
 
-    EXPECT_CALL(mockMultiGumballMachine, AddBall(0)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, RefillBall(0)).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
     EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
     state.Refill(0);
