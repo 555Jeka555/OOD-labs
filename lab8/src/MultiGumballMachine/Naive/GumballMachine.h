@@ -111,6 +111,7 @@ Machine is {}
 
                 if (m_count == 0) {
                     cout << "Oops, out of gumballs\n";
+                    cout << "Return all quarters\n";
                     m_state = State::SoldOut;
                 }
                 else if (m_quarter == 0)

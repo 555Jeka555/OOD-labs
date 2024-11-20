@@ -29,7 +29,7 @@ namespace multiGumballMachine
         {
             std::cout << "No gumball dispensed\n";
         }
-        std::string ToString() const override
+        [[nodiscard]] std::string ToString() const override
         {
             return "sold out";
         }

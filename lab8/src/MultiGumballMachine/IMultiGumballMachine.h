@@ -8,8 +8,8 @@ namespace multiGumballMachine
     public:
         virtual void ReleaseBall() = 0;
         [[nodiscard]] virtual unsigned GetBallCount()const = 0;
-        virtual unsigned GetQuarterCount() const = 0;
-        virtual unsigned GetMaxQuarterCount() const = 0;
+        [[nodiscard]] virtual unsigned GetQuarterCount() const = 0;
+        [[nodiscard]] virtual unsigned GetMaxQuarterCount() const = 0;
         virtual void AddQuarter() = 0;
         virtual void ReturnAllQuarters() =0;
 
