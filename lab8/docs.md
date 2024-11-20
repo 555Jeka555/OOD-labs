@@ -1,7 +1,7 @@
 ```mermaid
 classDiagram
     IGumballMachine <|.. GumballMachine : "private"
-    GumballMachine *-- IState
+    GumballMachine o-- IState
     GumballMachine *-- HasQuarterState
     GumballMachine *-- NoQuarterState
     GumballMachine *-- SoldOutState
@@ -29,12 +29,12 @@ classDiagram
         - SetSoldState()
         - SetHasQuarterState()
 
-        - unsigned m_count
-        - SoldState m_soldState
-        - SoldOutState m_soldOutState
-        - NoQuarterState m_noQuarterState
-        - HasQuarterState m_hasQuarterState
-        - IState * m_state
+        - m_count: unsigned 
+        - m_soldState: SoldState 
+        - m_soldOutState: SoldOutState
+        - m_noQuarterState: NoQuarterState
+        - m_hasQuarterState: HasQuarterState
+        - m_state: * IState
     }
 
     IState <|.. HasQuarterState
@@ -63,7 +63,7 @@ classDiagram
             + Dispense()
             + ToString() string
 
-            - IGumballMachine & m_gumballMachine
+            - m_gumballMachine: & IGumballMachine
         }
 
         class NoQuarterState {
@@ -73,7 +73,7 @@ classDiagram
             + Dispense()
             + ToString() string
 
-            - IGumballMachine & m_gumballMachine
+            - m_gumballMachine: & IGumballMachine
         }
 
         class SoldOutState {
@@ -83,7 +83,7 @@ classDiagram
             + Dispense()
             + ToString() string
 
-            - IGumballMachine & m_gumballMachine
+            - m_gumballMachine: & IGumballMachine
         }
 
         class SoldState {
@@ -93,7 +93,7 @@ classDiagram
             + Dispense()
             + ToString() string
 
-            - IGumballMachine & m_gumballMachine
+            - m_gumballMachine: & IGumballMachine
         }
     }
 ```
