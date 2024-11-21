@@ -15,7 +15,7 @@ public:
         AddMenuItem("InsertQuarter", "InsertQuarter", &CommandHandler::InsertQuarter);
         AddMenuItem("EjectQuarter", "EjectQuarter", &CommandHandler::EjectQuarter);
         AddMenuItem("TurnCrank", "TurnCrank", &CommandHandler::TurnCrank);
-        AddMenuItem("InsertQuarter", "InsertQuarter", &CommandHandler::ToString);
+        AddMenuItem("ToString", "ToString", &CommandHandler::ToString);
         AddMenuItem("Refill", "Refill", &CommandHandler::Refill);
     }
 
