@@ -5,7 +5,7 @@
 int main() {
     try
     {
-        multiGumballMachine::MultiGumballMachine multiGumballMachine1 = multiGumballMachine::MultiGumballMachine(5);
+        multiGumballMachine::MultiGumballMachine multiGumballMachine1 = multiGumballMachine::MultiGumballMachine(1);
         Menu menu{};
         CommandHandler commandHandler = CommandHandler(menu, multiGumballMachine1);
 

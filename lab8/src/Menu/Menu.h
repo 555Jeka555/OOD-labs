@@ -15,8 +15,6 @@ public:
 
     void Exit();
 
-    void AddCommandToCurrentMacro(const std::function<void()>& command);
-
 private:
     bool ExecuteCommand(const std::string & command);
 
