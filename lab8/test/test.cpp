@@ -634,7 +634,7 @@ TEST_F(NaiveMultiGumballMachineTest, TurnCrank_SoldOutAfterDispense) {
         expectedString += "You inserted a quarter\n";
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
     gumballMachine.TurnCrank();
     expectedString += "You turned but there's no gumballs\n";
 
@@ -678,7 +678,7 @@ TEST_F(NaiveMultiGumballMachineTest, SoldState_Dispense)
         gumballMachine.TurnCrank();
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
 
     EXPECT_EQ(testOutput.str(), expectedString);
 }
@@ -693,7 +693,7 @@ TEST_F(NaiveMultiGumballMachineTest, SoldOutState_InsertQuarter) {
         expectedString += "You inserted a quarter\n";
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
     gumballMachine.InsertQuarter();
     expectedString += "You can't insert a quarter, the machine is sold out\n";
 
@@ -709,7 +709,7 @@ TEST_F(NaiveMultiGumballMachineTest, SoldOutState_EjectQuarter) {
         expectedString += "You inserted a quarter\n";
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
     gumballMachine.EjectQuarter();
     expectedString += "You can't eject, you haven't inserted a quarter yet\n";
 
@@ -727,7 +727,7 @@ TEST_F(NaiveMultiGumballMachineTest, Refill_SoldOutState) {
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
     gumballMachine.Refill(0);
-    expectedString += "Oops, out of gumballs\nReturn all quarters\nAdded gumball\n";
+    expectedString += "Oops, out of gumballs\nAdded gumball\n";
     gumballMachine.TurnCrank();
     expectedString += "You turned but there's no gumballs\n";
     EXPECT_EQ(testOutput.str(), expectedString);

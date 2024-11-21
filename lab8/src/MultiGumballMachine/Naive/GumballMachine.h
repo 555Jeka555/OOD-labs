@@ -50,12 +50,29 @@ namespace multiNaive {
 
         void EjectQuarter() {
             using namespace std;
-            if (m_quarter > 0) {
-                cout << "Return all quarters\n";
-                m_quarter = 0;
-                m_state = State::NoQuarter;
-            } else {
-                cout << "You can't eject, you haven't inserted a quarter yet\n";
+            switch (m_state) {
+                case State::SoldOut:
+                    if (m_quarter > 0)
+                    {
+                        cout << "Return all quarters\n";
+                        m_quarter = 0;
+                    }
+                    else
+                    {
+                        cout << "You can't eject, you haven't inserted a quarter yet\n";
+                    }
+                    break;
+                case State::NoQuarter:
+                    cout << "You can't eject, you haven't inserted a quarter yet\n";
+                    break;
+                case State::HasQuarter:
+                    cout << "Return all quarters\n";
+                    m_quarter = 0;
+                    m_state = State::NoQuarter;
+                    break;
+                case State::Sold:
+                    std::cout << "Sorry you already turned the crank\n";
+                    break;
             }
         }
 
@@ -87,7 +104,14 @@ namespace multiNaive {
                     std::cout << "Added gumball\n";
                     if (m_count > 0)
                     {
-                        m_state = State::NoQuarter;
+                        if (m_quarter > 0)
+                        {
+                            m_state = State::HasQuarter;
+                        }
+                        else
+                        {
+                            m_state = State::NoQuarter;
+                        }
                     }
                     break;
                 case State::NoQuarter:
@@ -133,7 +157,6 @@ Machine is {}
 
                 if (m_count == 0) {
                     cout << "Oops, out of gumballs\n";
-                    cout << "Return all quarters\n";
                     m_state = State::SoldOut;
                 }
                 else if (m_quarter == 0)
