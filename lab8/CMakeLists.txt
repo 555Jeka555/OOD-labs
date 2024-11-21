@@ -31,6 +31,7 @@ set(SOURCE_FILES
         src/MultiGumballMachine/State/NoQuarterState.h
         src/MultiGumballMachine/State/SoldOutState.h
         src/MultiGumballMachine/State/SoldState.h
+        src/Menu/Menu.cpp
 )
 
 set(TEST_SOURCE_FILES
