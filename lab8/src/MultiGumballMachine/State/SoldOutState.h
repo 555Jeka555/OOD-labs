@@ -24,7 +24,10 @@ namespace multiGumballMachine
             {
                 m_gumballMachine.ReturnAllQuarters();
             }
-            std::cout << "You can't eject, you haven't inserted a quarter yet\n";
+            else
+            {
+                std::cout << "You can't eject, you haven't inserted a quarter yet\n";
+            }
         }
 
         void TurnCrank() override
