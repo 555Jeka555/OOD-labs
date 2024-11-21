@@ -20,6 +20,10 @@ namespace multiGumballMachine
 
         void EjectQuarter() override
         {
+            if (m_gumballMachine.GetQuarterCount() > 0)
+            {
+                m_gumballMachine.ReturnAllQuarters();
+            }
             std::cout << "You can't eject, you haven't inserted a quarter yet\n";
         }
 
@@ -36,10 +40,17 @@ namespace multiGumballMachine
         void Refill(unsigned numBalls) override
         {
             std::cout << "Added gumball\n";
-            m_gumballMachine.RefillBall(numBalls);
+            m_gumballMachine.RefillBall(numBalls); // TODO Если после выдачи послднего шарика остались монетки то в другое состояние
             if (m_gumballMachine.GetBallCount() > 0)
             {
-                m_gumballMachine.SetNoQuarterState();
+                if (m_gumballMachine.GetQuarterCount() > 0)
+                {
+                    m_gumballMachine.SetHasQuarterState();
+                }
+                else
+                {
+                    m_gumballMachine.SetNoQuarterState();
+                }
             }
         }
 

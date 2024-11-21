@@ -34,11 +34,6 @@ namespace multiGumballMachine
             if (m_gumballMachine.GetBallCount() == 0)
             {
                 std::cout << "Oops, out of gumballs\n";
-                if (m_gumballMachine.GetQuarterCount() > 0)
-                {
-                    // TODO не проверяется
-                    m_gumballMachine.ReturnAllQuarters();
-                }
                 m_gumballMachine.SetSoldOutState();
             }
             else if (m_gumballMachine.GetQuarterCount() > 0)

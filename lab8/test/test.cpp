@@ -938,7 +938,7 @@ TEST_F(MultiGumballMachine, SoldState_Dispense)
         gumballMachine.TurnCrank();
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
 
     EXPECT_EQ(testOutput.str(), expectedString);
 }
@@ -969,7 +969,7 @@ TEST_F(MultiGumballMachine, Refill_SoldOutState) {
         gumballMachine.TurnCrank();
         expectedString += "You turned...\nA gumball comes rolling out the slot...\n";
     }
-    expectedString += "Oops, out of gumballs\nReturn all quarters\n";
+    expectedString += "Oops, out of gumballs\n";
     gumballMachine.Refill(0);
     expectedString += "Added gumball\n";
     gumballMachine.TurnCrank();
@@ -977,7 +977,7 @@ TEST_F(MultiGumballMachine, Refill_SoldOutState) {
     gumballMachine.Refill(1);
     expectedString += "Added gumball\n";
     gumballMachine.TurnCrank();
-    expectedString += "You turned but there's no quarter\nYou need to pay first\n";
+    expectedString += "You turned...\nA gumball comes rolling out the slot...\nOops, out of gumballs\n";
 
     EXPECT_EQ(testOutput.str(), expectedString);
 }
@@ -1182,17 +1182,9 @@ TEST_F(MultiGumballMachine, Mock_SoldState_Dispense)
 
     EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
-    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
-    EXPECT_CALL(mockMultiGumballMachine, ReturnAllQuarters).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, SetSoldOutState).Times(1);
     state.Dispense();
     EXPECT_EQ(testOutput.str(), "Oops, out of gumballs\n");
-
-    EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
-    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(0));
-    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(0));
-    EXPECT_CALL(mockMultiGumballMachine, SetSoldOutState).Times(1);
-    state.Dispense();
 
     EXPECT_CALL(mockMultiGumballMachine, ReleaseBall).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
@@ -1240,8 +1232,13 @@ TEST_F(MultiGumballMachine, Mock_SoldOutState_EjectQuarter)
     MockMultiGumballMachine mockMultiGumballMachine;
     multiGumballMachine::SoldOutState state = multiGumballMachine::SoldOutState(mockMultiGumballMachine);
 
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(0));
     state.EjectQuarter();
     EXPECT_EQ(testOutput.str(), "You can't eject, you haven't inserted a quarter yet\n");
+
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, ReturnAllQuarters).Times(1);
+    state.EjectQuarter();
 }
 
 TEST_F(MultiGumballMachine, Mock_SoldOutState_TurnCrank)
@@ -1283,6 +1280,13 @@ TEST_F(MultiGumballMachine, Mock_SoldOutState_Refill)
 
     EXPECT_CALL(mockMultiGumballMachine, RefillBall(0)).Times(1);
     EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, SetHasQuarterState).Times(1);
+    state.Refill(0);
+
+    EXPECT_CALL(mockMultiGumballMachine, RefillBall(0)).Times(1);
+    EXPECT_CALL(mockMultiGumballMachine, GetBallCount()).WillOnce(Return(1));
+    EXPECT_CALL(mockMultiGumballMachine, GetQuarterCount()).WillOnce(Return(0));
     EXPECT_CALL(mockMultiGumballMachine, SetNoQuarterState).Times(1);
     state.Refill(0);
 }
