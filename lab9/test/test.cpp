@@ -51,18 +51,18 @@ TEST_F(ImageTest, SetAndGetPixel) {
 TEST_F(ImageTest, GetPixelOutOfBounds) {
     Image img({16, 16}, '.');
 
-    EXPECT_EQ(img.GetPixel({-1, -1}), ' ');
-    EXPECT_EQ(img.GetPixel({16, 16}), ' ');
+    EXPECT_EQ(img.GetPixel({-1, -1}), 0xFFFFFF);
+    EXPECT_EQ(img.GetPixel({16, 16}), 0xFFFFFF);
 }
 
 TEST_F(ImageTest, SetPixelOutOfBounds) {
     Image img({16, 16}, '.');
 
     img.SetPixel({-1, -1}, '#');
-    EXPECT_EQ(img.GetPixel({-1, -1}), ' ');
+    EXPECT_EQ(img.GetPixel({-1, -1}), 0xFFFFFF);
 
     img.SetPixel({16, 16}, '#');
-    EXPECT_EQ(img.GetPixel({16, 16}), ' ');
+    EXPECT_EQ(img.GetPixel({16, 16}), 0xFFFFFF);
 }
 
 TEST_F(ImageTest, TileInstanceCount) {
@@ -105,7 +105,7 @@ TEST_F(TileTest, DefaultConstructor) {
     {
         for (int x = 0; x < Tile::SIZE; ++x)
         {
-            EXPECT_EQ(tile.GetPixel({x, y}), ' ');
+            EXPECT_EQ(tile.GetPixel({x, y}), 0xFFFFFF);
         }
     }
     EXPECT_EQ(Tile::GetInstanceCount(), 1);
@@ -143,7 +143,7 @@ TEST_F(TileTest, CopyConstructor)
 
 TEST_F(TileTest, SetPixel)
 {
-    Tile tile(' ');
+    Tile tile(0xFFFFFF);
 
     tile.SetPixel({0, 0}, '#');
     EXPECT_EQ(tile.GetPixel({0, 0}), '#');
@@ -152,15 +152,15 @@ TEST_F(TileTest, SetPixel)
     EXPECT_EQ(tile.GetPixel({7, 7}), '@');
 
     tile.SetPixel({8, 8}, 'X');
-    EXPECT_EQ(tile.GetPixel({8, 8}), ' ');
+    EXPECT_EQ(tile.GetPixel({8, 8}), 0xFFFFFF);
 }
 
 TEST_F(TileTest, GetPixelOutOfBounds)
 {
     Tile tile('*');
 
-    EXPECT_EQ(tile.GetPixel({-1, -1}), ' ');
-    EXPECT_EQ(tile.GetPixel({8, 8}), ' ');
+    EXPECT_EQ(tile.GetPixel({-1, -1}), 0xFFFFFF);
+    EXPECT_EQ(tile.GetPixel({8, 8}), 0xFFFFFF);
 }
 
 TEST_F(TileTest, DestructorDecreasesInstanceCount)

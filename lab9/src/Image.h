@@ -10,7 +10,7 @@
 
 class Image {
 public:
-    explicit Image(Size size, char color = ' ')
+    explicit Image(Size size, uint32_t color = 0xFFFFFF)
         :   m_size(size),
             m_tiles(size.height, std::vector<CoW<Tile>>(size.width, CoW<Tile>(Tile(color))))
     {}
@@ -19,9 +19,9 @@ public:
         return m_size;
     }
 
-    [[nodiscard]] char GetPixel(Point p) const noexcept {
+    [[nodiscard]] uint32_t GetPixel(Point p) const noexcept {
         if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height) {
-            return ' ';
+            return 0xFFFFFF;
         }
 
         int tileX = p.x / Tile::SIZE;
@@ -32,7 +32,7 @@ public:
         return m_tiles[tileY][tileX]->GetPixel({ pixelX, pixelY });
     }
 
-    void SetPixel(Point p, char color) {
+    void SetPixel(Point p, uint32_t color) {
         if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height) {
             return; // Игнорируем установку цвета, если координаты выходят за пределы
         }

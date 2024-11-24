@@ -4,6 +4,7 @@
 #pragma once
 #include <array>
 #include <cassert>
+#include <cstdint>
 #include "Point.h"
 
 class Tile
@@ -13,7 +14,7 @@ public:
     constexpr static int SIZE = 8;
 
     // Конструктор по умолчанию. Заполняет тайл указанным цветом.
-    explicit Tile(char color = ' ') noexcept
+    explicit Tile(uint32_t color = 0xFFFFFF) noexcept
     {
         for (int y = 0; y < SIZE; ++y) {
             for (int x = 0; x < SIZE; ++x) {
@@ -49,7 +50,7 @@ public:
      * Изменяет цвет пикселя тайла.
      * Если координаты выходят за пределы тайла, метод ничего не делает.
      */
-    void SetPixel(Point p, char color) noexcept
+    void SetPixel(Point p, uint32_t color) noexcept
     {
         if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE) {
             m_pixels[p.y][p.x] = color; // Устанавливаем цвет пикселя
@@ -59,12 +60,12 @@ public:
     /**
      * Возвращает цвет пикселя. Если координаты выходят за пределы тайла, возвращается пробел.
      */
-    [[nodiscard]] char GetPixel(Point p) const noexcept
+    [[nodiscard]] uint32_t GetPixel(Point p) const noexcept
     {
         if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE) {
             return m_pixels[p.y][p.x]; // Возвращаем цвет пикселя
         }
-        return ' '; // Возвращаем пробел, если координаты выходят за пределы
+        return 0xFFFFFF; // Возвращаем пробел, если координаты выходят за пределы
     }
 
     // Возвращает количество экземпляров класса Tile в программе.
@@ -80,7 +81,7 @@ private:
     inline static int m_instanceCount = 0;
     // -------------- не удалять ------------
 
-    std::array<std::array<char, SIZE>, SIZE> m_pixels{};
+    std::array<std::array<uint32_t, SIZE>, SIZE> m_pixels{};
 };
 
 #endif //LAB9_TILE_H

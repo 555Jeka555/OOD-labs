@@ -9,7 +9,7 @@
 class Drawer
 {
 public:
-    static void DrawLine(Image& image, Point from, Point to, char color)
+    static void DrawLine(Image& image, Point from, Point to, uint32_t color)
     {
         const int deltaX = std::abs(to.x - from.x);
         const int deltaY = std::abs(to.y - from.y);
@@ -24,13 +24,14 @@ public:
         }
     }
 
-    static void DrawCircle(Image& image, Point center, int radius, char color) {
+    static void DrawCircle(Image& image, Point center, int radius, uint32_t color)
+    {
         int x = 0;
         int y = radius;
-        int d = 3 - 2 * radius; // Начальное значение
+        int d = 3 - 2 * radius;
 
-        while (x <= y) {
-            // Рисуем пиксели в восьми симметричных позициях
+        while (x <= y)
+        {
             image.SetPixel({center.x + x, center.y + y}, color);
             image.SetPixel({center.x - x, center.y + y}, color);
             image.SetPixel({center.x + x, center.y - y}, color);
@@ -40,24 +41,29 @@ public:
             image.SetPixel({center.x + y, center.y - x}, color);
             image.SetPixel({center.x - y, center.y - x}, color);
 
-            if (d < 0) {
-                d = d + 4 * x + 6; // Переход к следующему пикселю по X
-            } else {
-                d = d + 4 * (x - y) + 10; // Переход к следующему пикселю по Y
+            if (d < 0)
+            {
+                d = d + 4 * x + 6;
+            }
+            else
+            {
+                d = d + 4 * (x - y) + 10;
                 --y;
             }
             ++x;
         }
     }
 
-    static void FillCircle(Image& image, Point center, int radius, char color) {
+    static void FillCircle(Image& image, Point center, int radius, uint32_t color)
+    {
         int x = 0;
         int y = radius;
-        int d = 3 - 2 * radius; // Начальное значение
+        int d = 3 - 2 * radius;
 
-        while (x <= y) {
-            // Рисуем горизонтальные линии между границами
-            for (int i = -x; i <= x; ++i) {
+        while (x <= y)
+        {
+            for (int i = -x; i <= x; ++i)
+            {
                 image.SetPixel({center.x + i, center.y + y}, color);
                 image.SetPixel({center.x + i, center.y - y}, color);
             }
@@ -66,10 +72,13 @@ public:
                 image.SetPixel({center.x + i, center.y - x}, color);
             }
 
-            if (d < 0) {
-                d = d + 4 * x + 6; // Переход к следующему пикселю по X
-            } else {
-                d = d + 4 * (x - y) + 10; // Переход к следующему пикселю по Y
+            if (d < 0)
+            {
+                d = d + 4 * x + 6;
+            }
+            else
+            {
+                d = d + 4 * (x - y) + 10;
                 --y;
             }
             ++x;
@@ -83,7 +92,7 @@ private:
         return (0 < value) - (value < 0);
     }
 
-    static void DrawSteepLine(Image& image, Point from, Point to, char color)
+    static void DrawSteepLine(Image& image, Point from, Point to, uint32_t color)
     {
         const int deltaX = std::abs(to.x - from.x);
         const int deltaY = std::abs(to.y - from.y);
@@ -120,7 +129,7 @@ private:
 /**
  * Ðèñóåò ïîëîãèé îòðåçîê (äëÿ êîòîðîãî |to.y - from.x| >= |to.y - from.y|).
  */
-    static void DrawSlopeLine(Image& image, Point from, Point to, char color)
+    static void DrawSlopeLine(Image& image, Point from, Point to, uint32_t color)
     {
         const int deltaX = std::abs(to.x - from.x);
         const int deltaY = std::abs(to.y - from.y);
