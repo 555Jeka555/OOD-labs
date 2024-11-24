@@ -24,6 +24,58 @@ public:
         }
     }
 
+    static void DrawCircle(Image& image, Point center, int radius, char color) {
+        int x = 0;
+        int y = radius;
+        int d = 3 - 2 * radius; // Начальное значение
+
+        while (x <= y) {
+            // Рисуем пиксели в восьми симметричных позициях
+            image.SetPixel({center.x + x, center.y + y}, color);
+            image.SetPixel({center.x - x, center.y + y}, color);
+            image.SetPixel({center.x + x, center.y - y}, color);
+            image.SetPixel({center.x - x, center.y - y}, color);
+            image.SetPixel({center.x + y, center.y + x}, color);
+            image.SetPixel({center.x - y, center.y + x}, color);
+            image.SetPixel({center.x + y, center.y - x}, color);
+            image.SetPixel({center.x - y, center.y - x}, color);
+
+            if (d < 0) {
+                d = d + 4 * x + 6; // Переход к следующему пикселю по X
+            } else {
+                d = d + 4 * (x - y) + 10; // Переход к следующему пикселю по Y
+                --y;
+            }
+            ++x;
+        }
+    }
+
+    static void FillCircle(Image& image, Point center, int radius, char color) {
+        int x = 0;
+        int y = radius;
+        int d = 3 - 2 * radius; // Начальное значение
+
+        while (x <= y) {
+            // Рисуем горизонтальные линии между границами
+            for (int i = -x; i <= x; ++i) {
+                image.SetPixel({center.x + i, center.y + y}, color);
+                image.SetPixel({center.x + i, center.y - y}, color);
+            }
+            for (int i = -y; i <= y; ++i) {
+                image.SetPixel({center.x + i, center.y + x}, color);
+                image.SetPixel({center.x + i, center.y - x}, color);
+            }
+
+            if (d < 0) {
+                d = d + 4 * x + 6; // Переход к следующему пикселю по X
+            } else {
+                d = d + 4 * (x - y) + 10; // Переход к следующему пикселю по Y
+                --y;
+            }
+            ++x;
+        }
+    }
+
 private:
 
     static int Sign(int value)

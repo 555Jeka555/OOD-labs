@@ -13,7 +13,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-option(CODE_COVERAGE "Enable code coverage" ON)
+option(CODE_COVERAGE "Enable code coverage" OFF)
 if (CODE_COVERAGE)
     if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "(Apple)?[Cc]lang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
