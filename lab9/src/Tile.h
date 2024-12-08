@@ -50,9 +50,12 @@ public:
      * Изменяет цвет пикселя тайла.
      * Если координаты выходят за пределы тайла, метод ничего не делает.
      */
+
+    // TODO форматирование
     void SetPixel(Point p, uint32_t color) noexcept
     {
-        if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE) {
+        if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE)
+        {
             m_pixels[p.y][p.x] = color; // Устанавливаем цвет пикселя
         }
     }
@@ -62,7 +65,8 @@ public:
      */
     [[nodiscard]] uint32_t GetPixel(Point p) const noexcept
     {
-        if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE) {
+        if (p.x >= 0 && p.x < SIZE && p.y >= 0 && p.y < SIZE)
+        {
             return m_pixels[p.y][p.x]; // Возвращаем цвет пикселя
         }
         return 0xFFFFFF; // Возвращаем пробел, если координаты выходят за пределы

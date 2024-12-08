@@ -10,6 +10,7 @@
 
 class Image {
 public:
+    // TODO добавить валидацию size проверить в тестах
     explicit Image(Size size, uint32_t color = 0xFFFFFF)
         :   m_size(size),
             m_tiles(size.height, std::vector<CoW<Tile>>(size.width, CoW<Tile>(Tile(color))))
@@ -20,7 +21,8 @@ public:
     }
 
     [[nodiscard]] uint32_t GetPixel(Point p) const noexcept {
-        if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height) {
+        if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height)
+        {
             return 0xFFFFFF;
         }
 
@@ -33,8 +35,9 @@ public:
     }
 
     void SetPixel(Point p, uint32_t color) {
-        if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height) {
-            return; // Игнорируем установку цвета, если координаты выходят за пределы
+        if (p.x < 0 || p.x >= m_size.width || p.y < 0 || p.y >= m_size.height)
+        {
+             return; // TODO тест прошёл при комментировании
         }
 
         int tileX = p.x / Tile::SIZE;
@@ -42,10 +45,14 @@ public:
         int pixelX = p.x % Tile::SIZE;
         int pixelY = p.y % Tile::SIZE;
 
-        // Используем метод Write для изменения тайла
-        m_tiles[tileY][tileX].Write([&](Tile& tile) {
-            tile.SetPixel({ pixelX, pixelY }, color);
-        });
+        auto&& d = m_tiles[tileY][tileX];
+        d.Write()->SetPixel({ pixelX, pixelY }, color);
+
+        m_tiles[tileY][tileX].Write()->SetPixel({ pixelX, pixelY }, color);
+
+//        m_tiles[tileY][tileX].Write([&](Tile& tile) {
+//            tile.SetPixel({ pixelX, pixelY }, color);
+//        });
     }
 
 private:

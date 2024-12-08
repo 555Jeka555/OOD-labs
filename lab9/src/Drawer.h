@@ -54,6 +54,7 @@ public:
         }
     }
 
+    // TODO выяснить как это работает, рисует дважды по нарисованному
     static void FillCircle(Image& image, Point center, int radius, uint32_t color)
     {
         int x = 0;
@@ -67,7 +68,8 @@ public:
                 image.SetPixel({center.x + i, center.y + y}, color);
                 image.SetPixel({center.x + i, center.y - y}, color);
             }
-            for (int i = -y; i <= y; ++i) {
+            for (int i = -y; i <= y; ++i)
+            {
                 image.SetPixel({center.x + i, center.y + x}, color);
                 image.SetPixel({center.x + i, center.y - x}, color);
             }

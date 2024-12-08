@@ -2,23 +2,28 @@
 #include <gmock/gmock.h>
 #include "../src/Image.h"
 
-class ImageTest : public ::testing::Test {
+class ImageTest : public ::testing::Test
+{
 protected:
-    void SetUp() override {
-        while (Tile::GetInstanceCount() > 0) {
+    void SetUp() override
+    {
+        while (Tile::GetInstanceCount() > 0)
+        {
         }
     }
 
-    void TearDown() override {
+    void TearDown() override
+    {
         EXPECT_EQ(Tile::GetInstanceCount(), 0);
     }
 };
 
-TEST_F(ImageTest, CreateImageWithSingleColor) {
-    Image img({16, 16}, '*');
+TEST_F(ImageTest, CreateImageWithSingleColor)
+{
+    Image img({64, 64}, '*');
 
-    EXPECT_EQ(img.GetSize().width, 16);
-    EXPECT_EQ(img.GetSize().height, 16);
+    EXPECT_EQ(img.GetSize().width, 64);
+    EXPECT_EQ(img.GetSize().height, 64);
 
     for (int y = 0; y < img.GetSize().height; ++y)
     {
@@ -31,7 +36,8 @@ TEST_F(ImageTest, CreateImageWithSingleColor) {
     EXPECT_EQ(Tile::GetInstanceCount(), 1);
 }
 
-TEST_F(ImageTest, SetAndGetPixel) {
+TEST_F(ImageTest, SetAndGetPixel)
+{
     Image img({16, 16}, '.');
     EXPECT_EQ(Tile::GetInstanceCount(), 1);
 
@@ -48,14 +54,16 @@ TEST_F(ImageTest, SetAndGetPixel) {
     EXPECT_EQ(Tile::GetInstanceCount(), 3);
 }
 
-TEST_F(ImageTest, GetPixelOutOfBounds) {
+TEST_F(ImageTest, GetPixelOutOfBounds)
+{
     Image img({16, 16}, '.');
 
     EXPECT_EQ(img.GetPixel({-1, -1}), 0xFFFFFF);
     EXPECT_EQ(img.GetPixel({16, 16}), 0xFFFFFF);
 }
 
-TEST_F(ImageTest, SetPixelOutOfBounds) {
+TEST_F(ImageTest, SetPixelOutOfBounds)
+{
     Image img({16, 16}, '.');
 
     img.SetPixel({-1, -1}, '#');
@@ -65,7 +73,8 @@ TEST_F(ImageTest, SetPixelOutOfBounds) {
     EXPECT_EQ(img.GetPixel({16, 16}), 0xFFFFFF);
 }
 
-TEST_F(ImageTest, TileInstanceCount) {
+TEST_F(ImageTest, TileInstanceCount)
+{
     {
         Image img1({8, 8}, '*');
         EXPECT_EQ(Tile::GetInstanceCount(), 1);
@@ -87,19 +96,24 @@ TEST_F(ImageTest, TileInstanceCount) {
     EXPECT_EQ(Tile::GetInstanceCount(), 0);
 }
 
-class TileTest : public ::testing::Test {
+class TileTest : public ::testing::Test
+{
 protected:
-    void SetUp() override {
-        while (Tile::GetInstanceCount() > 0) {
+    void SetUp() override
+    {
+        while (Tile::GetInstanceCount() > 0)
+        {
         }
     }
 
-    void TearDown() override {
+    void TearDown() override
+    {
         EXPECT_EQ(Tile::GetInstanceCount(), 0);
     }
 };
 
-TEST_F(TileTest, DefaultConstructor) {
+TEST_F(TileTest, DefaultConstructor)
+{
     Tile tile;
     for (int y = 0; y < Tile::SIZE; ++y)
     {
@@ -111,7 +125,8 @@ TEST_F(TileTest, DefaultConstructor) {
     EXPECT_EQ(Tile::GetInstanceCount(), 1);
 }
 
-TEST_F(TileTest, ParameterizedConstructor) {
+TEST_F(TileTest, ParameterizedConstructor)
+{
     Tile tile('*');
     EXPECT_EQ(Tile::GetInstanceCount(), 1);
 
