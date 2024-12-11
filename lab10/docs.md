@@ -28,9 +28,10 @@ classDiagram
     IView <|.. PictureDraftView
     PictureDraftView o-- PictureDraftApp
     PictureDraftView o-- ShapeSelection
-    PictureDraftView o-- ShapeApp
+    PictureDraftView *-- ShapeApp
+    PictureDraftView *-- SelectionFrameView
     PictureDraftView *-- ShapeView
-    
+
     namespace View {
         class IView
 
