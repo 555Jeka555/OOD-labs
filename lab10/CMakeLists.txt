@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.26)
 project(lab10)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./../bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ./../lib)
+
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ./../bin )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY  ./../lib )
 
 include(FetchContent)
 FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
+
 FetchContent_MakeAvailable(googletest)
 
 FetchContent_Declare(
@@ -29,8 +31,18 @@ FetchContent_Declare(
 set(BOOST_INCLUDE_LIBRARIES filesystem regex signals2)
 FetchContent_MakeAvailable(Boost)
 
-set(SOURCE_FILES
-        src/main.cpp
+
+file(GLOB_RECURSE SOURCE_FILES_2 "${CMAKE_SOURCE_DIR}/src/**/*.h" "${CMAKE_SOURCE_DIR}/src/**/*.cpp" )
+
+list(REMOVE_ITEM SOURCE_FILES_2
+        "${CMAKE_SOURCE_DIR}/cmd/main.cpp"
+        "${CMAKE_SOURCE_DIR}/test/test.cpp"
+)
+
+message(STATUS "Found source files: ${SOURCE_FILES_2}")
+
+set(SOURCE_FILES_2
+        cmd/main.cpp
         src/App/App.h
         src/Model/Shape.h
         src/Common/ShapeType.h
@@ -75,15 +87,21 @@ set(SOURCE_FILES
         src/View/ShapeViewStrategyFactory.h
 )
 
-set(TEST_SOURCE_FILES
+set(SOURCE_FILES_1
+        cmd/main.cpp
+)
+
+set(TEST_SOURCE_FILES_1
         test/test.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)
+add_executable(1)
+target_sources(1 PRIVATE ${SOURCE_FILES_1} ${SOURCE_FILES_2})
 
-add_executable(${PROJECT_NAME}_test ${TEST_SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME}_test  gtest_main gmock gtest sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)
+add_executable(1_test)
+target_sources(1_test PRIVATE ${TEST_SOURCE_FILES_1}  ${SOURCE_FILES_2})
 
+target_link_libraries(1_test gtest_main gmock gtest sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)
+target_link_libraries(1 sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)
 enable_testing()
-add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
+add_test(NAME 1_test COMMAND 1_test)

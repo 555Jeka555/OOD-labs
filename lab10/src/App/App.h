@@ -78,31 +78,31 @@ private:
                     renderWindow.close();
                     break;
                 }
-                if (event->is<sf::Event::MouseButtonReleased>())
-                {
-                    auto mouseEvent = event->getIf<sf::Event::MouseButtonPressed>();
-
-                    Point point = {(double) mouseEvent->position.x, (double) mouseEvent->position.y};
-                    if (!isDragging) {
-                        clickPoint = point;
-                    }
-                    if (mouseEvent->button == sf::Mouse::Button::Left) {
-                        pictureDraftViewPresenter->OnMouseDown(point);
-                    }
-                }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && clock.getElapsedTime().asMilliseconds() >= 100) {
-                    isDragging = true;
-                } else {
-                    clock.restart();
-                }
+//                if (event->is<sf::Event::MouseButtonReleased>())
+//                {
+//                    auto mouseEvent = event->getIf<sf::Event::MouseButtonPressed>();
+//
+//                    Point point = {(double) mouseEvent->position.x, (double) mouseEvent->position.y};
+//                    if (!isDragging) {
+//                        clickPoint = point;
+//                    }
+//                    if (mouseEvent->button == sf::Mouse::Button::Left) {
+//                        pictureDraftViewPresenter->OnMouseDown(point);
+//                    }
+//                }
+//                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && clock.getElapsedTime().asMilliseconds() >= 100) {
+//                    isDragging = true;
+//                } else {
+//                    clock.restart();
+//                }
             }
-            if (isDragging) {
-                auto point = sf::Mouse::getPosition(renderWindow);
-                Point offset = {point.x - clickPoint.m_x, point.y - clickPoint.m_y};
-                pictureDraftViewPresenter->OnDrag(offset, clickPoint);
-                clickPoint.m_x += offset.m_x;
-                clickPoint.m_y += offset.m_y;
-            }
+//            if (isDragging) {
+//                auto point = sf::Mouse::getPosition(renderWindow);
+//                Point offset = {point.x - clickPoint.m_x, point.y - clickPoint.m_y};
+//                pictureDraftViewPresenter->OnDrag(offset, clickPoint);
+//                clickPoint.m_x += offset.m_x;
+//                clickPoint.m_y += offset.m_y;
+//            }
 
             // clear the window with black color
             renderWindow.clear(sf::Color::White);
