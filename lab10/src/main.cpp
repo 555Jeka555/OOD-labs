@@ -1,6 +1,8 @@
-#include <iostream>
+#include "App/App.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+//    auto app = App();
+//    app.Run();
+
     return 0;
 }
