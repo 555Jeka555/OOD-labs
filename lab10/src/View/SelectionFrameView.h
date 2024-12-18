@@ -8,11 +8,12 @@
 
 class SelectionFrameView {
 public:
-    SelectionFrameView(ShapeApp &shape)
-            : m_shapeApp(shape) {
+    explicit SelectionFrameView(ShapeApp &shape)
+        : m_shapeApp(shape) {
     }
 
-    void Show(ICanvas &canvas) {
+    void Draw(ICanvas &canvas)
+    {
         auto thickness = DEFAULT_SELECTION_THICKNESS;
         RectD frame = m_shapeApp.GetFrame();
         Point leftTop = {frame.left, frame.top};
@@ -24,17 +25,16 @@ public:
 
         canvas.SetLineThickness(thickness);
 
-        canvas.DrawLine({leftTop.m_x - thickness, leftTop.m_y}, {rightTop.m_x + thickness, rightTop.m_y});
+        canvas.DrawLine({leftTop.m_x, leftTop.m_y}, {rightTop.m_x, rightTop.m_y});
         canvas.DrawLine(rightTop, rightBottom);
-        canvas.DrawLine({rightBottom.m_x + thickness, rightBottom.m_y + thickness},
-                        {leftBottom.m_x - thickness, leftBottom.m_y + thickness});
+        canvas.DrawLine({rightBottom.m_x, rightBottom.m_y },
+                        {leftBottom.m_x, leftBottom.m_y});
         canvas.DrawLine(leftBottom, leftTop);
 
-        ShowCorner(canvas, leftTop);
-        ShowCorner(canvas, {rightTop.m_x - DEFAULT_SELECTION_CORNER_SIZE, rightTop.m_y});
-        ShowCorner(canvas,
-                   {rightBottom.m_x - DEFAULT_SELECTION_CORNER_SIZE, rightBottom.m_y - DEFAULT_SELECTION_CORNER_SIZE});
-        ShowCorner(canvas, {leftBottom.m_x, leftBottom.m_y - DEFAULT_SELECTION_CORNER_SIZE});
+        DrawCorner(canvas, leftTop);
+        DrawCorner(canvas, {rightTop.m_x - DEFAULT_SELECTION_CORNER_SIZE, rightTop.m_y});
+        DrawCorner(canvas,{rightBottom.m_x - DEFAULT_SELECTION_CORNER_SIZE, rightBottom.m_y - DEFAULT_SELECTION_CORNER_SIZE});
+        DrawCorner(canvas, {leftBottom.m_x, leftBottom.m_y - DEFAULT_SELECTION_CORNER_SIZE});
     }
 
 private:
@@ -44,7 +44,8 @@ private:
 
     ShapeApp& m_shapeApp;
     
-    void ShowCorner(ICanvas &canvas, const Point &leftTop) {
+    static void DrawCorner(ICanvas &canvas, const Point &leftTop)
+    {
         Point rightTop = {leftTop.m_x + DEFAULT_SELECTION_CORNER_SIZE, leftTop.m_y};
         Point rightBottom = {leftTop.m_x + DEFAULT_SELECTION_CORNER_SIZE, leftTop.m_y + DEFAULT_SELECTION_CORNER_SIZE};
         Point leftBottom = {leftTop.m_x, leftTop.m_y + DEFAULT_SELECTION_CORNER_SIZE};

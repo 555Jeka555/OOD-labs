@@ -13,12 +13,12 @@ class PictureDraftView
 {
 public:
     PictureDraftView(PictureDraftApp& pictureDraft, ShapeSelection& shapeSelection, size_t width, size_t height)
-            : m_pictureDraftAppModel(pictureDraft)
-            , m_shapeSelectionModel(shapeSelection)
+            : m_pictureDraftApp(pictureDraft)
+            , m_shapeSelection(shapeSelection)
             , m_width(width)
             , m_height(height)
     {
-        m_shapeSelectionModel.DoOnSelectionChanged([&, this](const std::vector<std::shared_ptr<ShapeApp>>& selectedShapes) mutable {
+        m_shapeSelection.DoOnSelectionChanged([&, this](const std::vector<std::shared_ptr<ShapeApp>>& selectedShapes) mutable {
             m_selectionFramesView.clear();
             for (auto&& shape : selectedShapes)
             {
@@ -27,17 +27,16 @@ public:
         });
     }
 
-    void Show(ICanvas& canvas)
+    void Draw(ICanvas& canvas)
     {
         for (auto&& shape : m_shapesView)
         {
-            shape->Show(canvas);
+            shape->Draw(canvas);
         }
 
         for (auto&& selectionFrame : m_selectionFramesView)
         {
-            selectionFrame.Show(canvas);
-
+            selectionFrame.Draw(canvas);
         }
     }
 
@@ -64,8 +63,8 @@ public:
 private:
     std::vector<std::shared_ptr<ShapeView>> m_shapesView;
     std::vector<SelectionFrameView> m_selectionFramesView;
-    PictureDraftApp& m_pictureDraftAppModel;
-    ShapeSelection& m_shapeSelectionModel;
+    PictureDraftApp& m_pictureDraftApp;
+    ShapeSelection& m_shapeSelection;
     size_t m_width;
     size_t m_height;
 };

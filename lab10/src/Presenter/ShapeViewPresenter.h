@@ -33,12 +33,12 @@ public:
 
     void OnMouseDown(const Point& point)
     {
-        bool IsPointBelongShape = false;
+        bool isPointBelongShape = false;
         auto frame = m_shapeView->GetFrame();
         switch (m_shapeView->GetShapeType())
         {
             case ShapeType::RECTANGLE:
-                IsPointBelongShape = true;
+                isPointBelongShape = true;
                 break;
             case ShapeType::TRIANGLE:
             {
@@ -50,14 +50,14 @@ public:
                 auto sign2 = std::copysign(1, (vertex2.m_x - point.m_x) * (vertex3.m_y - vertex2.m_y) - (vertex3.m_x - vertex2.m_x) * (vertex2.m_y - point.m_y));
                 auto sign3 = std::copysign(1, (vertex3.m_x - point.m_x) * (vertex1.m_y - vertex3.m_y) - (vertex1.m_x - vertex3.m_x) * (vertex3.m_y - point.m_y));
 
-                IsPointBelongShape = (sign1 == sign2) && (sign2 == sign3);
+                isPointBelongShape = (sign1 == sign2) && (sign2 == sign3);
             }
                 break;
             case ShapeType::ELLIPSE:
             {
                 Point center = { frame.left + frame.width / 2,
                                  frame.top + frame.height / 2 };
-                IsPointBelongShape = (pow(point.m_x - center.m_x, 2) / pow(frame.width / 2, 2) +
+                isPointBelongShape = (pow(point.m_x - center.m_x, 2) / pow(frame.width / 2, 2) +
                                       pow(point.m_y - center.m_y, 2) / pow(frame.height / 2, 2)) <= 1;
             }
                 break;
@@ -66,11 +66,12 @@ public:
         }
 
         auto selectedShapes = m_shapeSelection.GetSelectedShapes();
-        bool IsShapeSelected = std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, this](const std::shared_ptr<ShapeApp>& shape) {
+        bool isShapeSelected = std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, this](const std::shared_ptr<ShapeApp>& shape) {
             return shape->GetId() == m_shapeApp->GetId();
         }) != selectedShapes.end();
-        if (IsPointBelongShape &&
-            !IsShapeSelected)
+
+        if (isPointBelongShape &&
+            !isShapeSelected)
         {
             m_shapeSelection.SetSelectedShapes({ m_shapeApp });
         }
@@ -105,7 +106,7 @@ public:
         auto selectedShapes = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : selectedShapes)
         {
-            RespectFrameBorders(shape);
+            CorectFrameBorders(shape);
         }
     }
 
@@ -127,7 +128,7 @@ public:
         }
     }
 
-    void SetRespectFrameBorders(size_t width, size_t height)
+    void SetCorectFrameBorders(size_t width, size_t height)
     {
         m_respectFrameWidth = width;
         m_respectFrameHeight = height;
@@ -143,13 +144,13 @@ private:
     size_t m_respectFrameWidth = SIZE_MAX;
     size_t m_respectFrameHeight = SIZE_MAX;
     
-    bool IsOnCorner(const Point& leftTop, const Point& point)
+    static bool IsOnCorner(const Point& leftTop, const Point& point)
     {
         return (leftTop.m_x <= point.m_x && point.m_x <= leftTop.m_x + DEFAULT_SELECTION_CORNER_SIZE &&
                 leftTop.m_y <= point.m_y && point.m_y <= leftTop.m_y + DEFAULT_SELECTION_CORNER_SIZE);
     }
 
-    void RespectFrameBorders(const std::shared_ptr<ShapeApp>& shape)
+    void CorectFrameBorders(const std::shared_ptr<ShapeApp>& shape) const
     {
         bool frameChanged = false;
         auto frame = shape->GetFrame();
@@ -188,8 +189,6 @@ private:
             shape->SetFrame(frame);
         }
     }
-
-    
 };
 
 #endif //LAB10_SHAPEVIEWPRESENTER_H

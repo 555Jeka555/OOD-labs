@@ -9,7 +9,7 @@
 class RectangleViewStrategy : public IShapeViewStrategy
 {
 public:
-    void Show(
+    void Draw(
             ICanvas &canvas,
             RectD frame,
             RGBAColor fillColor,

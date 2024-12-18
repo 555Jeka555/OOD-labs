@@ -30,27 +30,11 @@ CanvasSFML::CanvasSFML(sf::RenderTarget &target)
 
 void CanvasSFML::DrawLine(const Point &from, const Point &to)
 {
-    auto distanceX = to.m_x - from.m_x;
-    auto distanceY = to.m_y - from.m_y;
-    auto angle = atan2(distanceY, distanceX);
-
-    auto cosAngle = cos(angle);
-    auto width = (distanceX != 0)
-                 ? distanceX / cosAngle
-                 : distanceY;
-
-    sf::RectangleShape line(sf::Vector2f((float)std::abs(width),(float)
-    m_lineThickness));
-    line.setPosition({(float) from.m_x, (float) from.m_y});
-    line.setFillColor(m_fillColor);
-
-    sf::Angle angleDeg = sf::radians(angle * 180 / M_PI);
-    if (angle <= M_PI_2)
-    {
-        line.setOrigin({0, (float) m_lineThickness});
-
-    }
-    line.rotate(angleDeg);
+    sf::VertexArray line(sf::PrimitiveType::Lines, 2);
+    line[0].position = sf::Vector2f(static_cast<float>(from.m_x), static_cast<float>(from.m_y));
+    line[1].position = sf::Vector2f(static_cast<float>(to.m_x), static_cast<float>(to.m_y));
+    line[0].color = sf::Color(m_fillColor);
+    line[1].color = sf::Color(m_fillColor);
 
     m_renderTarget.draw(line);
 }
@@ -68,7 +52,6 @@ void CanvasSFML::DrawClosedPolyLine(const std::vector<Point> &points)
     {
         DrawClosedPolyLineSegment(index, points);
     }
-
 }
 
 void CanvasSFML::DrawClosedPolyLineSegment(size_t index, const std::vector<Point> &points)

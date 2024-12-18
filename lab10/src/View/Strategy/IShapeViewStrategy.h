@@ -7,7 +7,7 @@
 class IShapeViewStrategy
 {
 public:
-    virtual void Show(
+    virtual void Draw(
             ICanvas &canvas,
             RectD frame,
             RGBAColor fillColor,

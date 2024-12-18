@@ -22,14 +22,14 @@ public:
 
     void Execute()
     {
-        auto deleteShapesMacro = std::make_unique<GroupCommand>();
+        auto deleteShapesGroupCommand = std::make_unique<GroupCommand>();
         auto domainPictureDraft = m_pictureDraft.GetPictureDraft();
         auto shapesToDelete = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : shapesToDelete)
         {
-            deleteShapesMacro->AddCommand(std::make_unique<DeleteShapeCommand>(shape->GetShape(), domainPictureDraft, m_shapeSelection));
+            deleteShapesGroupCommand->AddCommand(std::make_unique<DeleteShapeCommand>(shape->GetShape(), domainPictureDraft, m_shapeSelection));
         }
-        m_commandStorage.AddAndExecuteCommand(std::move(deleteShapesMacro));
+        m_commandStorage.AddAndExecuteCommand(std::move(deleteShapesGroupCommand));
     }
 
 private:

@@ -46,9 +46,9 @@ public:
         return m_shapeType;
     }
 
-    void Show(ICanvas& canvas)
+    void Draw(ICanvas& canvas)
     {
-        m_shapeViewStrategy->Show(canvas, m_frame, m_fillColor, m_lineColor, m_thickness);
+        m_shapeViewStrategy->Draw(canvas, m_frame, m_fillColor, m_lineColor, m_thickness);
     }
 
 private:

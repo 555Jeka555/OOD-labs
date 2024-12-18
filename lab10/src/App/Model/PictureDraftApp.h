@@ -15,13 +15,13 @@ public:
     {
         m_pictureDraft->DoOnShapeAdded([&, this](size_t index) {
             auto shapeAppModel = std::make_shared<ShapeApp>(m_pictureDraft->GetShape(index));
-            m_shapesAppModel.insert(m_shapesAppModel.begin() + index, shapeAppModel);
+            m_shapesApp.insert(m_shapesApp.begin() + index, shapeAppModel);
             m_shapeAdded(index);
         });
 
         m_pictureDraft->DoOnShapeDeleted([&, this](size_t index, const std::shared_ptr<Shape>& shape) {
-            auto shapeAppModel = m_shapesAppModel.at(index);
-            m_shapesAppModel.erase(m_shapesAppModel.begin() + index);
+            auto shapeAppModel = m_shapesApp.at(index);
+            m_shapesApp.erase(m_shapesApp.begin() + index);
             m_shapeDeleted(index, shapeAppModel);
         });
 
@@ -30,7 +30,7 @@ public:
         {
             auto shape = m_pictureDraft->GetShape(i);
             auto shapeAppModel = std::make_shared<ShapeApp>(shape);
-            m_shapesAppModel.push_back(shapeAppModel);
+            m_shapesApp.push_back(shapeAppModel);
         }
     }
 
@@ -41,12 +41,12 @@ public:
 
     [[nodiscard]] size_t GetShapeCount() const
     {
-        return m_shapesAppModel.size();
+        return m_shapesApp.size();
     }
 
     [[nodiscard]] std::shared_ptr<ShapeApp> GetShape(size_t index) const
     {
-        return m_shapesAppModel.at(index);
+        return m_shapesApp.at(index);
     }
 
     connection DoOnShapeAdded(const std::function<void(size_t index)>& handler)
@@ -70,7 +70,7 @@ public:
     }
 private:
     std::shared_ptr<PictureDraft> m_pictureDraft;
-    std::vector<std::shared_ptr<ShapeApp>> m_shapesAppModel;
+    std::vector<std::shared_ptr<ShapeApp>> m_shapesApp;
     boost::signals2::signal<void(size_t index)> m_shapeAdded;
     boost::signals2::signal<void(size_t index, std::shared_ptr<ShapeApp>)> m_shapeDeleted;
     std::shared_ptr<IHistory> m_history;

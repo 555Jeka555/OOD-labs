@@ -35,13 +35,13 @@ public:
 
     void Execute()
     {
-        auto moveShapesMacro = std::make_unique<GroupCommand>();
+        auto moveShapesGroupCommand = std::make_unique<GroupCommand>();
         auto shapesToMove = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : shapesToMove)
         {
-            moveShapesMacro->AddCommand(std::make_unique<ChangeRectShapeCommand>(shape, m_shapeSelection));
+            moveShapesGroupCommand->AddCommand(std::make_unique<ChangeRectShapeCommand>(shape, m_shapeSelection));
         }
-        m_commandStorage.AddAndExecuteCommand(std::move(moveShapesMacro));
+        m_commandStorage.AddAndExecuteCommand(std::move(moveShapesGroupCommand));
     }
 
 private:

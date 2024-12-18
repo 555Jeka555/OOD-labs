@@ -30,13 +30,13 @@ public:
 
     void Execute()
     {
-        auto resizeShapesMacro = std::make_unique<GroupCommand>();
+        auto resizeShapesGroupCommand = std::make_unique<GroupCommand>();
         auto shapesToResize = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : shapesToResize)
         {
-            resizeShapesMacro->AddCommand(std::make_unique<ChangeRectShapeCommand>(shape, m_shapeSelection));
+            resizeShapesGroupCommand->AddCommand(std::make_unique<ChangeRectShapeCommand>(shape, m_shapeSelection));
         }
-        m_commandStorage.AddAndExecuteCommand(std::move(resizeShapesMacro));
+        m_commandStorage.AddAndExecuteCommand(std::move(resizeShapesGroupCommand));
     }
 
 private:

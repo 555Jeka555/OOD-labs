@@ -33,6 +33,39 @@ public:
 
 private:
     void InitEditWindow() {
+        RectD rect0 = {100, 100, 100, 100};
+        m_pictureDraft->InsertShape(
+                std::make_shared<Shape>(
+                        ShapeType::ELLIPSE,
+                        rect0),
+                        0
+                );
+
+        RectD rect1 = {100, 100, 100, 100};
+        m_pictureDraft->InsertShape(
+                std::make_shared<Shape>(
+                        ShapeType::ELLIPSE,
+                        rect1
+                        ),
+                1
+        );
+
+        RectD rect2 = {300, 300, 100, 100};
+        m_pictureDraft->InsertShape(
+                std::make_shared<Shape>(
+                        ShapeType::TRIANGLE,
+                        rect2),
+                2
+        );
+
+        RectD rect3 = {400, 300, 100, 100};
+        m_pictureDraft->InsertShape(
+                std::make_shared<Shape>(
+                        ShapeType::RECTANGLE,
+                        rect3),
+                3
+        );
+
         PictureDraftApp pictureDraftApp(m_pictureDraft, m_commandHistory);
         ShapeSelection shapeSelection;
         auto useCaseFactory = UseCaseFactory(shapeSelection, *m_commandHistory);
@@ -78,39 +111,76 @@ private:
                     renderWindow.close();
                     break;
                 }
-//                if (event->is<sf::Event::MouseButtonReleased>())
-//                {
-//                    auto mouseEvent = event->getIf<sf::Event::MouseButtonPressed>();
-//
-//                    Point point = {(double) mouseEvent->position.x, (double) mouseEvent->position.y};
-//                    if (!isDragging) {
-//                        clickPoint = point;
-//                    }
-//                    if (mouseEvent->button == sf::Mouse::Button::Left) {
-//                        pictureDraftViewPresenter->OnMouseDown(point);
-//                    }
-//                }
-//                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && clock.getElapsedTime().asMilliseconds() >= 100) {
-//                    isDragging = true;
-//                } else {
-//                    clock.restart();
-//                }
+                if (event->is<sf::Event::MouseButtonPressed>())
+                {
+                    auto mouseEventPressed = event->getIf<sf::Event::MouseButtonPressed>();
+                    Point pointPressed = Point{(double)mouseEventPressed->position.x, (double)mouseEventPressed->position.y};
+                    if (!isDragging)
+                    {
+                        clickPoint = pointPressed;
+                    }
+                    if (mouseEventPressed->button == sf::Mouse::Button::Left)
+                    {
+                        if (!(pictureDraftSize.m_y < pointPressed.m_y && pointPressed.m_y <= pictureDraftSize.m_y))
+                        {
+                            pictureDraftViewPresenter->OnMouseDown(pointPressed);
+                        }
+                    }
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && clock.getElapsedTime().asMilliseconds() >= 10)
+                {
+                    isDragging = true;
+                }
+                else
+                {
+                    clock.restart();
+                }
+                if (event->is<sf::Event::MouseButtonReleased>())
+                {
+                    auto mouseEventReleased = event->getIf<sf::Event::MouseButtonReleased>();
+                    Point pointReleased = { (double)mouseEventReleased->position.x, (double)mouseEventReleased->position.y };
+                    pictureDraftViewPresenter->OnMouseUp(pointReleased);
+                    isDragging = false;
+                }
+                if (isDragging && event->is<sf::Event::MouseLeft>())
+                {
+                    auto eventDraggingLeft = event->getIf<sf::Event::MouseButtonReleased>();
+                    Point point = { (double)eventDraggingLeft->position.x, (double)eventDraggingLeft->position.y };
+                    pictureDraftViewPresenter->OnMouseUp(point);
+                    pictureDraftViewPresenter->OnMouseDown({ -1, -1 });
+                }
+                if (event->is<sf::Event::KeyPressed>())
+                {
+                    auto keyEvent = event->getIf<sf::Event::KeyPressed>();
+                    if (keyEvent->code == sf::Keyboard::Key::Delete)
+                    {
+                        pictureDraftViewPresenter->DeleteShape();
+                    }
+
+                    if (keyEvent->code == sf::Keyboard::Key::Z
+                        && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl)))
+                    {
+                        pictureDraftViewPresenter->Undo();
+                    }
+
+                    if (keyEvent->code == sf::Keyboard::Key::Y
+                        && (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl)))
+                    {
+                        pictureDraftViewPresenter->Redo();
+                    }
+                }
             }
-//            if (isDragging) {
-//                auto point = sf::Mouse::getPosition(renderWindow);
-//                Point offset = {point.x - clickPoint.m_x, point.y - clickPoint.m_y};
-//                pictureDraftViewPresenter->OnDrag(offset, clickPoint);
-//                clickPoint.m_x += offset.m_x;
-//                clickPoint.m_y += offset.m_y;
-//            }
+            if (isDragging) {
+                auto point = sf::Mouse::getPosition(renderWindow);
+                Point offset = {point.x - clickPoint.m_x, point.y - clickPoint.m_y};
+                pictureDraftViewPresenter->OnDrag(offset, clickPoint);
+                clickPoint.m_x += offset.m_x;
+                clickPoint.m_y += offset.m_y;
+            }
 
-            // clear the window with black color
+
             renderWindow.clear(sf::Color::White);
-
-            // window.draw(...);
-            pictureDraftView.Show(canvas);
-
-            // end the current frame
+            pictureDraftView.Draw(canvas);
             renderWindow.display();
         }
     }
