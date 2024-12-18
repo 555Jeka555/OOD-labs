@@ -2,14 +2,13 @@
 #define LAB10_PICTUREDRAFTPRESENTER_H
 
 #pragma once
-#include "IPictureDraftViewListener.h"
 #include "../App/Model/ShapeSelection.h"
 #include "../View/PictureDraftView.h"
 #include "../Presenter/ShapeViewPresenter.h"
 #include "../App/UseCase/IUseCaseFactory.h"
 #include "../View/IShapeViewStrategyFactory.h"
 
-class PictureDraftViewPresenter : public IPictureDraftViewListener
+class PictureDraftViewPresenter
 {
 public:
     PictureDraftViewPresenter(
@@ -35,13 +34,13 @@ public:
             m_shapeSelection.SetSelectedShapes({ m_pictureDraftApp.GetShape(index) });
         });
 
-        m_pictureDraftApp.DoOnShapeDeleted([this](size_t index, std::shared_ptr<ShapeApp> shape) {
+        m_pictureDraftApp.DoOnShapeDeleted([this](size_t index, const std::shared_ptr<ShapeApp>& shape) {
             CleanUpShapeView(index, shape);
             m_shapeSelection.SetSelectedShapes({});
         });
     }
 
-    void OnMouseDown(const Point& point) override
+    void OnMouseDown(const Point& point)
     {
         auto shapeCount = m_pictureDraftApp.GetShapeCount();
         if (shapeCount == 0)
@@ -86,7 +85,7 @@ public:
         }
     }
 
-    void OnDrag(const Point& offset, const Point& point) override
+    void OnDrag(const Point& offset, const Point& point)
     {
         auto shapesSize = m_pictureDraftApp.GetShapeCount();
         if (shapesSize == 0)
@@ -116,7 +115,7 @@ public:
         }
     }
 
-    void OnMouseUp(const Point& point) override
+    void OnMouseUp(const Point& point)
     {
         auto shapesSize = m_pictureDraftApp.GetShapeCount();
         if (shapesSize == 0)

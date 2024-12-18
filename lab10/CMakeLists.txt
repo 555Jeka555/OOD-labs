@@ -63,7 +63,6 @@ set(SOURCE_FILES_2
         src/Canvas/ICanvas.h
         src/Canvas/CanvasSFML.cpp
         src/Canvas/CanvasSFML.h
-        src/Presenter/IPictureDraftViewListener.h
         src/App/Model/ShapeSelection.h
         src/View/SelectionFrameView.h
         src/View/ShapeView.h

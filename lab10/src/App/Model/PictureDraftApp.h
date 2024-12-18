@@ -9,7 +9,7 @@
 class PictureDraftApp
 {
 public:
-    PictureDraftApp(const std::shared_ptr<PictureDraft>& pictureDraft, const std::shared_ptr<IHistory> history)
+    PictureDraftApp(const std::shared_ptr<PictureDraft>& pictureDraft, const std::shared_ptr<IHistory>& history)
             : m_pictureDraft(pictureDraft)
             , m_history(history)
     {
@@ -49,14 +49,14 @@ public:
         return m_shapesApp.at(index);
     }
 
-    connection DoOnShapeAdded(const std::function<void(size_t index)>& handler)
+    void DoOnShapeAdded(const std::function<void(size_t index)>& handler)
     {
-        return m_shapeAdded.connect(handler);
+        m_shapeAdded.connect(handler);
     }
 
-    connection DoOnShapeDeleted(const std::function<void(size_t index, std::shared_ptr<ShapeApp> shape)>& handler)
+    void DoOnShapeDeleted(const std::function<void(size_t index, std::shared_ptr<ShapeApp> shape)>& handler)
     {
-        return m_shapeDeleted.connect(handler);
+        m_shapeDeleted.connect(handler);
     }
 
     void Undo()
@@ -68,6 +68,7 @@ public:
     {
         m_history->Redo();
     }
+
 private:
     std::shared_ptr<PictureDraft> m_pictureDraft;
     std::vector<std::shared_ptr<ShapeApp>> m_shapesApp;

@@ -49,14 +49,14 @@ public:
         return shapeToDelete;
     }
 
-    connection DoOnShapeAdded(const std::function<void(size_t index)>& handler)
+    void DoOnShapeAdded(const std::function<void(size_t index)>& handler)
     {
-        return m_shapeAdded.connect(handler);
+        m_shapeAdded.connect(handler);
     }
 
-    connection DoOnShapeDeleted(const std::function<void(size_t index, const std::shared_ptr<Shape>& shape)>& handler)
+    void DoOnShapeDeleted(const std::function<void(size_t index, const std::shared_ptr<Shape>& shape)>& handler)
     {
-        return m_shapeDeleted.connect(handler);
+        m_shapeDeleted.connect(handler);
     }
 
 private:

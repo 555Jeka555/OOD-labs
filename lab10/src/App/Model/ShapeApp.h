@@ -51,9 +51,9 @@ public:
         return m_shape->GetFillStyle();
     }
 
-    boost::signals2::connection DoOnFrameChanged(const std::function<void(const RectD&)>& handler)
+    void DoOnFrameChanged(const std::function<void(const RectD&)>& handler)
     {
-        return m_frameChanged.connect(handler);
+        m_frameChanged.connect(handler);
     }
 
 private:

@@ -70,8 +70,7 @@ public:
             return shape->GetId() == m_shapeApp->GetId();
         }) != selectedShapes.end();
 
-        if (isPointBelongShape &&
-            !isShapeSelected)
+        if (isPointBelongShape && !isShapeSelected)
         {
             m_shapeSelection.SetSelectedShapes({ m_shapeApp });
         }

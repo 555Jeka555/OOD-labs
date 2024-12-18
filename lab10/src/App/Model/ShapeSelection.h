@@ -10,7 +10,7 @@
 class ShapeSelection
 {
 public:
-    std::vector<std::shared_ptr<ShapeApp>> GetSelectedShapes() const
+    [[nodiscard]] std::vector<std::shared_ptr<ShapeApp>> GetSelectedShapes() const
     {
         return m_selectedShapes;
     }
@@ -21,9 +21,9 @@ public:
         m_selectionChanged(shapes);
     }
 
-    boost::signals2::connection DoOnSelectionChanged(const std::function<void(const std::vector<std::shared_ptr<ShapeApp>>&)>& handler)
+    void DoOnSelectionChanged(const std::function<void(const std::vector<std::shared_ptr<ShapeApp>>&)>& handler)
     {
-        return m_selectionChanged.connect(handler);
+        m_selectionChanged.connect(handler);
     }
 
 private:

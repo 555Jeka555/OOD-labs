@@ -177,7 +177,7 @@ void CanvasSFML::DrawText(const std::string &string, const Point &position)
     m_renderTarget.draw(text);
 }
 
-void CanvasSFML::Capture(const std::string &outputFileName)
+void CanvasSFML::SaveToFile(const std::string &outputFileName)
 {
     sf::Vector2u renderSize = m_renderTarget.getSize();
     sf::Texture texture;
