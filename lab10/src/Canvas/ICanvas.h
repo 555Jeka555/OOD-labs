@@ -22,6 +22,7 @@ public:
     virtual void SetLineColor(RGBAColor) = 0;
     virtual void SetLineThickness(unsigned int) = 0;
     virtual void DrawText(const std::string&, const Point& position) = 0;
+    virtual void SaveToFile(const std::string &outputFileName) = 0;
 };
 
 #endif //LAB10_ICANVAS_H

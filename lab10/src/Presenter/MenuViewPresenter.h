@@ -13,7 +13,7 @@ public:
             m_pictureDraftViewPresenter(pictureDraftViewPresenter)
     {}
 
-    void OnMouseDown(const Point& point)
+    void OnMouseDown(const Point& point, ICanvas& canvas)
     {
         auto width = m_menuView.GetWidth();
         auto buttonCount = (double)m_menuView.GetCountButtons();
@@ -26,13 +26,19 @@ public:
         {
             m_pictureDraftViewPresenter.InsertShape(ShapeType::RECTANGLE);
         }
-        else if (width * 2/buttonCount <= point.m_x && point.m_x < width)
+        else if (width * 2/buttonCount <= point.m_x && point.m_x < width * 3/buttonCount)
         {
             m_pictureDraftViewPresenter.InsertShape(ShapeType::ELLIPSE);
+        }
+        else if (width * 3/buttonCount <= point.m_x && point.m_x < width * 4/buttonCount)
+        {
+            canvas.SaveToFile(NAME_SAVED_FILE);
         }
     }
 
 private:
+    constexpr static std::string NAME_SAVED_FILE = "foto.png";
+
     MenuView& m_menuView;
     PictureDraftViewPresenter& m_pictureDraftViewPresenter;
 };

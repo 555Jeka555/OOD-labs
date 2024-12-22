@@ -97,7 +97,7 @@ private:
                     break;
                 }
 
-                CheckMouseButtonPressed(event, pictureDraftViewPresenter, menuViewPresenter, isDragging, clickPoint);
+                CheckMouseButtonPressed(event, pictureDraftViewPresenter, menuViewPresenter, isDragging, clickPoint, canvas);
                 CheckIsDragging(clock, isDragging);
                 CheckMouseButtonReleased(event, pictureDraftViewPresenter, isDragging);
                 CheckMouseLeft(event, pictureDraftViewPresenter, isDragging);
@@ -115,9 +115,10 @@ private:
     static void CheckMouseButtonPressed(
         const std::optional<sf::Event> & event,
         const std::shared_ptr<PictureDraftViewPresenter>& pictureDraftViewPresenter,
-        MenuViewPresenter & menuViewPresenter,
+        MenuViewPresenter& menuViewPresenter,
         bool& isDragging,
-        Point& clickPoint
+        Point& clickPoint,
+        ICanvas& canvas
     )
     {
         if (event->is<sf::Event::MouseButtonPressed>())
@@ -133,7 +134,7 @@ private:
                 if (MENU_HEIGHT_SIZE >= pointPressed.m_y)
                 {
                     pointPressed.m_y -= PICTURE_HEIGHT_SIZE;
-                    menuViewPresenter.OnMouseDown(pointPressed);
+                    menuViewPresenter.OnMouseDown(pointPressed, canvas);
                 }
                 else
                 {

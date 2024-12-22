@@ -29,7 +29,7 @@ public:
 
     void DrawText(const std::string &, const Point &position) override;
 
-    void SaveToFile(const std::string &outputFileName);
+    void SaveToFile(const std::string &outputFileName) override;
 
 private:
     void DrawClosedPolyLineSegment(size_t index, const std::vector<Point> &points);

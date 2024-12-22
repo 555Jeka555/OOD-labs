@@ -180,6 +180,7 @@ void CanvasSFML::DrawText(const std::string &string, const Point &position)
 void CanvasSFML::SaveToFile(const std::string &outputFileName)
 {
     sf::Vector2u renderSize = m_renderTarget.getSize();
+
     sf::Texture texture;
     bool isResized = texture.resize({renderSize.x, renderSize.y});
     if (!isResized)

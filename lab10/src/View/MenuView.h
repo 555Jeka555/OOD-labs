@@ -17,6 +17,7 @@ public:
                 "Triangle",
                 "Rectangle",
                 "Ellipse",
+                "Save",
         };
     }
 
