@@ -27,7 +27,7 @@ public:
         auto size = m_shapes.size();
         if (size < index)
         {
-            throw std::out_of_range("Specified index for insertion is out of range");
+            throw std::out_of_range("Index out of range");
         }
         if (size == index)
         {

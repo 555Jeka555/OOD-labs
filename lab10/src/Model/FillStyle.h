@@ -9,7 +9,7 @@ class FillStyle
 public:
     FillStyle() : m_color(DEFAULT_COLOR) {}
 
-    RGBAColor GetColor() const
+    [[nodiscard]] RGBAColor GetColor() const
     {
         return m_color;
     }

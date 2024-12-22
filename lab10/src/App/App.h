@@ -13,9 +13,19 @@
 #include "../Model/PictureDraft.h"
 #include "../Model/Shape.h"
 #include "../Common/Point.h"
-#include "../Presenter/PictureDraftPresenter.h"
+#include "../Presenter/PictureDraftViewPresenter.h"
 #include "UseCase/UseCaseFactory.h"
 #include "../View/ShapeViewStrategyFactory.h"
+#include "../View/MenuView.h"
+#include "../Presenter/MenuViewPresenter.h"
+
+// TODO Исправить прыганье объектов
+// TODO Маркер выделения должен ловить клики выше и ловить клики раньше других
+// TODO Кто владеет Shape
+// TODO Историю в отдельный немспейс так как история не про кого не знает
+// TODO Домменная модель, та которую можно сохранить не ошибка
+// TODO ShapeApp переменовать в ShapeAppModel
+// TODO shared_ptr на unique_ptr
 
 class App
 {
@@ -33,53 +43,22 @@ public:
     }
 
 private:
-    constexpr static int WIDTH_SIZE = 800; 
-    constexpr static int HEIGHT_SIZE = 600;
+    constexpr static int PICTURE_WIDTH_SIZE = 800; 
+    constexpr static int PICTURE_HEIGHT_SIZE = 600;
+    constexpr static int MENU_WIDTH_SIZE = 800; 
+    constexpr static int MENU_HEIGHT_SIZE = 50;
     
     std::shared_ptr<PictureDraft> m_pictureDraft;
     std::shared_ptr<CommandHistory> m_commandHistory;
     
     
     void InitEditWindow() {
-        RectD rect0 = {100, 100, 100, 100};
-        m_pictureDraft->InsertShape(
-                std::make_shared<Shape>(
-                        ShapeType::ELLIPSE,
-                        rect0),
-                        0
-                );
-
-        RectD rect1 = {100, 100, 100, 100};
-        m_pictureDraft->InsertShape(
-                std::make_shared<Shape>(
-                        ShapeType::ELLIPSE,
-                        rect1
-                        ),
-                1
-        );
-
-        RectD rect2 = {300, 300, 100, 100};
-        m_pictureDraft->InsertShape(
-                std::make_shared<Shape>(
-                        ShapeType::TRIANGLE,
-                        rect2),
-                2
-        );
-
-        RectD rect3 = {400, 300, 100, 100};
-        m_pictureDraft->InsertShape(
-                std::make_shared<Shape>(
-                        ShapeType::RECTANGLE,
-                        rect3),
-                3
-        );
-
         PictureDraftApp pictureDraftApp(m_pictureDraft, m_commandHistory);
         ShapeSelection shapeSelection;
         auto useCaseFactory = UseCaseFactory(shapeSelection, *m_commandHistory);
         auto shapeViewStrategyFactory = ShapeViewStrategyFactory();
 
-        PictureDraftView pictureDraftView(pictureDraftApp, shapeSelection, WIDTH_SIZE, HEIGHT_SIZE);
+        PictureDraftView pictureDraftView(pictureDraftApp, shapeSelection, PICTURE_WIDTH_SIZE, PICTURE_HEIGHT_SIZE);
         auto pictureDraftViewPresenter = std::make_shared<PictureDraftViewPresenter>(
                 shapeSelection,
                 pictureDraftView,
@@ -87,11 +66,14 @@ private:
                 useCaseFactory,
                 shapeViewStrategyFactory
         );
+
+        MenuView menuView(MENU_WIDTH_SIZE, MENU_HEIGHT_SIZE);
+        MenuViewPresenter menuViewPresenter(menuView, *pictureDraftViewPresenter);
         
         sf::ContextSettings settings;
         settings.antiAliasingLevel = 8;
         auto renderWindow = sf::RenderWindow(
-                sf::VideoMode({WIDTH_SIZE,HEIGHT_SIZE}),
+                sf::VideoMode({PICTURE_WIDTH_SIZE, PICTURE_HEIGHT_SIZE}),
                 "App",
                 sf::Style::Default, sf::State::Windowed, settings);
         auto canvas = CanvasSFML(renderWindow);
@@ -115,7 +97,7 @@ private:
                     break;
                 }
 
-                CheckMouseButtonPressed(event, pictureDraftViewPresenter, isDragging, clickPoint);
+                CheckMouseButtonPressed(event, pictureDraftViewPresenter, menuViewPresenter, isDragging, clickPoint);
                 CheckIsDragging(clock, isDragging);
                 CheckMouseButtonReleased(event, pictureDraftViewPresenter, isDragging);
                 CheckMouseLeft(event, pictureDraftViewPresenter, isDragging);
@@ -125,6 +107,7 @@ private:
 
             renderWindow.clear(sf::Color::White);
             pictureDraftView.Draw(canvas);
+            menuView.Show(canvas);
             renderWindow.display();
         }
     }
@@ -132,6 +115,7 @@ private:
     static void CheckMouseButtonPressed(
         const std::optional<sf::Event> & event,
         const std::shared_ptr<PictureDraftViewPresenter>& pictureDraftViewPresenter,
+        MenuViewPresenter & menuViewPresenter,
         bool& isDragging,
         Point& clickPoint
     )
@@ -146,7 +130,12 @@ private:
             }
             if (mouseEventPressed->button == sf::Mouse::Button::Left)
             {
-                if (!(HEIGHT_SIZE < pointPressed.m_y && pointPressed.m_y <= HEIGHT_SIZE))
+                if (MENU_HEIGHT_SIZE >= pointPressed.m_y)
+                {
+                    pointPressed.m_y -= PICTURE_HEIGHT_SIZE;
+                    menuViewPresenter.OnMouseDown(pointPressed);
+                }
+                else
                 {
                     pictureDraftViewPresenter->OnMouseDown(pointPressed);
                 }

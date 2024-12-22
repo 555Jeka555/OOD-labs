@@ -11,7 +11,7 @@ public:
 
     LineStyle() : m_color(DEFAULT_COLOR), m_thickness(DEFAULT_THICKNESS) {}
 
-    RGBAColor GetColor() const
+    [[nodiscard]] RGBAColor GetColor() const
     {
         return m_color;
     }

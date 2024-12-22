@@ -58,7 +58,7 @@ set(SOURCE_FILES_2
         src/App/History/CommandHistory.h
         src/App/Command/ICommand.h
         src/Common/Point.h
-        src/Presenter/PictureDraftPresenter.h
+        src/Presenter/PictureDraftViewPresenter.h
         src/View/PictureDraftView.h
         src/Canvas/ICanvas.h
         src/Canvas/CanvasSFML.cpp
@@ -94,7 +94,9 @@ set(TEST_SOURCE_FILES_1
         test/test.cpp
 )
 
-add_executable(1)
+add_executable(1
+        src/View/MenuView.h
+        src/Presenter/MenuViewPresenter.h)
 target_sources(1 PRIVATE ${SOURCE_FILES_1} ${SOURCE_FILES_2})
 
 add_executable(1_test)

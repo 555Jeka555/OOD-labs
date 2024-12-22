@@ -14,7 +14,7 @@
 class Shape
 {
 public:
-    inline static const RectD DEFAULT_FRAME = { 0, 0, 100, 100 };
+    inline static const RectD DEFAULT_FRAME = { 200, 200, 100, 100 };
 
     explicit Shape(ShapeType type, const RectD& frame = DEFAULT_FRAME)
         :

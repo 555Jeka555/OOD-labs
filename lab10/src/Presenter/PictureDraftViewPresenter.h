@@ -1,5 +1,5 @@
-#ifndef LAB10_PICTUREDRAFTPRESENTER_H
-#define LAB10_PICTUREDRAFTPRESENTER_H
+#ifndef LAB10_PICTUREDRAFTVIEWPRESENTER_H
+#define LAB10_PICTUREDRAFTVIEWPRESENTER_H
 
 #pragma once
 #include "../App/Model/ShapeSelection.h"
@@ -201,4 +201,4 @@ private:
     IShapeViewStrategyFactory& m_shapeViewStrategyFactory;
 };
 
-#endif //LAB10_PICTUREDRAFTPRESENTER_H
+#endif //LAB10_PICTUREDRAFTVIEWPRESENTER_H
