@@ -4,7 +4,7 @@
 #pragma once
 #include <iostream>
 #include <memory>
-#include "../Model/PictureDraftApp.h"
+#include "../Model/PictureDraftAppModel.h"
 #include "MoveShapeUseCase.h"
 #include "ResizeShapeUseCase.h"
 #include "InsertShapeUseCase.h"
@@ -13,10 +13,10 @@
 class IUseCaseFactory
 {
 public:
-    virtual std::unique_ptr<MoveShapeUseCase> CreateMoveShapeUseCase() = 0;
-    virtual std::unique_ptr<ResizeShapeUseCase> CreateResizeShapeUseCase() = 0;
-    virtual std::unique_ptr<InsertShapeUseCase> CreateInsertShapeUseCase(PictureDraftApp& pictureDraftApp) = 0;
-    virtual std::unique_ptr<DeleteShapeUseCase> CreateDeleteShapeUseCase(PictureDraftApp& pictureDraftApp) = 0;
+    virtual std::unique_ptr<IMoveShapeUseCase> CreateMoveShapeUseCase() = 0;
+    virtual std::unique_ptr<IResizeShapeUseCase> CreateResizeShapeUseCase() = 0;
+    virtual std::unique_ptr<IInsertShapeUseCase> CreateInsertShapeUseCase(PictureDraftAppModel& pictureDraftApp) = 0;
+    virtual std::unique_ptr<IDeleteShapeUseCase> CreateDeleteShapeUseCase(PictureDraftAppModel& pictureDraftApp) = 0;
 
     virtual ~IUseCaseFactory() = default;
 };

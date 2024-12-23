@@ -2,13 +2,14 @@
 #define LAB10_SELECTIONFRAMEVIEW_H
 
 #pragma once
-#include "../App/Model/ShapeApp.h"
+#include "../App/Model/ShapeAppModel.h"
 #include "../Common/Point.h"
 #include "../Canvas/ICanvas.h"
 
-class SelectionFrameView {
+class SelectionFrameView
+{
 public:
-    explicit SelectionFrameView(ShapeApp &shape)
+    explicit SelectionFrameView(ShapeAppModel &shape)
         : m_shapeApp(shape) {
     }
 
@@ -42,7 +43,7 @@ private:
     constexpr static unsigned int DEFAULT_SELECTION_THICKNESS = 1;
     constexpr static size_t DEFAULT_SELECTION_CORNER_SIZE = 10;
 
-    ShapeApp& m_shapeApp;
+    ShapeAppModel& m_shapeApp;
     
     static void DrawCorner(ICanvas &canvas, const Point &leftTop)
     {

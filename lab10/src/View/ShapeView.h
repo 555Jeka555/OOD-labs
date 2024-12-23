@@ -46,9 +46,27 @@ public:
         return m_shapeType;
     }
 
+    RGBAColor GetFillColor() const
+    {
+        return m_fillColor;
+    }
+
+    RGBAColor GetLineColor() const
+    {
+        return m_lineColor;
+    }
+
+    unsigned int GetThickness() const
+    {
+        return m_thickness;
+    }
+
     void Draw(ICanvas& canvas)
     {
-        m_shapeViewStrategy->Draw(canvas, m_frame, m_fillColor, m_lineColor, m_thickness);
+        if (m_shapeViewStrategy)
+        {
+            m_shapeViewStrategy->Draw(canvas, m_frame, m_fillColor, m_lineColor, m_thickness);
+        }
     }
 
 private:

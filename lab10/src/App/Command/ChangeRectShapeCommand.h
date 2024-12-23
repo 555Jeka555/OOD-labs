@@ -2,17 +2,17 @@
 #define LAB10_CHANGERECTSHAPECOMMAND_H
 
 #pragma once
-#include "AbstractCommand.h"
+#include "../History/AbstractCommand.h"
 #include "../../Common/Rect.h"
 #include "../Model/ShapeSelection.h"
-#include "../Model/ShapeApp.h"
+#include "../Model/ShapeAppModel.h"
 
 class ChangeRectShapeCommand : public AbstractCommand
 {
 public:
     ChangeRectShapeCommand(
-            const std::shared_ptr<ShapeApp>& shape,
-            ShapeSelection& selectionModel)
+            const std::shared_ptr<ShapeAppModel>& shape,
+            IShapeSelection& selectionModel)
         :   m_frame(shape->GetFrame()),
             m_target(shape),
             m_shapeSelection(selectionModel)
@@ -42,9 +42,8 @@ protected:
     
 private:
     RectD m_frame;
-    std::shared_ptr<ShapeApp> m_target;
-    ShapeSelection& m_shapeSelection;
-
+    std::shared_ptr<ShapeAppModel> m_target;
+    IShapeSelection& m_shapeSelection;
 };
 
 #endif //LAB10_CHANGERECTSHAPECOMMAND_H

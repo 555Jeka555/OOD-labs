@@ -6,7 +6,7 @@
 #include <string>
 #include <random>
 
-std::string GenerateUUID()
+inline std::string GenerateUUID()
 {
     size_t length = 16;
     const std::string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

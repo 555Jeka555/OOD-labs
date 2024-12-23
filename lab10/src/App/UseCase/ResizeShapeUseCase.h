@@ -3,23 +3,24 @@
 
 #pragma once
 #include "../Model/ShapeSelection.h"
-#include "../Model/PictureDraftApp.h"
+#include "../Model/PictureDraftAppModel.h"
 #include "../History/ICommandStorage.h"
 #include "../Command/GroupCommand.h"
 #include "../Command/ChangeRectShapeCommand.h"
 #include "../../Common/Point.h"
+#include "IResizeShapeUseCase.h"
 
-class ResizeShapeUseCase
+class ResizeShapeUseCase : public IResizeShapeUseCase
 {
 public:
 
-    ResizeShapeUseCase(ShapeSelection& selection, ICommandStorage& commandStorage)
+    ResizeShapeUseCase(IShapeSelection& selection, ICommandStorage& commandStorage)
         :   m_shapeSelection(selection),
             m_commandStorage(commandStorage)
     {
     }
 
-    void Resize(const Point& offset, DirectionPoint directionPoint)
+    void Resize(const Point& offset, DirectionPoint directionPoint) override
     {
         auto shapesToResize = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : shapesToResize)
@@ -28,7 +29,7 @@ public:
         }
     }
 
-    void Execute()
+    void Execute() override
     {
         auto resizeShapesGroupCommand = std::make_unique<GroupCommand>();
         auto shapesToResize = m_shapeSelection.GetSelectedShapes();
@@ -43,10 +44,10 @@ private:
     constexpr static double MIN_WIDTH = 30;
     constexpr static double MIN_HEIGHT = 30;
 
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     ICommandStorage& m_commandStorage;
 
-    void ResizeShape(const std::shared_ptr<ShapeApp>& shape, const Point& offset, DirectionPoint directionPoint) {
+    void ResizeShape(const std::shared_ptr<ShapeAppModel>& shape, const Point& offset, DirectionPoint directionPoint) {
         auto frame = shape->GetFrame();
         double newWidth;
         double newHeight;

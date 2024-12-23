@@ -3,22 +3,23 @@
 
 #pragma once
 #include "../Model/ShapeSelection.h"
-#include "../Model/PictureDraftApp.h"
+#include "../Model/PictureDraftAppModel.h"
 #include "../History/ICommandStorage.h"
 #include "../Command/GroupCommand.h"
 #include "../Command/ChangeRectShapeCommand.h"
 #include "../../Common/Point.h"
+#include "IMoveShapeUseCase.h"
 
-class MoveShapeUseCase
+class MoveShapeUseCase : public IMoveShapeUseCase
 {
 public:
-    MoveShapeUseCase(ShapeSelection& selection, ICommandStorage& commandStorage)
-            :   m_shapeSelection(selection),
-                m_commandStorage(commandStorage)
+    MoveShapeUseCase(IShapeSelection& selection, ICommandStorage& commandStorage)
+        :   m_shapeSelection(selection),
+            m_commandStorage(commandStorage)
     {
     }
 
-    void Move(const Point& offset)
+    void Move(const Point& offset) override
     {
         auto shapesToMove = m_shapeSelection.GetSelectedShapes();
         for (auto&& shape : shapesToMove)
@@ -33,7 +34,7 @@ public:
         }
     }
 
-    void Execute()
+    void Execute() override
     {
         auto moveShapesGroupCommand = std::make_unique<GroupCommand>();
         auto shapesToMove = m_shapeSelection.GetSelectedShapes();
@@ -45,7 +46,7 @@ public:
     }
 
 private:
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     ICommandStorage& m_commandStorage;
 };
 

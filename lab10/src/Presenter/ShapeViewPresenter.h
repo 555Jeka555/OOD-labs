@@ -2,7 +2,7 @@
 #define LAB10_SHAPEVIEWPRESENTER_H
 
 #pragma once
-#include "../App/Model/ShapeApp.h"
+#include "../App/Model/ShapeAppModel.h"
 #include "../App/Model/ShapeSelection.h"
 #include "../App/UseCase/IUseCaseFactory.h"
 #include "../View/ShapeView.h"
@@ -12,9 +12,9 @@ class ShapeViewPresenter
 public:
 
     ShapeViewPresenter(
-            const std::shared_ptr<ShapeApp>& model,
+            const std::shared_ptr<ShapeAppModel>& model,
             IUseCaseFactory& useCaseFactory,
-            ShapeSelection& selectionModel,
+            IShapeSelection& selectionModel,
             const std::shared_ptr<ShapeView>& shapeView)
         :   m_shapeApp(model),
             m_shapeSelection(selectionModel),
@@ -66,7 +66,7 @@ public:
         }
 
         auto selectedShapes = m_shapeSelection.GetSelectedShapes();
-        bool isShapeSelected = std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, this](const std::shared_ptr<ShapeApp>& shape) {
+        bool isShapeSelected = std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, this](const std::shared_ptr<ShapeAppModel>& shape) {
             return shape->GetId() == m_shapeApp->GetId();
         }) != selectedShapes.end();
 
@@ -127,18 +127,28 @@ public:
         }
     }
 
-    void SetCorectFrameBorders(size_t width, size_t height)
+    void SetCorrectFrameBorders(size_t width, size_t height)
     {
         m_respectFrameWidth = width;
         m_respectFrameHeight = height;
     }
 
+    [[nodiscard]] size_t GetRespectFrameWidth() const
+    {
+        return m_respectFrameWidth;
+    }
+
+    [[nodiscard]] size_t GetRespectFrameHeight() const
+    {
+        return m_respectFrameHeight;
+    }
+
 private:
     constexpr static double DEFAULT_SELECTION_CORNER_SIZE = 10;
     
-    std::shared_ptr<ShapeApp> m_shapeApp;
+    std::shared_ptr<ShapeAppModel> m_shapeApp;
     IUseCaseFactory& m_useCaseFactory;
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     std::shared_ptr<ShapeView> m_shapeView;
     size_t m_respectFrameWidth = SIZE_MAX;
     size_t m_respectFrameHeight = SIZE_MAX;
@@ -149,7 +159,7 @@ private:
                 leftTop.m_y <= point.m_y && point.m_y <= leftTop.m_y + DEFAULT_SELECTION_CORNER_SIZE);
     }
 
-    void CorectFrameBorders(const std::shared_ptr<ShapeApp>& shape) const
+    void CorectFrameBorders(const std::shared_ptr<ShapeAppModel>& shape) const
     {
         bool frameChanged = false;
         auto frame = shape->GetFrame();

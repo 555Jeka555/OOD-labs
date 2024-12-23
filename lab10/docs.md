@@ -2,21 +2,17 @@
 classDiagram
     
     PictureDraft o-- Shape
+    Shape *-- FillStyle
+    Shape *-- LineStyle
 
     namespace Model {
-        class IPictureDraft
-
         class PictureDraft
-
-        class IShape
 
         class Shape 
 
-        class IFillStyle
-
         class FillStyle
 
-        class ILineStyle
+        class LineStyle
     }
 
     ICanvas <|.. CanvasSFML
@@ -32,16 +28,23 @@ classDiagram
         class CanvasSFML
     }
 
-    PictureDraftView o-- PictureDraftApp
+    PictureDraftView o-- PictureDraftAppModel
     PictureDraftView o-- ShapeSelection
-    PictureDraftView *-- ShapeApp
+    PictureDraftView *-- ShapeAppModel
     PictureDraftView *-- SelectionFrameView
     PictureDraftView *-- ShapeView
 
     ShapeView *-- IShapeViewStrategy
     IShapeViewStrategy <|.. RectangleViewStrategy
+    IShapeViewStrategy <|.. TriangleViewStrategy
+    IShapeViewStrategy <|.. EllipseViewStrategy
 
-    SelectionFrameView o-- ShapeApp
+    IShapeViewStrategyFactory <|.. ShapeViewStrategyFactory
+    RectangleViewStrategy <.. IShapeViewStrategyFactory : "Create"
+    TriangleViewStrategy <.. IShapeViewStrategyFactory : "Create"
+    EllipseViewStrategy <.. IShapeViewStrategyFactory : "Create"
+
+    SelectionFrameView o-- ShapeAppModel
 
     namespace View {
         class IMenuViewListener
@@ -56,7 +59,15 @@ classDiagram
 
         class IShapeViewStrategy
 
-        class RectangleViewStrategy                
+        class RectangleViewStrategy             
+
+        class TriangleViewStrategy
+
+        class EllipseViewStrategy  
+
+        class IShapeViewStrategyFactory   
+
+        class ShapeViewStrategyFactory
     }
 
     IMenuViewListener <|.. MenuViewPresenter
@@ -66,16 +77,14 @@ classDiagram
     IPictureDraftViewListener <|.. PictureDraftViewPresenter
     PictureDraftViewPresenter o-- ShapeSelection
     PictureDraftViewPresenter o-- PictureDraftView
-    PictureDraftViewPresenter o-- PictureDraftApp
+    PictureDraftViewPresenter o-- PictureDraftAppModel
     PictureDraftViewPresenter o-- IUseCaseFactory
+    PictureDraftViewPresenter o-- IShapeViewStrategyFactory
     PictureDraftViewPresenter *-- ShapeViewPresenter
 
-    IShapeViewListener <|.. ShapeViewPresenter
-    ShapeViewPresenter o-- ShapeApp
+    ShapeViewPresenter o-- ShapeAppModel
     ShapeViewPresenter o-- IUseCaseFactory
     ShapeViewPresenter o-- ShapeSelection
-    ShapeViewPresenter *-- IShapeViewPresenterStrategy
-    IShapeViewPresenterStrategy <|.. RectangleViewPresenterStrategy
 
     namespace Presenter {
         class MenuViewPresenter
@@ -87,82 +96,14 @@ classDiagram
         class IPictureDraftViewListener
 
         class ShapeViewPresenter
-
-        class IShapeViewListener
-
-        class IShapeViewPresenterStrategy
-
-        class RectangleViewPresenterStrategy   
     }
-
-    App *-- PictureDraft
-    App *-- CommandHistory
-    PictureDraftApp <.. App : "Use"
-    ShapeSelection <.. App : "Use"
-    PictureDraftView <.. App : "Use"
-    UseCaseFactory <.. App : "Use"
-    PictureDraftViewPresenter <.. App : "Use"
-    MenuView <.. App : "Use"
-    MenuViewPresenter <.. App : "Use"
-    CanvasSFML <.. App : "Use"
 
     IHistory <|.. CommandHistory
     ICommandStorage <|.. CommandHistory
     CommandHistory *-- ICommand
+    ICommand <|.. AbstractCommand
 
-    AbstractCommand <|-- ChangeFrameCommand
-    ChangeFrameCommand o-- Shape
-    ChangeFrameCommand o-- PictureDraft
-    DeleteShapeCommand o-- IShapeSelection
-    ChangeFrameCommand *-- ShapeApp
-
-    AbstractCommand <|-- DeleteShapeCommand
-    DeleteShapeCommand o-- Shape
-    DeleteShapeCommand o-- PictureDraft
-    DeleteShapeCommand o-- IShapeSelection
-    DeleteShapeCommand *-- ShapeApp
-
-    AbstractCommand <|-- InsertShapeCommand
-    InsertShapeCommand o-- Shape
-    InsertShapeCommand o-- PictureDraft
-    InsertShapeCommand o-- IShapeSelection
-    InsertShapeCommand *-- ShapeApp
-
-    PictureDraftApp o-- PictureDraft
-    PictureDraftApp o-- IHistory
-    PictureDraftApp *-- ShapeApp
-
-    IShapeSelection <|.. ShapeSelection
-    ShapeSelection o-- ShapeApp
-
-    MoveShapeUseCase o-- IShapeSelection
-    MoveShapeUseCase o-- ICommandStorage
-    MacroCommand <-- MoveShapeUseCase : "Create"
-
-    ResizeShapeUseCase o-- IShapeSelection
-    ResizeShapeUseCase o-- ICommandStorage
-    MacroCommand <-- ResizeShapeUseCase : "Create"
-
-    InsertShapeUseCase o-- PictureDraftApp
-    InsertShapeUseCase o-- IShapeSelection
-    InsertShapeUseCase o-- ICommandStorage
-    Shape <-- InsertShapeUseCase : "Create"
-
-    DeleteShapeUseCase o-- PictureDraftApp
-    DeleteShapeUseCase o-- IShapeSelection
-    DeleteShapeUseCase o-- ICommandStorage
-    MacroCommand <-- DeleteShapeUseCase : "Create"
-
-    IUseCaseFactory <|.. UseCaseFactory
-    PictureDraftApp <.. IUseCaseFactory : "Use"
-    MoveShapeUseCase <.. IUseCaseFactory : "Create"
-    ResizeShapeUseCase <.. IUseCaseFactory : "Create"
-    InsertShapeUseCase <.. IUseCaseFactory : "Create"
-    DeleteShapeUseCase <.. IUseCaseFactory : "Create"
-
-    namespace AppNamespace {
-        class App
-
+    namespace History {
         class IHistory
 
         class ICommandStorage
@@ -172,14 +113,76 @@ classDiagram
         class ICommand
 
         class AbstractCommand
+    }
 
-        class MacroCommand
+    App *-- PictureDraft
+    App *-- CommandHistory
+    PictureDraftAppModel <.. App : "Use"
+    ShapeSelection <.. App : "Use"
+    PictureDraftView <.. App : "Use"
+    UseCaseFactory <.. App : "Use"
+    PictureDraftViewPresenter <.. App : "Use"
+    MenuView <.. App : "Use"
+    MenuViewPresenter <.. App : "Use"
+    CanvasSFML <.. App : "Use"
 
-        class PictureDraftApp
+    AbstractCommand <|-- ChangeFrameCommand
+    ChangeFrameCommand o-- Shape
+    ChangeFrameCommand o-- PictureDraft
+    ChangeFrameCommand o-- ShapeSelection
+    ChangeFrameCommand *-- ShapeAppModel
 
-        class ShapeApp
+    AbstractCommand <|-- DeleteShapeCommand
+    DeleteShapeCommand o-- Shape
+    DeleteShapeCommand o-- PictureDraft
+    DeleteShapeCommand o-- ShapeSelection
+    DeleteShapeCommand *-- ShapeAppModel
 
-        class IShapeSelection
+    AbstractCommand <|-- InsertShapeCommand
+    InsertShapeCommand o-- Shape
+    InsertShapeCommand o-- PictureDraft
+    InsertShapeCommand o-- ShapeSelection
+    InsertShapeCommand *-- ShapeAppModel
+
+    PictureDraftAppModel o-- PictureDraft
+    PictureDraftAppModel o-- IHistory
+    PictureDraftAppModel *-- ShapeAppModel
+
+    ShapeSelection o-- ShapeAppModel
+
+    MoveShapeUseCase o-- ShapeSelection
+    MoveShapeUseCase o-- ICommandStorage
+    GroupCommand <-- MoveShapeUseCase : "Create"
+
+    ResizeShapeUseCase o-- ShapeSelection
+    ResizeShapeUseCase o-- ICommandStorage
+    GroupCommand <-- ResizeShapeUseCase : "Create"
+
+    InsertShapeUseCase o-- PictureDraftAppModel
+    InsertShapeUseCase o-- ShapeSelection
+    InsertShapeUseCase o-- ICommandStorage
+    Shape <-- InsertShapeUseCase : "Create"
+
+    DeleteShapeUseCase o-- PictureDraftAppModel
+    DeleteShapeUseCase o-- ShapeSelection
+    DeleteShapeUseCase o-- ICommandStorage
+    GroupCommand <-- DeleteShapeUseCase : "Create"
+
+    IUseCaseFactory <|.. UseCaseFactory
+    PictureDraftAppModel <.. IUseCaseFactory : "Use"
+    MoveShapeUseCase <.. IUseCaseFactory : "Create"
+    ResizeShapeUseCase <.. IUseCaseFactory : "Create"
+    InsertShapeUseCase <.. IUseCaseFactory : "Create"
+    DeleteShapeUseCase <.. IUseCaseFactory : "Create"
+
+    namespace AppNamespace {
+        class App
+
+        class GroupCommand
+
+        class PictureDraftAppModel
+
+        class ShapeAppModel
 
         class ShapeSelection
 

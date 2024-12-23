@@ -8,7 +8,7 @@
 class MenuViewPresenter
 {
 public:
-    MenuViewPresenter(MenuView& menuView, PictureDraftViewPresenter& pictureDraftViewPresenter)
+    MenuViewPresenter(MenuView& menuView, IPictureDraftViewPresenter& pictureDraftViewPresenter)
         :   m_menuView(menuView),
             m_pictureDraftViewPresenter(pictureDraftViewPresenter)
     {}
@@ -40,7 +40,7 @@ private:
     constexpr static std::string NAME_SAVED_FILE = "foto.png";
 
     MenuView& m_menuView;
-    PictureDraftViewPresenter& m_pictureDraftViewPresenter;
+    IPictureDraftViewPresenter& m_pictureDraftViewPresenter;
 };
 
 #endif //LAB10_MENUVIEWPRESENTER_H

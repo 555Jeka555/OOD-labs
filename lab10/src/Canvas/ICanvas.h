@@ -17,7 +17,7 @@ public:
     virtual void DrawClosedPolyLine(const std::vector<Point>&) = 0;
     virtual void DrawEllipse(RectD) = 0;
     virtual void FillEllipse(RectD) = 0;
-    virtual void FillPolygon(const std::vector<Point>&) = 0;
+    virtual void FillPolygon(const std::vector<Point>& points) = 0;
     virtual void SetFillColor(RGBAColor) = 0;
     virtual void SetLineColor(RGBAColor) = 0;
     virtual void SetLineThickness(unsigned int) = 0;

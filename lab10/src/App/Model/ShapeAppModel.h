@@ -1,5 +1,5 @@
-#ifndef LAB10_SHAPEAPP_H
-#define LAB10_SHAPEAPP_H
+#ifndef LAB10_SHAPEAPPMODEL_H
+#define LAB10_SHAPEAPPMODEL_H
 
 #pragma once
 
@@ -7,9 +7,9 @@
 #include <boost/signals2.hpp>
 #include "../../Model/Shape.h"
 
-class ShapeApp {
+class ShapeAppModel {
 public:
-    explicit ShapeApp(const std::shared_ptr<Shape>& shape) : m_shape(shape), m_frame(shape->GetFrame()) {
+    explicit ShapeAppModel(const std::shared_ptr<Shape>& shape) : m_shape(shape), m_frame(shape->GetFrame()) {
         m_shape->DoOnFrameChanged([&, this](const RectD &frame) {
             m_frame = frame;
             m_frameChanged(frame);
@@ -62,4 +62,4 @@ private:
     boost::signals2::signal<void(const RectD&)> m_frameChanged;
 };
 
-#endif //LAB10_SHAPEAPP_H
+#endif //LAB10_SHAPEAPPMODEL_H

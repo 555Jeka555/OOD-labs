@@ -5,8 +5,8 @@
 #include <iostream>
 #include <memory>
 #include <boost/signals2.hpp>
-#include "../Common/UUID.h"
 #include "../Common/ShapeType.h"
+#include "../Common/UUID.h"
 #include "../Common/Rect.h"
 #include "LineStyle.h"
 #include "FillStyle.h"

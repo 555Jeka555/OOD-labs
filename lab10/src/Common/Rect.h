@@ -9,7 +9,7 @@ struct Rect
     T width;
     T height;
 
-    bool operator==(const Rect& rhs)
+    bool operator==(const Rect& rhs) const
     {
         return left == rhs.left && top == rhs.top && width == rhs.width && height == rhs.height;
     }

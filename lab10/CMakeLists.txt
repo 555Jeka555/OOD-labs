@@ -42,7 +42,6 @@ list(REMOVE_ITEM SOURCE_FILES_2
 message(STATUS "Found source files: ${SOURCE_FILES_2}")
 
 set(SOURCE_FILES_2
-        cmd/main.cpp
         src/App/App.h
         src/Model/Shape.h
         src/Common/ShapeType.h
@@ -52,11 +51,11 @@ set(SOURCE_FILES_2
         src/Common/Color.h
         src/Model/PictureDraft.h
         src/Common/UUID.h
-        src/App/Model/ShapeApp.h
+        src/App/Model/ShapeAppModel.h
         src/App/History/IHistory.h
         src/App/History/ICommandStorage.h
         src/App/History/CommandHistory.h
-        src/App/Command/ICommand.h
+        src/App/History/ICommand.h
         src/Common/Point.h
         src/Presenter/PictureDraftViewPresenter.h
         src/View/PictureDraftView.h
@@ -71,14 +70,18 @@ set(SOURCE_FILES_2
         src/App/UseCase/IUseCaseFactory.h
         src/App/UseCase/UseCaseFactory.h
         src/App/UseCase/DeleteShapeUseCase.h
+        src/App/UseCase/IDeleteShapeUseCase.h
         src/App/Command/GroupCommand.h
-        src/App/Command/AbstractCommand.h
+        src/App/History/AbstractCommand.h
         src/App/Command/InsertShapeCommand.h
         src/App/Command/DeleteShapeCommand.h
         src/App/Command/ChangeRectShapeCommand.h
         src/App/UseCase/InsertShapeUseCase.h
+        src/App/UseCase/IInsertShapeUseCase.h
         src/App/UseCase/ResizeShapeUseCase.h
+        src/App/UseCase/IResizeShapeUseCase.h
         src/App/UseCase/MoveShapeUseCase.h
+        src/App/UseCase/IMoveShapeUseCase.h
         src/Presenter/ShapeViewPresenter.h
         src/View/Strategy/EllipseViewStrategy.h
         src/View/Strategy/TriangleViewStrategy.h
@@ -87,20 +90,27 @@ set(SOURCE_FILES_2
 )
 
 set(SOURCE_FILES_1
-        cmd/main.cpp
+    cmd/main.cpp
 )
 
 set(TEST_SOURCE_FILES_1
-        test/test.cpp
+    test/test.cpp
 )
 
 add_executable(1
         src/View/MenuView.h
-        src/Presenter/MenuViewPresenter.h)
+        src/Presenter/MenuViewPresenter.h
+        src/App/Model/IShapeSelection.h
+        src/Presenter/IPictureDraftViewPresenter.h
+        src/App/UseCase/IMoveShapeUseCase.h
+        src/App/UseCase/IResizeShapeUseCase.h
+        src/App/UseCase/IInsertShapeUseCase.h
+        src/App/UseCase/IDeleteShapeUseCase.h
+)
 target_sources(1 PRIVATE ${SOURCE_FILES_1} ${SOURCE_FILES_2})
 
 add_executable(1_test)
-target_sources(1_test PRIVATE ${TEST_SOURCE_FILES_1}  ${SOURCE_FILES_2})
+target_sources(1_test PRIVATE ${TEST_SOURCE_FILES_1} ${SOURCE_FILES_2})
 
 target_link_libraries(1_test gtest_main gmock gtest sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)
 target_link_libraries(1 sfml-system sfml-window sfml-graphics Boost::filesystem Boost::regex Boost::signals2)

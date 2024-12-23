@@ -1,6 +1,8 @@
 #ifndef LAB10_SHAPETYPE_H
 #define LAB10_SHAPETYPE_H
 
+#pragma once
+
 enum class ShapeType
 {
     RECTANGLE,
@@ -8,7 +10,7 @@ enum class ShapeType
     ELLIPSE,
 };
 
-std::ostream& operator<<(std::ostream& os, ShapeType shapeType)
+inline std::ostream& operator<<(std::ostream& os, ShapeType shapeType)
 {
     switch (shapeType)
     {

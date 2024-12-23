@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "../Canvas/ICanvas.h"
-
 class MenuView
 {
 public:
@@ -21,7 +19,7 @@ public:
         };
     }
 
-    void Show(ICanvas &canvas)
+    void Draw(ICanvas &canvas)
     {
         auto width = m_width / m_buttons.size();
 

@@ -2,12 +2,12 @@
 #define LAB10_ICOMMONSTORAGE_H
 
 #pragma once
-#include "../Command/ICommand.h"
+#include "ICommand.h"
 
 class ICommandStorage
 {
 public:
-    virtual void AddAndExecuteCommand(ICommandPtr&&) = 0;
+    virtual void AddAndExecuteCommand(ICommandPtr&& command) = 0;
 };
 
 #endif //LAB10_ICOMMONSTORAGE_H

@@ -13,28 +13,28 @@ public:
             m_commandStorage(commandsContainer)
     {}
     
-    std::unique_ptr<MoveShapeUseCase> CreateMoveShapeUseCase()
+    std::unique_ptr<IMoveShapeUseCase> CreateMoveShapeUseCase() override
     {
         return std::make_unique<MoveShapeUseCase>(m_shapeSelection, m_commandStorage);
     }
 
-    std::unique_ptr<ResizeShapeUseCase> CreateResizeShapeUseCase()
+    std::unique_ptr<IResizeShapeUseCase> CreateResizeShapeUseCase() override
     {
         return std::make_unique<ResizeShapeUseCase>(m_shapeSelection, m_commandStorage);
     }
 
-    std::unique_ptr<InsertShapeUseCase> CreateInsertShapeUseCase(PictureDraftApp& pictureDraftAppModel)
+    std::unique_ptr<IInsertShapeUseCase> CreateInsertShapeUseCase(PictureDraftAppModel& pictureDraftAppModel) override
     {
         return std::make_unique<InsertShapeUseCase>(pictureDraftAppModel, m_shapeSelection, m_commandStorage);
     }
 
-    std::unique_ptr<DeleteShapeUseCase> CreateDeleteShapeUseCase(PictureDraftApp& pictureDraftAppModel)
+    std::unique_ptr<IDeleteShapeUseCase> CreateDeleteShapeUseCase(PictureDraftAppModel& pictureDraftAppModel) override
     {
         return std::make_unique<DeleteShapeUseCase>(pictureDraftAppModel, m_shapeSelection, m_commandStorage);
     }
 
 private:
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     ICommandStorage& m_commandStorage;
 };
 

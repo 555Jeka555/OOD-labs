@@ -3,8 +3,8 @@
 
 #pragma once
 #include <vector>
-#include "AbstractCommand.h"
-#include "ICommand.h"
+#include "../History/AbstractCommand.h"
+#include "../History/ICommand.h"
 
 class GroupCommand : public AbstractCommand
 {

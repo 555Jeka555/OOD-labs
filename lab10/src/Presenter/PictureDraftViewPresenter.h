@@ -2,19 +2,20 @@
 #define LAB10_PICTUREDRAFTVIEWPRESENTER_H
 
 #pragma once
+#include "IPictureDraftViewPresenter.h"
 #include "../App/Model/ShapeSelection.h"
 #include "../View/PictureDraftView.h"
 #include "../Presenter/ShapeViewPresenter.h"
 #include "../App/UseCase/IUseCaseFactory.h"
 #include "../View/IShapeViewStrategyFactory.h"
 
-class PictureDraftViewPresenter
+class PictureDraftViewPresenter : public IPictureDraftViewPresenter
 {
 public:
     PictureDraftViewPresenter(
             ShapeSelection& selectionModel,
             PictureDraftView& pictureDraftView,
-            PictureDraftApp& pictureDraftApp,
+            PictureDraftAppModel& pictureDraftApp,
             IUseCaseFactory& useCaseFactory,
             IShapeViewStrategyFactory& shapeViewStrategyFactory)
             : m_shapeSelection(selectionModel)
@@ -34,13 +35,13 @@ public:
             m_shapeSelection.SetSelectedShapes({ m_pictureDraftApp.GetShape(index) });
         });
 
-        m_pictureDraftApp.DoOnShapeDeleted([this](size_t index, const std::shared_ptr<ShapeApp>& shape) {
+        m_pictureDraftApp.DoOnShapeDeleted([this](size_t index, const std::shared_ptr<ShapeAppModel>& shape) {
             CleanUpShapeView(index, shape);
             m_shapeSelection.SetSelectedShapes({});
         });
     }
 
-    void OnMouseDown(const Point& point)
+    void OnMouseDown(const Point& point) override
     {
         auto shapeCount = m_pictureDraftApp.GetShapeCount();
         if (shapeCount == 0)
@@ -85,7 +86,7 @@ public:
         }
     }
 
-    void OnDrag(const Point& offset, const Point& point)
+    void OnDrag(const Point& offset, const Point& point) override
     {
         auto shapesSize = m_pictureDraftApp.GetShapeCount();
         if (shapesSize == 0)
@@ -103,7 +104,7 @@ public:
                 for (auto&& shapeViewPresenter : m_shapeViewPresenters)
                 {
                     if (shapeViewPresenter->GetShapeView()->GetId() == shape->GetId() &&
-                        std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, shape](const std::shared_ptr<ShapeApp>& currShape) {
+                        std::find_if(selectedShapes.begin(), selectedShapes.end(), [&, shape](const std::shared_ptr<ShapeAppModel>& currShape) {
                             return currShape->GetId() == shape->GetId();
                         }) != selectedShapes.end())
                     {
@@ -115,7 +116,7 @@ public:
         }
     }
 
-    void OnMouseUp(const Point& point)
+    void OnMouseUp(const Point& point) override
     {
         auto shapesSize = m_pictureDraftApp.GetShapeCount();
         if (shapesSize == 0)
@@ -141,25 +142,25 @@ public:
         }
     }
 
-    void InsertShape(ShapeType type)
+    void InsertShape(ShapeType type) override
     {
         auto useCase = m_useCaseFactory.CreateInsertShapeUseCase(m_pictureDraftApp);
         auto index = m_pictureDraftApp.GetShapeCount();
         useCase->Execute(index, type);
     }
 
-    void DeleteShape()
+    void DeleteShape() override
     {
         auto useCase = m_useCaseFactory.CreateDeleteShapeUseCase(m_pictureDraftApp);
         useCase->Execute();
     }
 
-    void Undo()
+    void Undo() override
     {
         m_pictureDraftApp.Undo();
     }
 
-    void Redo()
+    void Redo() override
     {
         m_pictureDraftApp.Redo();
     }
@@ -178,12 +179,12 @@ private:
                 shapeApp->GetLineColor()->GetThickness()
          );
         auto shapeViewPresenter = std::make_shared<ShapeViewPresenter>(shapeApp, m_useCaseFactory, m_shapeSelection, shapeView);
-        shapeViewPresenter->SetCorectFrameBorders(m_pictureDraftView.GetWidth(), m_pictureDraftView.GetHeight());
+        shapeViewPresenter->SetCorrectFrameBorders(m_pictureDraftView.GetWidth(), m_pictureDraftView.GetHeight());
         m_shapeViewPresenters.push_back(shapeViewPresenter);
         m_pictureDraftView.InsertShapeView(index, std::move(shapeView));
     }
 
-    void CleanUpShapeView(size_t index, const std::shared_ptr<ShapeApp>& shape)
+    void CleanUpShapeView(size_t index, const std::shared_ptr<ShapeAppModel>& shape)
     {
         auto id = shape->GetId();
         m_shapeViewPresenters.erase(std::find_if(m_shapeViewPresenters.begin(), m_shapeViewPresenters.end(),
@@ -193,9 +194,9 @@ private:
         m_pictureDraftView.DeleteShapeView(index);
     }
 
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     PictureDraftView& m_pictureDraftView;
-    PictureDraftApp& m_pictureDraftApp;
+    PictureDraftAppModel& m_pictureDraftApp;
     std::vector<std::shared_ptr<ShapeViewPresenter>> m_shapeViewPresenters;
     IUseCaseFactory& m_useCaseFactory;
     IShapeViewStrategyFactory& m_shapeViewStrategyFactory;

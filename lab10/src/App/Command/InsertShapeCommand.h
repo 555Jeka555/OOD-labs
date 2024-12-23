@@ -2,11 +2,11 @@
 #define LAB10_INSERTSHAPECOMMAND_H
 
 #pragma once
-#include "AbstractCommand.h"
+#include "../History/AbstractCommand.h"
 #include "../../Model/Shape.h"
 #include "../../Model/PictureDraft.h"
 #include "../Model/ShapeSelection.h"
-#include "../Model/ShapeApp.h"
+#include "../Model/ShapeAppModel.h"
 
 class InsertShapeCommand : public AbstractCommand
 {
@@ -15,7 +15,7 @@ public:
             size_t index,
             const std::shared_ptr<Shape>& shape,
             const std::shared_ptr<PictureDraft>& pictureDraft,
-            ShapeSelection& selection
+            IShapeSelection& selection
             )
     : m_index(index)
     , m_shape(shape)
@@ -39,9 +39,9 @@ protected:
 private:
     std::shared_ptr<Shape> m_shape;
     std::shared_ptr<PictureDraft> m_pictureDraft;
-    ShapeSelection& m_shapeSelection;
+    IShapeSelection& m_shapeSelection;
     size_t m_index;
-    std::vector<std::shared_ptr<ShapeApp>> m_selectedShapes;
+    std::vector<std::shared_ptr<ShapeAppModel>> m_selectedShapes;
 };
 
 #endif //LAB10_INSERTSHAPECOMMAND_H

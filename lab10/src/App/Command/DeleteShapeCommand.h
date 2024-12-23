@@ -2,7 +2,7 @@
 #define LAB10_DELETESHAPECOMMAND_H
 
 #pragma once
-#include "AbstractCommand.h"
+#include "../History/AbstractCommand.h"
 #include "../../Model/Shape.h"
 #include "../../Model/PictureDraft.h"
 #include "../Model/ShapeSelection.h"
@@ -13,7 +13,7 @@ public:
     DeleteShapeCommand(
             const std::shared_ptr<Shape>& shape,
             const std::shared_ptr<PictureDraft>& pictureDraft,
-            ShapeSelection& selection)
+            IShapeSelection& selection)
     : m_shape(shape)
     , m_pictureDraft(pictureDraft)
     , m_shapeSelection(selection)
@@ -46,8 +46,8 @@ protected:
 private:
     std::shared_ptr<Shape> m_shape;
     std::shared_ptr<PictureDraft> m_pictureDraft;
-    ShapeSelection& m_shapeSelection;
-    std::vector<std::shared_ptr<ShapeApp>> m_selectedShapes;
+    IShapeSelection& m_shapeSelection;
+    std::vector<std::shared_ptr<ShapeAppModel>> m_selectedShapes;
     size_t m_index = SIZE_MAX;
 };
 

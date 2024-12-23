@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Canvas/CanvasSFML.h"
 #include "History/CommandHistory.h"
-#include "Model/PictureDraftApp.h"
+#include "Model/PictureDraftAppModel.h"
 #include "Model/ShapeSelection.h"
 #include "../Model/PictureDraft.h"
 #include "../Model/Shape.h"
@@ -21,10 +21,10 @@
 
 // TODO Исправить прыганье объектов
 // TODO Маркер выделения должен ловить клики выше и ловить клики раньше других
-// TODO Кто владеет Shape
-// TODO Историю в отдельный немспейс так как история не про кого не знает
-// TODO Домменная модель, та которую можно сохранить не ошибка
-// TODO ShapeApp переменовать в ShapeAppModel
+// TODO Кто владеет Shape - PictureDraft
+// FIXED Историю в отдельный немспейс так как история не про кого не знает
+// FIXED Домменная модель, та которую можно сохранить не ошибка
+// FIXED ShapeAppModel переменовать в ShapeAppModel
 // TODO shared_ptr на unique_ptr
 
 class App
@@ -53,12 +53,12 @@ private:
     
     
     void InitEditWindow() {
-        PictureDraftApp pictureDraftApp(m_pictureDraft, m_commandHistory);
+        PictureDraftAppModel pictureDraftApp(m_pictureDraft, m_commandHistory);
         ShapeSelection shapeSelection;
         auto useCaseFactory = UseCaseFactory(shapeSelection, *m_commandHistory);
         auto shapeViewStrategyFactory = ShapeViewStrategyFactory();
 
-        PictureDraftView pictureDraftView(pictureDraftApp, shapeSelection, PICTURE_WIDTH_SIZE, PICTURE_HEIGHT_SIZE);
+        PictureDraftView pictureDraftView(shapeSelection, PICTURE_WIDTH_SIZE, PICTURE_HEIGHT_SIZE);
         auto pictureDraftViewPresenter = std::make_shared<PictureDraftViewPresenter>(
                 shapeSelection,
                 pictureDraftView,
@@ -107,7 +107,7 @@ private:
 
             renderWindow.clear(sf::Color::White);
             pictureDraftView.Draw(canvas);
-            menuView.Show(canvas);
+            menuView.Draw(canvas);
             renderWindow.display();
         }
     }

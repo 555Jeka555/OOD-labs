@@ -3,17 +3,18 @@
 
 #pragma once
 #include "../Model/ShapeSelection.h"
-#include "../Model/PictureDraftApp.h"
+#include "../Model/PictureDraftAppModel.h"
 #include "../History/ICommandStorage.h"
 #include "../Command/GroupCommand.h"
 #include "../Command/InsertShapeCommand.h"
+#include "IInsertShapeUseCase.h"
 
-class InsertShapeUseCase
+class InsertShapeUseCase : public IInsertShapeUseCase
 {
 public:
     InsertShapeUseCase(
-            PictureDraftApp& pictureDraft,
-            ShapeSelection& selection,
+            PictureDraftAppModel& pictureDraft,
+            IShapeSelection& selection,
             ICommandStorage& commandStorage)
         :   m_pictureDraft(pictureDraft),
             m_commandStorage(commandStorage),
@@ -21,7 +22,7 @@ public:
     {
     }
 
-    void Execute(size_t index, ShapeType shapeType)
+    void Execute(size_t index, ShapeType shapeType) override
     {
         auto shape = std::make_shared<Shape>(shapeType);
         auto domainPictureDraft = m_pictureDraft.GetPictureDraft();
@@ -29,8 +30,8 @@ public:
         m_commandStorage.AddAndExecuteCommand(std::move(insertCommand));
     }
 private:
-    ShapeSelection& m_shapeSelection;
-    PictureDraftApp& m_pictureDraft;
+    IShapeSelection& m_shapeSelection;
+    PictureDraftAppModel& m_pictureDraft;
     ICommandStorage& m_commandStorage;
 };
 
