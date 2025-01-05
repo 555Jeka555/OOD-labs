@@ -56,6 +56,7 @@ public:
         m_frameChanged(frame);
     }
 
+    // TODO Сохранить connection
     void DoOnFrameChanged(const std::function<void(const RectD&)>& handler)
     {
         m_frameChanged.connect(handler);

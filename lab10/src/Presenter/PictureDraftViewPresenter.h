@@ -133,7 +133,7 @@ public:
                 {
                     if (shapeViewPresenter->GetShapeView()->GetId() == shape->GetId())
                     {
-                        shapeViewPresenter->OnMouseUp(point);
+                         ->OnMouseUp(point);
                         break;
                     }
                 }
