@@ -8,4 +8,13 @@ add_executable(decorator Decorator/main.cpp
         Decorator/Decorator.h
         Decorator/Component.h
         Decorator/DecoratorMult.h
-        Decorator/DecoratorAdd.h)
+        Decorator/DecoratorAdd.h
+)
+
+
+add_executable(iterator Iterator/main.cpp
+        Iterator/main.cpp
+        Iterator/Book.h
+        Iterator/Library.h
+        Iterator/IBookIterator.h
+)
