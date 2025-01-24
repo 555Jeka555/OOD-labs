@@ -28,10 +28,15 @@ add_executable(bridge
         Bridge/RemoteControl.h
         Bridge/AdvancedRemoteControl.h
         Bridge/main.cpp
+        Strategy/main.cpp
 )
 
 add_executable(templateMethod
         TemplateMethod/Bevarage.h
         TemplateMethod/TeaAndCoffee.h
         TemplateMethod/main.cpp
+)
+
+add_executable(strategy
+        Strategy/main.cpp
 )
