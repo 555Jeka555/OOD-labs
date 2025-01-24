@@ -89,8 +89,6 @@ public:
 private:
     std::deque<Book> m_books;
     std::unordered_map<std::string, BookByTitle> m_authorBooks;
-
-
 };
 
 

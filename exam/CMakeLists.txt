@@ -3,7 +3,8 @@ project(exam)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(decorator Decorator/main.cpp
+add_executable(decorator
+        Decorator/main.cpp
         Decorator/IComponent.h
         Decorator/Decorator.h
         Decorator/Component.h
@@ -12,9 +13,19 @@ add_executable(decorator Decorator/main.cpp
 )
 
 
-add_executable(iterator Iterator/main.cpp
+add_executable(iterator
+        Iterator/main.cpp
         Iterator/main.cpp
         Iterator/Book.h
         Iterator/Library.h
         Iterator/IBookIterator.h
+)
+
+add_executable(bridge
+        Bridge/Device.h
+        Bridge/TV.h
+        Bridge/Radio.h
+        Bridge/RemoteControl.h
+        Bridge/AdvancedRemoteControl.h
+        Bridge/main.cpp
 )
