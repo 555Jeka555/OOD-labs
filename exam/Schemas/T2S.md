@@ -1,7 +1,5 @@
 ```mermaid
 classDiagram
-direction TB
-
     class Text2SpeachTextInputView {
 
     }
@@ -13,24 +11,24 @@ direction TB
     Text2SpeachTextInputView ..> Text2SpeachSerivce: use
 
     class Text2SpeachSerivce {
-        Convert(VoiceType type, string text)
+        + Convert(type: VoiceType, text: string)
     }
 
     Text2SpeachSerivce o--> Text2SpeachConverterFactory
 
     class Text2SpeachConverterFactory {
-        Create(VoiceType type) Text2SpeachConverter
+        + Create(type: VoiceType) Text2SpeachConverter
     }
 
     Text2SpeachConverterFactory ..> VoiceType
     Text2SpeachConverterFactory ..> Text2SpeachConverter: create
 
     class GoogleText2SpeachConverterAdapter {
-        +Convert(VoiceType type, string text)
+        + Convert(type: VoiceType, text: string)
     }
 
     class AmazonText2SpeachConverterAdapter {
-        +Convert(VoiceType type, string text)
+        + Convert(type: VoiceType, text: string)
     }
 
     class GoogleText2SpaechAPIClient {
@@ -40,7 +38,7 @@ direction TB
     }
 
     class Text2SpeachConverter {
-        +Convert(VoiceType type, string text)
+        + Convert(type: VoiceType, text: string)
     }
 
   <<interface>> Text2SpeachConverter
