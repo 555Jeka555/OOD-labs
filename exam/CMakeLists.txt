@@ -49,3 +49,7 @@ add_executable(proxy
 add_executable(fabricMethod
         FabricMethod/mainFabricMethod.cpp
 )
+
+add_executable(prototype
+        Prototype/mainPrototype.cpp
+)
