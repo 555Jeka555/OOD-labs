@@ -29,6 +29,7 @@ add_executable(bridge
         Bridge/AdvancedRemoteControl.h
         Bridge/main.cpp
         Strategy/main.cpp
+        FabricMethod/mainFabricMethod.cpp
 )
 
 add_executable(templateMethod
@@ -43,4 +44,8 @@ add_executable(strategy
 
 add_executable(proxy
         Proxy/mainHeavy.cpp
+)
+
+add_executable(fabricMethod
+        FabricMethod/mainFabricMethod.cpp
 )
