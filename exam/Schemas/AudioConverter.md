@@ -10,10 +10,10 @@ classDiagram
     CodecOptions <.. ICodecLib : "use"
 
     ICodecLib <|.. FFmpegAdapter
-    FFmpegLib o.. FFmpegAdapter
+    FFmpegAdapter o.. FFmpegLib 
 
     ICodecLib <|.. LameAdapter
-    LameLib o.. LameAdapter
+    LameAdapter o.. LameLib 
 
     ProgressObserver <|.. ProgressBar
 

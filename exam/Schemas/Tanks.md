@@ -3,7 +3,6 @@ classDiagram
     BattleSityGame o--> LevelProvider
     BattleSityGame *--> Level
     BattleSityGame ..|>  GamepadListener
-    BattleSityGame o--> Gamepad
     
     Gamepad o--> GamepadListener
 
@@ -25,6 +24,16 @@ classDiagram
     BattleSityGame *--> FinishBatleSityGamestateState
     BattleSityGame *--> PauseBatleSityGamestateState
 
+    InProgressBatleSityGamestateState o--> BattleSityGame 
+    FinishBatleSityGamestateState o--> BattleSityGame 
+    PauseBatleSityGamestateState o--> BattleSityGame
+
+    BattleSityGame *--> Player
+    BattleSityGame *--> Bot
+
+    Player *--> Tank
+    Bot *--> Tank
+
     class BatleSityGamestateState {
         <<interface>>
         +Next()
@@ -35,6 +44,8 @@ classDiagram
     }
 
     class InProgressBatleSityGamestateState {
+        -game: BattleSityGame
+
         +Next()
         +Start()
         +Pause()
@@ -43,6 +54,8 @@ classDiagram
     }
 
     class FinishBatleSityGamestateState {
+        -game: BattleSityGame
+
         +Next()
         +Start()
         +Pause()
@@ -51,6 +64,8 @@ classDiagram
     }
 
     class PauseBatleSityGamestateState {
+        -game: BattleSityGame
+
         +Next()
         +Start()
         +Pause()
@@ -59,6 +74,11 @@ classDiagram
     }
 
     class BattleSityGame {
+        -player1: * Player
+        -player2: * Player
+        -boots: list~Bot~
+        -level: Level
+
         +SetPlayerOne(gamepad: Gamepad)
         +SetPlayerTwo(gamepad: Gamepad)
         +SetLevel(int levelIndex)
@@ -75,12 +95,14 @@ classDiagram
     class LevelProvider {
         +GetLevel(idnex: int) Level
     }
-
     
     class Level {
         +ListWalls() list~Wall~
         +ListBonuses() list~Bonus~
-        +ListTanks() list~Tank~
+        +ListBots() list~Tank~
+        -DeleteWall(wallID: string)
+        -DeleteBonuse(bonuseID: string)
+        -DeleteBot(tankID: string)
     }
 
     class LevelBuilder {
@@ -91,22 +113,31 @@ classDiagram
     }
 
     class Tank {
-        +Move()
+        - id: string
+
+        +GetId() string
+        +Move() 
         +TakeDamage(damage: uint)
         +RotateTo(type: DirectionType)
         +Shot() Bullet
         +GetPosition() Point
         +GetHealth() uint
-        +Helth(uint helth)
+        +SetHelth(uint helth)
         +UpgradeDamage(uint damage)
     }
 
     class Bullet {
+        - id: string
+
+        +GetId() string
         +Move() Point
         +GetPosition() Point
     }
 
     class Bonus {
+        - id: string
+
+        +GetId() string
         +GetType() string
         +ApplyEffect(tank: Tank)
     }
@@ -121,9 +152,22 @@ classDiagram
     }
 
     class Wall {
+        - id: string
+
+        +GetId() string
         +GetPosition() Point
         +GetHealth() uint
         +TakeDamage(damage: uint)
+    }
+
+    class Player {
+        +UpdateInput()
+    }
+
+    class Bot {
+        +UpdateAI(target: const Tank &)
+        -CalculateDirectionToTarget()
+        -IsPlayerInSight()
     }
 
     class Point {
