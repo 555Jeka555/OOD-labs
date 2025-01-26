@@ -40,3 +40,7 @@ add_executable(templateMethod
 add_executable(strategy
         Strategy/main.cpp
 )
+
+add_executable(proxy
+        Proxy/mainHeavy.cpp
+)
