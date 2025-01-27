@@ -44,7 +44,7 @@ class CObservable : public IObservable<T>
 public:
     typedef IObserver<T> ObserverType;
 
-        void RegisterObserver(ObserverType & observer, int priority) override
+    void RegisterObserver(ObserverType & observer, int priority) override
     {
         // TODO Не искать лишний раз. Просто вызвать insert в if он вернёт true
         auto result = m_priorityToObservers.insert({priority, {}});
