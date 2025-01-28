@@ -4,52 +4,58 @@ project(exam)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(decorator
-        Decorator/main.cpp
-        Decorator/IComponent.h
-        Decorator/Decorator.h
-        Decorator/Component.h
-        Decorator/DecoratorMult.h
-        Decorator/DecoratorAdd.h
+        trash/Decorator/main.cpp
+        trash/Decorator/IComponent.h
+        trash/Decorator/Decorator.h
+        trash/Decorator/Component.h
+        trash/Decorator/DecoratorMult.h
+        trash/Decorator/DecoratorAdd.h
 )
 
 
 add_executable(iterator
-        Iterator/main.cpp
-        Iterator/main.cpp
-        Iterator/Book.h
-        Iterator/Library.h
-        Iterator/IBookIterator.h
+        trash/Iterator/main.cpp
+        trash/Iterator/main.cpp
+        trash/Iterator/Book.h
+        trash/Iterator/Library.h
+        trash/Iterator/IBookIterator.h
 )
 
 add_executable(bridge
-        Bridge/Device.h
-        Bridge/TV.h
-        Bridge/Radio.h
-        Bridge/RemoteControl.h
-        Bridge/AdvancedRemoteControl.h
-        Bridge/main.cpp
-        Strategy/main.cpp
-        FabricMethod/mainFabricMethod.cpp
+        trash/Bridge/Device.h
+        trash/Bridge/TV.h
+        trash/Bridge/Radio.h
+        trash/Bridge/RemoteControl.h
+        trash/Bridge/AdvancedRemoteControl.h
+        trash/Bridge/main.cpp
+        trash/Strategy/main.cpp
+        trash/FabricMethod/mainFabricMethod.cpp
+        State/mainState.cpp
 )
 
 add_executable(templateMethod
-        TemplateMethod/Bevarage.h
-        TemplateMethod/TeaAndCoffee.h
-        TemplateMethod/main.cpp
+        trash/TemplateMethod/Bevarage.h
+        trash/TemplateMethod/TeaAndCoffee.h
+        trash/TemplateMethod/main.cpp
 )
 
 add_executable(strategy
-        Strategy/main.cpp
+        trash/Strategy/main.cpp
 )
 
 add_executable(proxy
-        Proxy/mainHeavy.cpp
+        trash/Proxy/mainHeavy.cpp
 )
 
 add_executable(fabricMethod
-        FabricMethod/mainFabricMethod.cpp
+        trash/FabricMethod/mainFabricMethod.cpp
 )
 
 add_executable(prototype
-        Prototype/mainPrototype.cpp
+        trash/Prototype/mainPrototype.cpp
+)
+
+
+add_executable(state
+        State/mainState.cpp
 )
